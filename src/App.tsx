@@ -8,3 +8,4 @@ function App() {
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 root.render(<App />);
+export default App;

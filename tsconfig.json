@@ -7,6 +7,9 @@
     "jsx": "react",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "allowUmdGlobalAccess": true,
+    "lib": ["dom", "es6"],
+    "esModuleInterop": true,
   }
 }
