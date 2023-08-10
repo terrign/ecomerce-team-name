@@ -59,3 +59,7 @@ npm run lint
 ```sh
 npx lint-staged
 ```
+6. Jest tests:
+```sh
+npm run test
+```
