@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+}
+
+.site-layout .site-layout-background {
+  background: #ffffff;
+}
+
+.logo {
+  margin: 0 auto;
+  padding: 0 30px;
+  background: transparent;
+  color: white;
+  text-align: center;
+  line-height: 50px;
+}

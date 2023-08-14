@@ -5,12 +5,12 @@ const EslintPlugin = require('eslint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const baseConfig = {
-  entry: './src/App.tsx',
+  entry: './src/index.tsx',
   mode: 'development',
   output: {
     path: path.join(__dirname, '/dist'),
     filename: '[id].app.js',
-    publicPath: '/',
+    publicPath: 'auto',
   },
   devServer: {
     port: 8080,
