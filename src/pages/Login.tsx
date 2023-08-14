@@ -1,9 +1,8 @@
 import React from 'react';
-import BaseForm from '../components/BaseForm';
+import LoginForm from '../components/Forms/LoginForm';
 
 const Login = () => {
-  const submitHandler = () => {};
-  return <BaseForm formName="login" onSubmit={submitHandler} buttonText="Login" />;
+  return <LoginForm />;
 };
 
 export default Login;
