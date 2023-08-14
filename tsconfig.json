@@ -10,6 +10,7 @@
     "moduleResolution": "Node",
     "allowUmdGlobalAccess": true,
     "lib": ["dom", "es6"],
-    "esModuleInterop": true,
-  }
+    "esModuleInterop": true
+  },
+  "include": ["./**/*.ts", "./**/*.tsx"]
 }
