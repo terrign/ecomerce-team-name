@@ -26,9 +26,6 @@ const SideMenu = () => {
       collapsedWidth="45px"
       style={{ position: 'relative' }}
     >
-      {/* Do we need logo here? should probably go to header or removed at all */}
-      {/* <div className="logo">Logo</div>  */}{' '}
-      {/*TODO: need to bind selected page to real view (i.e if user navigates through url, this will remain unchaged) */}
       <Menu
         theme="dark"
         mode="inline"

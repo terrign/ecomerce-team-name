@@ -1423,20 +1423,6 @@ export const COUNTRIES: CountryInfo[] = [
     Regex: '',
   },
   {
-    Note: '',
-    Country: 'Singapore',
-    ISO: 'SG',
-    Format: 'NN',
-    Regex: '^\\d{2}$',
-  },
-  {
-    Note: '',
-    Country: 'Singapore',
-    ISO: 'SG',
-    Format: 'NNNN',
-    Regex: '^\\d{4}$',
-  },
-  {
     Note: 'Each building has its own unique postcode.',
     Country: 'Singapore',
     ISO: 'SG',
