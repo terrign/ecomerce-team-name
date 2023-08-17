@@ -1,4 +1,5 @@
 import React, { useState, SyntheticEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Checkbox, Form, Input } from 'antd';
 import { Button, message } from 'antd';
@@ -15,6 +16,7 @@ const LoginForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [userCheck, setUserCheck] = useState({ status: true, message: '' });
   const [messageApi, contextHolder] = message.useMessage();
+  const navigate = useNavigate();
 
   const success = () => {
     messageApi.open({
@@ -49,6 +51,9 @@ const LoginForm: React.FC = () => {
         .execute();
       console.log(resp);
       success();
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
     } catch (err) {
       setUserCheck({ status: false, message: err.message });
       error();
