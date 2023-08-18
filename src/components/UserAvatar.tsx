@@ -1,8 +1,8 @@
 import React from 'react';
 import { Avatar, Popover } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { UserMenu } from './UserMenu';
-import { UserTitle } from './UserTitle';
+import UserMenu from './UserMenu';
+import UserTitle from './UserTitle';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { actions as userMenuActions } from '../store/userMenu.slice';
 

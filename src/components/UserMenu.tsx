@@ -15,4 +15,4 @@ const UserMenu = () => {
   );
 };
 
-export { UserMenu };
+export default UserMenu;

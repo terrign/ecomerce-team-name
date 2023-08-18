@@ -5,4 +5,4 @@ const UserTitle = () => {
   return username;
 };
 
-export { UserTitle };
+export default UserTitle;
