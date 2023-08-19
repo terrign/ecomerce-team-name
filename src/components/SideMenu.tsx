@@ -5,18 +5,24 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { UserOutlined, HomeOutlined, UserAddOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
 import { RouterPath } from '../models/RouterPath';
-
-const items: MenuItem[] = [
-  getMenuItem(<NavLink to={RouterPath.HOME}>Home</NavLink>, RouterPath.HOME, <HomeOutlined />),
-  getMenuItem('User', 'UserActions', <UserOutlined />, [
-    getMenuItem(<NavLink to={RouterPath.LOGIN}>Login</NavLink>, RouterPath.LOGIN, <UserOutlined />),
-    getMenuItem(<NavLink to={RouterPath.REG}>Registration</NavLink>, RouterPath.REG, <UserAddOutlined />),
-  ]),
-];
+import { useAppSelector } from '../store/hooks';
 
 const SideMenu = () => {
+  const logged: boolean = useAppSelector((state) => state.auth.token > '') ?? false;
+  const items: MenuItem[] = [
+    getMenuItem(<NavLink to={RouterPath.HOME}>Home</NavLink>, RouterPath.HOME, <HomeOutlined />),
+    getMenuItem('User', 'UserActions', <UserOutlined />, [
+      getMenuItem(
+        <NavLink to={logged ? RouterPath.HOME : RouterPath.LOGIN}>Login</NavLink>,
+        RouterPath.LOGIN,
+        <UserOutlined />
+      ),
+      getMenuItem(<NavLink to={RouterPath.REG}>Registration</NavLink>, RouterPath.REG, <UserAddOutlined />),
+    ]),
+  ];
   const [collapsed, setCollapsed] = useState(false);
   const loc = useLocation().pathname;
+  console.log(logged);
   return (
     <Layout.Sider
       collapsible

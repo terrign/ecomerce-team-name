@@ -3,10 +3,12 @@ import { Route, Routes } from 'react-router-dom';
 import Main from '../pages/Main';
 import Registration from '../pages/Registration';
 import Login from '../pages/Login';
+import Page404 from '../pages/Page404';
 
 const MainRoutes = () => {
   return (
     <Routes>
+      <Route path="*" element={<Page404 />}></Route>
       <Route path="/" element={<Main />}></Route>
       <Route path="/registration" element={<Registration />}></Route>
       <Route path="/login" element={<Login />}></Route>

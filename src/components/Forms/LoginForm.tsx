@@ -1,17 +1,19 @@
 import React, { useState, SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Checkbox, Form, Input } from 'antd';
-import { Button, message } from 'antd';
+import { Checkbox, Form, Input, Button, message } from 'antd';
 import { FORM_STYLE } from '../../constants/formStyle';
 import { EMAIL_INPUT_RULES, PASSWORD_INPUT_RULES } from '../../constants/RegistrationFormConst';
-import { authApiRoot } from '../../helpers/ApiClient/ClientBuilder';
+import { authApiRoot } from '../../helpers/ApiClient/ClientBuilderLogin';
 import { PROJECT_KEY } from '../../constants/EnvConst';
+import { useAppDispatch } from '../../store/hooks';
+import { authSlice } from '../../store/auth.slice';
 
 const LoginForm: React.FC = () => {
   const onFinish = () => {};
   // const [form] = Form.useForm();
-
+  const dispatch = useAppDispatch();
+  // const logged: boolean = useAppSelector((state) => state.auth.token > '') ?? false;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userCheck, setUserCheck] = useState({ status: true, message: '' });
@@ -54,6 +56,7 @@ const LoginForm: React.FC = () => {
       setTimeout(() => {
         navigate('/');
       }, 1500);
+      dispatch(authSlice.actions.login());
     } catch (err) {
       setUserCheck({ status: false, message: err.message });
       error();
