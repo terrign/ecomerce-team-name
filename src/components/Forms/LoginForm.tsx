@@ -56,7 +56,9 @@ const LoginForm: React.FC = () => {
       setTimeout(() => {
         navigate('/');
       }, 1500);
-      dispatch(authSlice.actions.login());
+      const username = `${resp.body.customer.firstName} ${resp.body.customer.lastName}`;
+      console.log(username);
+      dispatch(authSlice.actions.login({ token: 'anytoken', username: username }));
     } catch (err) {
       setUserCheck({ status: false, message: err.message });
       error();
