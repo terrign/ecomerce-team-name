@@ -9,10 +9,10 @@ import {
   PASSWORD_INPUT_RULES,
 } from '../../constants/forms/registration-form/rules';
 import { FORM_STYLE } from '../../constants/forms/form-style';
-import FormAddressControlledList from './address/AddressFormControlledList';
+import FormAddressControlledList from '../Forms/address/AddressFormControlledList';
 import RegistrationFormContext, { AddressFormMode, RegFormContext } from '../../context/RegistrationFormContext';
 import { AddressFormValues } from '../../models/AddressFormValues';
-import AddressModalForm from './address/AddressModalForm';
+import AddressModalForm from '../Forms/address/AddressModalForm';
 import { FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/forms/antd-form-layouts';
 import { PlusOutlined } from '@ant-design/icons';
 import registrationRequestAdapter from '../../helpers/registrationRequestAdapter';
