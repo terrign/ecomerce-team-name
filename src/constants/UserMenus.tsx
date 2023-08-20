@@ -9,7 +9,7 @@ const ITEMS_ANONYMOUS_USER: MenuItem[] = [
   getMenuItem(<NavLink to={RouterPath.LOGIN}>Login</NavLink>, RouterPath.LOGIN, <UserOutlined />),
 ];
 const ITEMS_LOGGED_USER: MenuItem[] = [
-  getMenuItem(<NavLink to={RouterPath.HOME}>Logout</NavLink>, RouterPath.HOME, <LogoutOutlined />),
+  getMenuItem(<NavLink to={RouterPath.LOGOUT}>Logout</NavLink>, RouterPath.LOGOUT, <LogoutOutlined />),
 ];
 
 export { ITEMS_ANONYMOUS_USER, ITEMS_LOGGED_USER, ANONYMOUS_USER };
