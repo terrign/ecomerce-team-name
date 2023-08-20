@@ -13,7 +13,7 @@ const authMiddlewareOptions = {
   fetch,
 };
 
-const httpMiddlewareOptions = {
+export const httpMiddlewareOptions = {
   host: HOST,
   fetch,
 };

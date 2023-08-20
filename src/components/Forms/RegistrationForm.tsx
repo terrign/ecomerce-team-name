@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, DatePicker } from 'antd';
+import { Button, Form, Input, DatePicker, message } from 'antd';
 import {
   BIRTH_DATE_INPUT_RULES,
   CONFIRM_PASSWORD_INPUT_RULES,
@@ -27,7 +27,7 @@ const RegistrationFormNew = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [addressItemIndex, setAddressItemIndex] = useState(undefined);
   const [addressFormMode, setAddressFormMode] = useState(AddressFormMode.NEW);
-  // const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const addressesContext: RegFormContext['addresses'] = {
     items: addresses,
@@ -46,18 +46,28 @@ const RegistrationFormNew = () => {
     setModalOpen(true);
     addressForm.resetFields();
   };
-  const onFinish = () => {
+  const onFinish = async () => {
     const { email, lastName, firstName, password, dateOfBirth }: UserFormData = registrationForm.getFieldsValue();
     const userData = { email, lastName, firstName, password, dateOfBirth };
     const body = registrationRequestAdapter(addresses, userData);
-    apiRoot
-      .withProjectKey({ projectKey: PROJECT_KEY })
-      .me()
-      .signup()
-      .post({ body: body })
-      .execute()
-      .then((res) => console.log(res))
-      .catch();
+    try {
+      const res = await apiRoot
+        .withProjectKey({ projectKey: PROJECT_KEY })
+        .me()
+        .signup()
+        .post({ body: body })
+        .execute();
+      messageApi.open({
+        content: 'User created',
+        type: 'success',
+      });
+      console.log(res);
+    } catch (e) {
+      messageApi.open({
+        content: e.message,
+        type: 'error',
+      });
+    }
   };
   return (
     <RegistrationFormContext.Provider
@@ -72,7 +82,7 @@ const RegistrationFormNew = () => {
         setAddressItemIndex,
       }}
     >
-      {/* {contextHolder} */}
+      {contextHolder}
       <Form
         {...FORM_ITEM_LAYOUT}
         form={registrationForm}
