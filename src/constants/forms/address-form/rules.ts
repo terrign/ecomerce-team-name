@@ -58,14 +58,14 @@ const getNameRules = (context: RegFormContext): Rule[] => {
         }
         if (context.addressFormMode === AddressFormMode.EDIT) {
           const addressNamesExcludingCurrent = context.addresses.items.reduce(
-            (acc, a, i) => (i === context.addressItemIndex ? acc : [...acc, a.name]),
+            (acc, a, i) => (i === context.addressItemIndex ? acc : [...acc, a.key]),
             []
           );
           return addressNamesExcludingCurrent.includes(value)
             ? Promise.reject(new Error('Address name must be unique'))
             : Promise.resolve();
         }
-        const addressNames = context.addresses.items.reduce((acc, a) => [...acc, a.name], []);
+        const addressNames = context.addresses.items.reduce((acc, a) => [...acc, a.key], []);
         if (!addressNames.includes(value)) {
           return Promise.resolve();
         }

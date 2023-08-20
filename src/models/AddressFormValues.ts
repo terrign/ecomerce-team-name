@@ -1,5 +1,5 @@
 export interface AddressFormValues {
-  name: string;
+  key: string;
   types: string[];
   country: string;
   city: string;

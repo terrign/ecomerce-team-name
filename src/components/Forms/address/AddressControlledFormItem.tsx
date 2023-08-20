@@ -34,7 +34,7 @@ const AddressControlledFormItem = ({ index }: { index: number }) => {
   };
 
   return (
-    <Form.Item label={values.name || `Address ${index + 1}`} name={`${values.name}${Math.random().toFixed(0)}`}>
+    <Form.Item label={values.key || `Address ${index + 1}`} name={`${values.key}${Math.random().toFixed(0)}`}>
       <Typography>
         <pre style={{ padding: 3, margin: 0 }}>{addressString}</pre>
         <div className="markers-container">

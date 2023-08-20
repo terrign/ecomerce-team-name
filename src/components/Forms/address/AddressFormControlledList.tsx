@@ -10,11 +10,7 @@ const FormAddressControlledList = () => {
     <>
       {context.addresses.items.map((address, i) => {
         return (
-          <AddressControlledFormItem
-            {...address}
-            index={i}
-            key={getRandomKey(address.name)}
-          ></AddressControlledFormItem>
+          <AddressControlledFormItem {...address} index={i} key={getRandomKey(address.key)}></AddressControlledFormItem>
         );
       })}
     </>

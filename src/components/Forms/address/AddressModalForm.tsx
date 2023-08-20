@@ -68,7 +68,7 @@ const AddressModalForm = () => {
         autoComplete="off"
         onFinish={onSubmit}
       >
-        <Form.Item label="Address Name" name="name" tooltip="Unique address name" rules={getNameRules(context)}>
+        <Form.Item label="Address Name" name="key" tooltip="Unique address name" rules={getNameRules(context)}>
           <Input />
         </Form.Item>
         <Form.Item label="Address Type" name="types" tooltip={ADDRESS_TYPE_STRING} rules={getTypeRules(context)}>

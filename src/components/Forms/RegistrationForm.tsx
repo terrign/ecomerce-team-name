@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, DatePicker, message } from 'antd';
+import { Button, Form, Input, DatePicker } from 'antd';
 import {
   BIRTH_DATE_INPUT_RULES,
   CONFIRM_PASSWORD_INPUT_RULES,
@@ -14,9 +14,11 @@ import RegistrationFormContext, { AddressFormMode, RegFormContext } from '../../
 import { AddressFormValues } from '../../models/AddressFormValues';
 import AddressModalForm from './address/AddressModalForm';
 import { FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/forms/antd-form-layouts';
-import { AddressType } from '../../constants/forms/address-form/address-types';
-import isUniqueItem from '../../helpers/isUniqueItem';
 import { PlusOutlined } from '@ant-design/icons';
+import registrationRequestAdapter from '../../helpers/registrationRequestAdapter';
+import { UserFormData } from '../../models/apiDrafts';
+import { apiRoot } from '../../helpers/ApiClient/ClientBuilder';
+import { PROJECT_KEY } from '../../constants/env';
 
 const RegistrationFormNew = () => {
   const [registrationForm] = Form.useForm();
@@ -25,7 +27,7 @@ const RegistrationFormNew = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [addressItemIndex, setAddressItemIndex] = useState(undefined);
   const [addressFormMode, setAddressFormMode] = useState(AddressFormMode.NEW);
-  const [messageApi, contextHolder] = message.useMessage();
+  // const [messageApi, contextHolder] = message.useMessage();
 
   const addressesContext: RegFormContext['addresses'] = {
     items: addresses,
@@ -45,13 +47,17 @@ const RegistrationFormNew = () => {
     addressForm.resetFields();
   };
   const onFinish = () => {
-    const selectedTypes = addresses.reduce((acc, a) => [...acc, ...a.types], []);
-    if (!isUniqueItem(selectedTypes, AddressType.BILLING_DEFAULT)) {
-      messageApi.error(`You can set only 1 ${AddressType.BILLING_DEFAULT}`);
-    }
-    if (!isUniqueItem(selectedTypes, AddressType.SHIPPING_DEFAULT)) {
-      messageApi.error(`You can set only 1 ${AddressType.SHIPPING_DEFAULT}`);
-    }
+    const { email, lastName, firstName, password, dateOfBirth }: UserFormData = registrationForm.getFieldsValue();
+    const userData = { email, lastName, firstName, password, dateOfBirth };
+    const body = registrationRequestAdapter(addresses, userData);
+    apiRoot
+      .withProjectKey({ projectKey: PROJECT_KEY })
+      .me()
+      .signup()
+      .post({ body: body })
+      .execute()
+      .then((res) => console.log(res))
+      .catch();
   };
   return (
     <RegistrationFormContext.Provider
@@ -66,7 +72,7 @@ const RegistrationFormNew = () => {
         setAddressItemIndex,
       }}
     >
-      {contextHolder}
+      {/* {contextHolder} */}
       <Form
         {...FORM_ITEM_LAYOUT}
         form={registrationForm}
@@ -87,7 +93,7 @@ const RegistrationFormNew = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="birthDate" label="Birth Date" rules={BIRTH_DATE_INPUT_RULES} validateFirst>
+        <Form.Item name="dateOfBirth" label="Birth Date" rules={BIRTH_DATE_INPUT_RULES} validateFirst>
           <DatePicker />
         </Form.Item>
 
