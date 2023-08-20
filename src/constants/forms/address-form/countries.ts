@@ -1024,13 +1024,6 @@ export const COUNTRIES: CountryInfo[] = [
     Regex: '^976\\d{2}$',
   },
   {
-    Note: 'US ZIP Code. Range 96941 - 96944.',
-    Country: 'Micronesia',
-    ISO: 'FM',
-    Format: 'NNNNN or NNNNN-NNNN',
-    Regex: '^\\d{5}(-{1}\\d{4})$',
-  },
-  {
     Note: 'The first two digits identify the state (or a part thereof), except for Nos. 00 to 16, which indicate delegaciones (boroughs) of the Federal District (Mexico City).',
     Country: 'Mexico',
     ISO: 'MX',
@@ -1384,13 +1377,6 @@ export const COUNTRIES: CountryInfo[] = [
     Note: 'The letters CP or C.P. are often written in front of the postcode. This is not a country code, but simply an abbreviation for "code postal".',
     Country: 'Senegal',
     ISO: 'SN',
-    Format: 'NNNNN',
-    Regex: '^\\d{5}$',
-  },
-  {
-    Note: 'Poštanski adresni kod (PAK)',
-    Country: 'Serbia',
-    ISO: 'RS',
     Format: 'NNNNN',
     Regex: '^\\d{5}$',
   },

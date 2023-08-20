@@ -1,7 +1,7 @@
 import React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
-import { FORM_STYLE } from '../../constants/formStyle';
+import { FORM_STYLE } from '../../constants/forms/form-style';
 
 const LoginForm: React.FC = () => {
   const onFinish = () => {};

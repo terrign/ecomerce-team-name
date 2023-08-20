@@ -1,126 +1,127 @@
 import React, { useState } from 'react';
-import { AutoComplete, Button, Form, Input, DatePicker, Select, Divider } from 'antd';
+import { Button, Form, Input, DatePicker, message } from 'antd';
 import {
   BIRTH_DATE_INPUT_RULES,
-  CITY_INPUT_RULES,
   CONFIRM_PASSWORD_INPUT_RULES,
-  COUNTRY_INPUT_RULES,
   EMAIL_INPUT_RULES,
   FIRST_NAME_INPUT_RULES,
-  FORM_DIVIDER_ITEM_LAYOUT,
-  FORM_ITEM_LAYOUT,
   LAST_NAME_INPUT_RULES,
   PASSWORD_INPUT_RULES,
-  STREET_INPUT_RULES,
-  TAIL_FORM_ITEM_LAYOUT,
-  ZIP_INPUT_RULES,
-} from '../../constants/RegistrationFormConst';
-import { COUNTRIES, CountryInfo } from '../../constants/Countries';
-import { FORM_STYLE } from '../../constants/formStyle';
-const { Option } = Select;
+} from '../../constants/forms/registration-form/rules';
+import { FORM_STYLE } from '../../constants/forms/form-style';
+import FormAddressControlledList from './address/AddressFormControlledList';
+import RegistrationFormContext, { AddressFormMode, RegFormContext } from '../../context/RegistrationFormContext';
+import { AddressFormValues } from '../../models/AddressFormValues';
+import AddressModalForm from './address/AddressModalForm';
+import { FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/forms/antd-form-layouts';
+import { AddressType } from '../../constants/forms/address-form/address-types';
+import isUniqueItem from '../../helpers/isUniqueItem';
+import { PlusOutlined } from '@ant-design/icons';
 
-const RegistrationFormNew: React.FC = () => {
-  const [form] = Form.useForm();
-  const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
-  const [zipTooltip, setZipTootip] = useState('');
-  const emailOptions = autoCompleteResult.map((email) => ({
-    label: email,
-    value: email,
-  }));
+const RegistrationFormNew = () => {
+  const [registrationForm] = Form.useForm();
+  const [addressForm] = Form.useForm();
+  const [addresses, setAddresses] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [addressItemIndex, setAddressItemIndex] = useState(undefined);
+  const [addressFormMode, setAddressFormMode] = useState(AddressFormMode.NEW);
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const zipToolTipUpdatedOnCountryChange = (value: string) => {
-    const countryObject: CountryInfo = COUNTRIES.find((a) => a.Country === value);
-    let toolTipString = '';
-    if (countryObject.Format) {
-      toolTipString += `Format: ${countryObject.Format}`;
-    }
-    if (toolTipString.length === 0) {
-      toolTipString = 'No information on ZIP codes of the selected country';
-    }
-    setZipTootip(toolTipString);
+  const addressesContext: RegFormContext['addresses'] = {
+    items: addresses,
+    remove: (i: number) => {
+      setAddresses((prev) => [...prev.slice(0, i), ...prev.slice(i + 1)]);
+    },
+    add: (address) => {
+      setAddresses((prev) => [...prev, address]);
+    },
+    edit: (i: number, values: AddressFormValues) => {
+      setAddresses((prev) => prev.map((address, index) => (index === i ? values : address)));
+    },
   };
 
-  const onFinish = () => {};
-  const onEmailchange = (value: string) => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(['.com', '.org', '.net', '.ru', '.by'].map((email) => `${value}${email}`));
+  const onAddAddress = () => {
+    setModalOpen(true);
+    addressForm.resetFields();
+  };
+  const onFinish = () => {
+    const selectedTypes = addresses.reduce((acc, a) => [...acc, ...a.types], []);
+    if (!isUniqueItem(selectedTypes, AddressType.BILLING_DEFAULT)) {
+      messageApi.error(`You can set only 1 ${AddressType.BILLING_DEFAULT}`);
+    }
+    if (!isUniqueItem(selectedTypes, AddressType.SHIPPING_DEFAULT)) {
+      messageApi.error(`You can set only 1 ${AddressType.SHIPPING_DEFAULT}`);
     }
   };
-
   return (
-    <Form {...FORM_ITEM_LAYOUT} form={form} name="register" onFinish={onFinish} style={FORM_STYLE} scrollToFirstError>
-      <Form.Item name="email" label="E-mail" rules={EMAIL_INPUT_RULES}>
-        <AutoComplete options={emailOptions} onChange={onEmailchange} placeholder="email">
+    <RegistrationFormContext.Provider
+      value={{
+        addresses: addressesContext,
+        modalOpen,
+        setModalOpen,
+        addressForm,
+        addressFormMode,
+        setAddressFormMode,
+        addressItemIndex,
+        setAddressItemIndex,
+      }}
+    >
+      {contextHolder}
+      <Form
+        {...FORM_ITEM_LAYOUT}
+        form={registrationForm}
+        name="registrationForm"
+        onFinish={onFinish}
+        style={FORM_STYLE}
+        scrollToFirstError
+      >
+        <Form.Item name="email" label="E-mail" rules={EMAIL_INPUT_RULES}>
           <Input />
-        </AutoComplete>
-      </Form.Item>
+        </Form.Item>
 
-      <Form.Item name="firstName" label="First Name" rules={FIRST_NAME_INPUT_RULES}>
-        <Input />
-      </Form.Item>
+        <Form.Item name="firstName" label="First Name" rules={FIRST_NAME_INPUT_RULES}>
+          <Input />
+        </Form.Item>
 
-      <Form.Item name="lastName" label="Last Name" rules={LAST_NAME_INPUT_RULES}>
-        <Input />
-      </Form.Item>
+        <Form.Item name="lastName" label="Last Name" rules={LAST_NAME_INPUT_RULES}>
+          <Input />
+        </Form.Item>
 
-      <Form.Item name="birthDate" label="Birth Date" rules={BIRTH_DATE_INPUT_RULES} validateFirst>
-        <DatePicker />
-      </Form.Item>
+        <Form.Item name="birthDate" label="Birth Date" rules={BIRTH_DATE_INPUT_RULES} validateFirst>
+          <DatePicker />
+        </Form.Item>
 
-      <Form.Item name="password" label="Password" rules={PASSWORD_INPUT_RULES} hasFeedback>
-        <Input.Password />
-      </Form.Item>
+        <Form.Item name="password" label="Password" rules={PASSWORD_INPUT_RULES} hasFeedback>
+          <Input.Password />
+        </Form.Item>
 
-      <Form.Item
-        name="confirm"
-        label="Confirm Password"
-        dependencies={['password']}
-        hasFeedback
-        rules={CONFIRM_PASSWORD_INPUT_RULES}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item {...FORM_DIVIDER_ITEM_LAYOUT} tooltip="TOLLTEXT">
-        <Divider>Billing address</Divider>
-      </Form.Item>
+        <Form.Item
+          name="confirm"
+          label="Confirm Password"
+          dependencies={['password']}
+          hasFeedback
+          rules={CONFIRM_PASSWORD_INPUT_RULES}
+        >
+          <Input.Password />
+        </Form.Item>
+        <FormAddressControlledList />
+        <Form.Item {...TAIL_FORM_ITEM_LAYOUT}>
+          <Button type="dashed" block icon={<PlusOutlined />} onClick={onAddAddress}>
+            Add Address
+          </Button>
+        </Form.Item>
 
-      <Form.Item name="country" label="Country" rules={COUNTRY_INPUT_RULES}>
-        <Select showSearch onChange={zipToolTipUpdatedOnCountryChange}>
-          {COUNTRIES.map((a) => (
-            <Option value={a.Country} key={a.ISO}>
-              {a.Country}
-            </Option>
-          ))}
-        </Select>
-      </Form.Item>
-
-      <Form.Item name="city" label="City" rules={CITY_INPUT_RULES}>
-        <Input />
-      </Form.Item>
-
-      <Form.Item name="street" label="Street" rules={STREET_INPUT_RULES}>
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        name="zip"
-        label="Postal Code"
-        rules={ZIP_INPUT_RULES}
-        dependencies={['country']}
-        tooltip={zipTooltip}
-        validateFirst
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item {...TAIL_FORM_ITEM_LAYOUT}>
-        <Button type="primary" htmlType="submit">
-          Register
-        </Button>
-      </Form.Item>
-    </Form>
+        <AddressModalForm></AddressModalForm>
+        <Form.Item {...TAIL_FORM_ITEM_LAYOUT} rules={[]}>
+          <Button type="primary" htmlType="submit">
+            Register
+          </Button>
+          <div style={{ display: 'inline-block', marginLeft: 5, placeSelf: 'end' }}>
+            Or <a href="">login now!</a>
+          </div>
+        </Form.Item>
+      </Form>
+    </RegistrationFormContext.Provider>
   );
 };
 export default RegistrationFormNew;
