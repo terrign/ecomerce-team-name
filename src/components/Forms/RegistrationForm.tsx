@@ -23,7 +23,7 @@ import { useNavigate } from 'react-router-dom';
 import { RouterPath } from '../../models/RouterPath';
 import { MESSAGE_DURATION } from '../../constants/general';
 
-const RegistrationFormNew = () => {
+const RegistrationForm = () => {
   const [registrationForm] = Form.useForm();
   const [addressForm] = Form.useForm();
   const [addresses, setAddresses] = useState([]);
@@ -147,4 +147,4 @@ const RegistrationFormNew = () => {
     </RegistrationFormContext.Provider>
   );
 };
-export default RegistrationFormNew;
+export default RegistrationForm;

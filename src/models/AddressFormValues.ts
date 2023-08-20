@@ -1,6 +1,8 @@
+import { AddressType } from '../constants/forms/address-form/address-types';
+
 export interface AddressFormValues {
   key: string;
-  types: string[];
+  types: AddressType[];
   country: string;
   city: string;
   street: string;

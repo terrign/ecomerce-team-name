@@ -4,6 +4,7 @@ import { MinusCircleOutlined, CopyOutlined, EditOutlined } from '@ant-design/ico
 import { getRandomKey } from '../../../helpers/getRandomReactKey';
 import './AddressControlledFormItem.css';
 import RegistrationFormContext, { AddressFormMode } from '../../../context/RegistrationFormContext';
+import { AddressType } from '../../../constants/forms/address-form/address-types';
 const { Text } = Typography;
 
 const AddressControlledFormItem = ({ index }: { index: number }) => {
@@ -30,34 +31,33 @@ const AddressControlledFormItem = ({ index }: { index: number }) => {
     context.addressForm.setFieldsValue(values);
     context.setAddressFormMode(() => AddressFormMode.COPY);
     context.setModalOpen(() => true);
-    // context.addressForm.validateFields();
   };
 
   return (
     <Form.Item label={values.key || `Address ${index + 1}`} name={`${values.key}${Math.random().toFixed(0)}`}>
       <Typography>
         <pre style={{ padding: 3, margin: 0 }}>{addressString}</pre>
-        <div className="markers-container">
+        <div className="address-item__flex">
           {values.types.map((t) => {
-            let style = {};
-            if (t === 'Default Billing Address' || t === 'Default Shipping Address') {
-              style = { backgroundColor: 'rgb(6, 124, 198, 0.3)' };
+            let className = 'address-item__type-mark';
+            if (t === AddressType.SHIPPING_DEFAULT || t === AddressType.BILLING_DEFAULT) {
+              className += ' address-item__type-mark_default';
             }
             return (
-              <Text key={getRandomKey(t)} style={style} className="address-type-mark">
+              <Text key={getRandomKey(t)} className={className}>
                 {t}
               </Text>
             );
           })}
         </div>
-        <div className="address-item__buttons-container">
-          <Button style={{ flexGrow: 1 }} type="dashed" icon={<MinusCircleOutlined />} onClick={onAddressRemove}>
+        <div className="address-item__flex">
+          <Button type="dashed" icon={<MinusCircleOutlined />} onClick={onAddressRemove}>
             Remove Address
           </Button>
-          <Button style={{ flexGrow: 1 }} type="dashed" icon={<CopyOutlined />} onClick={onAddressCopy}>
+          <Button type="dashed" icon={<CopyOutlined />} onClick={onAddressCopy}>
             Copy Address
           </Button>
-          <Button style={{ flexGrow: 1 }} type="dashed" icon={<EditOutlined />} onClick={onAddressEdit}>
+          <Button type="dashed" icon={<EditOutlined />} onClick={onAddressEdit}>
             Edit Address
           </Button>
         </div>
