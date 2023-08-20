@@ -35,7 +35,7 @@ const baseConfig = (env) => {
           loader: 'ts-loader',
         },
         {
-          test: /\.(png|gif|jpg|jpeg|ico)$/,
+          test: /\.(png|gif|jpg|jpeg|ico|svg)$/,
           type: 'asset/resource',
           generator: {
             filename: './assets/img/[name][ext]',

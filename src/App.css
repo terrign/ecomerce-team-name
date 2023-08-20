@@ -4,13 +4,21 @@ body {
 
 .site-layout .site-layout-background {
   background: #ffffff;
+  padding: 0;
+  margin: 0px 16px;
+}
+
+.header {
+  text-align: right;
+  margin: 0;
+  padding: 0px 16px 0px 16px;
 }
 
 .logo {
-  margin: 0 auto;
-  padding: 0 30px;
-  background: transparent;
-  color: white;
-  text-align: center;
-  line-height: 50px;
+  background-color: #bbbbbb;
+  margin: 8px;
+}
+
+.logged {
+  background-color: #87d068;
 }
