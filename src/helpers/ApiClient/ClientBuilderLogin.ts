@@ -1,7 +1,7 @@
 import { ClientBuilder } from '@commercetools/sdk-client-v2';
 import { httpMiddlewareOptions } from './ClientBuilder';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY } from '../../constants/EnvConst';
+import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY } from '../../constants/env';
 
 export function authApiRoot(email: string, password: string) {
   const authMiddlewareOptions = {

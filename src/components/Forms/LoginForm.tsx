@@ -3,36 +3,35 @@ import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Checkbox, Form, Input, Button, message } from 'antd';
 import { authApiRoot } from '../../helpers/ApiClient/ClientBuilderLogin';
-import { PROJECT_KEY } from '../../constants/EnvConst';
+import { PROJECT_KEY } from '../../constants/env';
 import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
 import { FORM_STYLE } from '../../constants/forms/form-style';
 import { EMAIL_INPUT_RULES, PASSWORD_INPUT_RULES } from '../../constants/forms/registration-form/rules';
+import { MESSAGE_DURATION } from '../../constants/general';
+import { RouterPath } from '../../models/RouterPath';
 
 const LoginForm: React.FC = () => {
-  const onFinish = () => {};
-  // const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  // const logged: boolean = useAppSelector((state) => state.auth.token > '') ?? false;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userCheck, setUserCheck] = useState({ status: true, message: '' });
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
 
-  const success = () => {
+  const success = () =>
     messageApi.open({
+      duration: MESSAGE_DURATION,
       type: 'success',
       content: 'Successfull login',
     });
-  };
 
-  const error = () => {
+  const error = () =>
     messageApi.open({
+      duration: MESSAGE_DURATION,
       type: 'error',
       content: 'Incorrect email or password',
     });
-  };
 
   const onChangeEmail = (event: SyntheticEvent) => {
     setEmail((event.target as HTMLInputElement).value);
@@ -51,11 +50,8 @@ const LoginForm: React.FC = () => {
         .login()
         .post({ body: { email: email, password: password } })
         .execute();
-      console.log(resp);
-      success();
-      setTimeout(() => {
-        navigate('/');
-      }, 1500);
+      // console.log(resp);
+      success().then(() => navigate(RouterPath.HOME));
       const username = `${resp.body.customer.firstName} ${resp.body.customer.lastName}`;
       console.log(username);
       dispatch(authSlice.actions.login({ token: 'anytoken', username: username }));
@@ -71,9 +67,8 @@ const LoginForm: React.FC = () => {
       name="normal_login"
       className="login-form"
       initialValues={{ remember: true }}
-      onFinish={onFinish}
+      onFinish={login}
       style={{ ...FORM_STYLE, maxWidth: 300 }}
-      onSubmitCapture={login}
     >
       {contextHolder}
       <Form.Item name="email" rules={EMAIL_INPUT_RULES}>

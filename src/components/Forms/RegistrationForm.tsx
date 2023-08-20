@@ -19,6 +19,9 @@ import registrationRequestAdapter from '../../helpers/registrationRequestAdapter
 import { UserFormData } from '../../models/apiDrafts';
 import { apiRoot } from '../../helpers/ApiClient/ClientBuilder';
 import { PROJECT_KEY } from '../../constants/env';
+import { useNavigate } from 'react-router-dom';
+import { RouterPath } from '../../models/RouterPath';
+import { MESSAGE_DURATION } from '../../constants/general';
 
 const RegistrationFormNew = () => {
   const [registrationForm] = Form.useForm();
@@ -28,6 +31,7 @@ const RegistrationFormNew = () => {
   const [addressItemIndex, setAddressItemIndex] = useState(undefined);
   const [addressFormMode, setAddressFormMode] = useState(AddressFormMode.NEW);
   const [messageApi, contextHolder] = message.useMessage();
+  const navigate = useNavigate();
 
   const addressesContext: RegFormContext['addresses'] = {
     items: addresses,
@@ -57,13 +61,16 @@ const RegistrationFormNew = () => {
         .signup()
         .post({ body: body })
         .execute();
-      messageApi.open({
-        content: 'User created',
-        type: 'success',
-      });
+      messageApi
+        .open({
+          content: 'User created',
+          type: 'success',
+        })
+        .then(() => navigate(RouterPath.HOME));
       console.log(res);
     } catch (e) {
       messageApi.open({
+        duration: MESSAGE_DURATION,
         content: e.message,
         type: 'error',
       });
