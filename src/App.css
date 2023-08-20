@@ -14,11 +14,15 @@ body {
   padding: 0px 16px 0px 16px;
 }
 
-.logo {
+.header__user-logo {
   background-color: #bbbbbb;
-  margin: 8px;
+  margin-right: 20px;
 }
 
-.logged {
+.header__user-logo:hover {
+  cursor: pointer;
+}
+
+.header__user-logo_logged {
   background-color: #87d068;
 }

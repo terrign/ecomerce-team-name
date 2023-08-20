@@ -9,7 +9,7 @@ export const authSlice = createSlice({
   reducers: {
     login: (state: AuthState, action: PayloadAction<AuthState>) => {
       state.token = action.payload ? action.payload.token : 'anytoken';
-      state.username = 'User Name';
+      state.username = action.payload.username || 'User Name';
     },
     logout: (state: AuthState) => {
       state.token = null;

@@ -10,7 +10,7 @@ const UserAvatar = () => {
   const dispatch = useAppDispatch();
   const logged: boolean = useAppSelector((state) => state.auth.token > '') ?? false;
   const visible: boolean = useAppSelector((state) => state.userMenu.visible);
-  const styleLogged = logged ? 'logged' : '';
+  const styleLogged = logged ? 'header__user-logo_logged' : '';
   const onClick = (event: React.SyntheticEvent) => {
     event.stopPropagation();
     dispatch(userMenuActions.toggle());
@@ -18,7 +18,7 @@ const UserAvatar = () => {
 
   return (
     <Popover placement="bottomRight" title={UserTitle} content={UserMenu} trigger={['click']} open={visible}>
-      <Avatar onClick={onClick} className={`logo ${styleLogged}`} icon={<UserOutlined />} />
+      <Avatar onClick={onClick} className={`header__user-logo ${styleLogged}`} icon={<UserOutlined />} />
     </Popover>
   );
 };
