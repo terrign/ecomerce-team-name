@@ -17,11 +17,10 @@ import { FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/forms/a
 import { PlusOutlined } from '@ant-design/icons';
 import registrationRequestAdapter from '../../helpers/registrationRequestAdapter';
 import { UserFormData } from '../../models/apiDrafts';
-import { apiRoot } from '../../helpers/ApiClient/ClientBuilder';
-import { PROJECT_KEY } from '../../constants/env';
 import { useNavigate } from 'react-router-dom';
 import { RouterPath } from '../../models/RouterPath';
 import { MESSAGE_DURATION } from '../../constants/general';
+import anonRoot from '../../helpers/ApiClient/roots/anonRoot';
 
 const RegistrationForm = () => {
   const [registrationForm] = Form.useForm();
@@ -55,12 +54,7 @@ const RegistrationForm = () => {
     const userData = { email, lastName, firstName, password, dateOfBirth };
     const body = registrationRequestAdapter(addresses, userData);
     try {
-      const res = await apiRoot
-        .withProjectKey({ projectKey: PROJECT_KEY })
-        .me()
-        .signup()
-        .post({ body: body })
-        .execute();
+      const res = await anonRoot.me().signup().post({ body: body }).execute();
       messageApi
         .open({
           content: 'User created',

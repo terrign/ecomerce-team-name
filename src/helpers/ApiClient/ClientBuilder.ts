@@ -1,6 +1,7 @@
 import { ClientBuilder } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, HOST, PROJECT_KEY } from '../../constants/env';
+import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY } from '../../constants/env';
+import { httpMiddlewareOptions } from '../../constants/api/httpMiddlewareOptions';
 
 const authMiddlewareOptions = {
   host: AUTH_URL,
@@ -10,11 +11,6 @@ const authMiddlewareOptions = {
     clientSecret: CLIENT_SECRET,
   },
   scopes: [`manage_project:${PROJECT_KEY}`],
-  fetch,
-};
-
-export const httpMiddlewareOptions = {
-  host: HOST,
   fetch,
 };
 

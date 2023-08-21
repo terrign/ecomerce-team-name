@@ -2,14 +2,15 @@ import React, { useState, SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Checkbox, Form, Input, Button, message } from 'antd';
-import { authApiRoot } from '../../helpers/ApiClient/ClientBuilderLogin';
-import { PROJECT_KEY } from '../../constants/env';
+// import { authApiRoot } from '../../helpers/ApiClient/ClientBuilderLogin';
+// import { PROJECT_KEY } from '../../constants/env';
 import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
 import { FORM_STYLE } from '../../constants/forms/form-style';
 import { EMAIL_INPUT_RULES, PASSWORD_INPUT_RULES } from '../../constants/forms/registration-form/rules';
 import { MESSAGE_DURATION } from '../../constants/general';
 import { RouterPath } from '../../models/RouterPath';
+import getPasswordRoot from '../../helpers/ApiClient/roots/passwordRoot';
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -44,21 +45,17 @@ const LoginForm: React.FC = () => {
   const login = async () => {
     setUserCheck({ status: true, message: '' });
     try {
-      const resp = await authApiRoot(email, password)
-        .withProjectKey({ projectKey: PROJECT_KEY })
+      const resp = await getPasswordRoot(email, password)
         .me()
         .login()
         .post({ body: { email: email, password: password } })
         .execute();
-      // console.log(resp);
       success().then(() => navigate(RouterPath.HOME));
       const username = `${resp.body.customer.firstName} ${resp.body.customer.lastName}`;
-      console.log(username);
       dispatch(authSlice.actions.login({ token: 'anytoken', username: username }));
     } catch (err) {
       setUserCheck({ status: false, message: err.message });
       error();
-      console.log(err.message);
     }
   };
 
