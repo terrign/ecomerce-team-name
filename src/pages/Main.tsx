@@ -13,9 +13,6 @@ const Main = () => {
       <li>
         <Link to={RouterPath.LOGIN}>Login</Link>
       </li>
-      <li>
-        <Link to={RouterPath.LOGOUT}>Logout</Link>
-      </li>
     </ul>
   );
 };

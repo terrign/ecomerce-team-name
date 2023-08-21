@@ -5,7 +5,6 @@ import Registration from '../pages/Registration';
 import Login from '../pages/Login';
 import Logout from '../pages/Logout';
 import Page404 from '../pages/Page404';
-// import icon from './assets/img/favicon.ico';
 
 const MainRoutes = () => {
   return (
