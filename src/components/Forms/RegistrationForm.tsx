@@ -20,6 +20,8 @@ import { UserFormData } from '../../models/apiDrafts';
 import { useNavigate } from 'react-router-dom';
 import { RouterPath } from '../../models/RouterPath';
 import { MESSAGE_DURATION } from '../../constants/general';
+import { useAppDispatch } from '../../store/hooks';
+import { authSlice } from '../../store/auth.slice';
 import anonRoot from '../../helpers/ApiClient/roots/anonRoot';
 
 const RegistrationForm = () => {
@@ -30,6 +32,7 @@ const RegistrationForm = () => {
   const [addressItemIndex, setAddressItemIndex] = useState(undefined);
   const [addressFormMode, setAddressFormMode] = useState(AddressFormMode.NEW);
   const [messageApi, contextHolder] = message.useMessage();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const addressesContext: RegFormContext['addresses'] = {
@@ -61,6 +64,8 @@ const RegistrationForm = () => {
           type: 'success',
         })
         .then(() => navigate(RouterPath.HOME));
+      const username = `${firstName} ${lastName}`;
+      dispatch(authSlice.actions.login({ token: 'anytoken', username }));
       console.log(res);
     } catch (e) {
       messageApi.open({

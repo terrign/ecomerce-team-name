@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 const Page404 = () => {
   return (
     <div className="page-404">
-      <h5 className="page-404">
+      <h1 className="page-404">
         return to <Link to="/">Home Page</Link>
-      </h5>
+      </h1>
       <img className="page404" src={image404} />
     </div>
   );
