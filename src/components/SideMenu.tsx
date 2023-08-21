@@ -3,7 +3,7 @@ import { Menu, MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Layout } from 'antd';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
-import { MAIN_ITEMS_ANONYMOUS_USER, MAIN_ITEMS_LOGGED_USER } from '../constants/MainMenus';
+import { MAIN_ITEMS_ANONYMOUS_USER, MAIN_ITEMS_LOGGED_USER } from '../constants/mainMenus';
 import { actions as userMenuActions } from '../store/userMenu.slice';
 import { actions as authActions } from '../store/auth.slice';
 import { RouterPath } from '../models/RouterPath';

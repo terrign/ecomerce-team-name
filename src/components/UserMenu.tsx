@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, MenuProps } from 'antd';
-import { ITEMS_ANONYMOUS_USER, ITEMS_LOGGED_USER } from '../constants/UserMenus';
+import { ITEMS_ANONYMOUS_USER, ITEMS_LOGGED_USER } from '../constants/userMenus';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { actions as userMenuActions } from '../store/userMenu.slice';
 import { actions as authActions } from '../store/auth.slice';

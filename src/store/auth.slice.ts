@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ANONYMOUS_USER } from '../constants/UserMenus';
+import { ANONYMOUS_USER } from '../constants/userMenus';
 import { Cookie } from '../utils/Cookie';
 
 export type AuthState = {
