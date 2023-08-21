@@ -1,25 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ANONYMOUS_USER } from '../constants/UserMenus';
+import { Cookie } from '../utils/Cookie';
 
 export type AuthState = {
   token: string | null;
   username: string;
   remember?: boolean;
 };
+const cookie = new Cookie();
 
 const initialState = () => {
   const auth = { token: null as string, username: ANONYMOUS_USER };
-  document.cookie.split('; ').forEach((item) => {
-    const [key, valueDecoded] = item.split('=');
-    const value = decodeURIComponent(valueDecoded);
-    if (key in auth) Object.assign(auth, { [key]: value });
-  });
+  auth.token = cookie.get('token');
+  auth.username = auth.token ? 'User Name' : ANONYMOUS_USER;
   return { token: auth.token, username: auth.username } as AuthState;
-};
-
-const setAuthCookie = (token: AuthState['token'], username: AuthState['username']) => {
-  document.cookie = `token=${encodeURIComponent(token)}`;
-  document.cookie = `username=${encodeURIComponent(username)}`;
 };
 
 export const authSlice = createSlice({
@@ -30,12 +24,12 @@ export const authSlice = createSlice({
       state.token = action.payload ? action.payload.token : 'anytoken';
       state.username = action.payload.username || 'User Name';
       state.remember = action.payload.remember ?? false;
-      if (state.remember) setAuthCookie(state.token ?? '', state.username ?? '');
+      if (state.remember) cookie.set('token', state.token ?? '');
     },
     logout: (state: AuthState) => {
       state.token = null;
       state.username = ANONYMOUS_USER;
-      setAuthCookie(state.token ?? '', state.username ?? '');
+      cookie.delete('token');
     },
   },
 });
