@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
-import Main from './Main';
-import { useAppDispatch } from '../store/hooks';
-import { actions as authActions } from '../store/auth.slice';
+import { useNavigate } from 'react-router-dom';
+import { RouterPath } from '../models/RouterPath';
 
 const Logout = () => {
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
-    dispatch(authActions.logout());
+    navigate(RouterPath.HOME);
   }, []);
-  return <Main />;
+  return <></>;
 };
 
 export default Logout;
