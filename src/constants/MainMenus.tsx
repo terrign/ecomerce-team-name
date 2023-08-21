@@ -14,7 +14,7 @@ const MAIN_ITEMS_ANONYMOUS_USER: MenuItem[] = [
 const MAIN_ITEMS_LOGGED_USER: MenuItem[] = [
   getMenuItem(<NavLink to={RouterPath.HOME}>Home</NavLink>, RouterPath.HOME, <HomeOutlined />),
   getMenuItem('User', 'UserActions', <UserOutlined />, [
-    getMenuItem(<NavLink to={RouterPath.REG}>Registration</NavLink>, RouterPath.REG, <UserAddOutlined />),
+    //getMenuItem(<NavLink to={RouterPath.REG}>Registration</NavLink>, RouterPath.REG, <UserAddOutlined />),
     getMenuItem(<NavLink to={RouterPath.LOGOUT}>Logout</NavLink>, RouterPath.LOGOUT, <UserOutlined />),
   ]),
 ];

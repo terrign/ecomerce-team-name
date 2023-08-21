@@ -7,6 +7,7 @@ import { RouterPath } from '../models/RouterPath';
 const ANONYMOUS_USER = 'Anounymous User';
 const ITEMS_ANONYMOUS_USER: MenuItem[] = [
   getMenuItem(<NavLink to={RouterPath.LOGIN}>Login</NavLink>, RouterPath.LOGIN, <UserOutlined />),
+  getMenuItem(<NavLink to={RouterPath.REG}>Register</NavLink>, RouterPath.REG, <UserOutlined />),
 ];
 const ITEMS_LOGGED_USER: MenuItem[] = [
   getMenuItem(<NavLink to={RouterPath.LOGOUT}>Logout</NavLink>, RouterPath.LOGOUT, <LogoutOutlined />),
