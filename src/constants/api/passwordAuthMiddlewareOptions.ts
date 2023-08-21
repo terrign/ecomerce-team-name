@@ -1,5 +1,6 @@
 import { PasswordAuthMiddlewareOptions } from '@commercetools/sdk-client-v2';
 import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY } from '../env';
+import myTokenCache from '../../helpers/ApiClient/TokenStore';
 
 const getPasswordAuthOptions = (email: string, password: string): PasswordAuthMiddlewareOptions => {
   return {
@@ -14,6 +15,7 @@ const getPasswordAuthOptions = (email: string, password: string): PasswordAuthMi
       },
     },
     scopes: [`manage_project:${PROJECT_KEY}`],
+    tokenCache: myTokenCache,
     fetch,
   };
 };

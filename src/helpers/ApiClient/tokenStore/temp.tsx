@@ -1,22 +1,21 @@
 import { Button } from 'antd';
 import React from 'react';
-import existingRoot from '../roots/existingTokenRoot';
 import myTokenCache from '../TokenStore';
+import apiClient from '../Client';
+import LocalStorage from '../../../utils/LocalStorage';
 
 const Test = () => {
   const handler = async () => {
-    const client = existingRoot;
-    client
+    console.log('cache', myTokenCache.get().token);
+    console.log(LocalStorage.get('token'));
+    apiClient
+      .getRoot()
       .me()
       .get()
       .execute()
       .then((res) => {
-        console.log(res);
-        console.log(cache.get());
+        console.log('response', res);
       });
-
-    const cache = myTokenCache;
-    console.log(cache.get());
   };
   return <Button onClick={handler}></Button>;
 };

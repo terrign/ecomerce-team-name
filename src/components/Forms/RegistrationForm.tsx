@@ -22,7 +22,7 @@ import { RouterPath } from '../../models/RouterPath';
 import { MESSAGE_DURATION } from '../../constants/general';
 import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
-import anonRoot from '../../helpers/ApiClient/roots/anonRoot';
+import apiClient from '../../helpers/ApiClient/Client';
 
 const RegistrationForm = () => {
   const [registrationForm] = Form.useForm();
@@ -57,7 +57,7 @@ const RegistrationForm = () => {
     const userData = { email, lastName, firstName, password, dateOfBirth };
     const body = registrationRequestAdapter(addresses, userData);
     try {
-      const res = await anonRoot.me().signup().post({ body: body }).execute();
+      const res = await apiClient.getRoot().me().signup().post({ body: body }).execute();
       messageApi
         .open({
           content: 'User created',

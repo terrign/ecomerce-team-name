@@ -13,8 +13,10 @@ const myTokenCache: TokenCache = {
   },
 
   set(newStore: TokenStore) {
-    LocalStorage.set('token', newStore.token);
     store = newStore;
+    // console.log('current cached token', store.token);
+    LocalStorage.setCachedToken();
+    return;
   },
 };
 
