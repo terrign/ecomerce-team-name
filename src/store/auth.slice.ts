@@ -7,6 +7,11 @@ export type AuthState = {
   username: string;
   remember?: boolean;
 };
+
+export type UserState = {
+  username: string;
+};
+
 const cookie = new Cookie();
 
 const initialState = () => {
@@ -30,6 +35,9 @@ export const authSlice = createSlice({
       state.token = null;
       state.username = ANONYMOUS_USER;
       cookie.delete('token');
+    },
+    updateUser: (state: UserState, action: PayloadAction<UserState>) => {
+      state.username = action.payload.username || 'User Name';
     },
   },
 });

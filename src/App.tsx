@@ -1,17 +1,25 @@
 import { Layout } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import MainRoutes from './routes/MainRoutes';
 import SideMenu from './components/SideMenu';
 import { HashRouter } from 'react-router-dom';
-import { useAppDispatch } from './store/hooks';
+import { useAppDispatch, useAppSelector } from './store/hooks';
 import { actions as userMenuActions } from './store/userMenu.slice';
+// import { actions as authActions } from './store/auth.slice';
 import Header from './components/Header';
 const { Content } = Layout;
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const onClick = () => dispatch(userMenuActions.hide());
+  const logged: boolean = useAppSelector((state) => state.auth.token > '') ?? false;
+  const username = useAppSelector((state) => state.auth.username);
+  useEffect(() => {
+    // console.log('LOGGED');
+    /* TODO get username from server and dispatch to store */
+    // if (logged && username === 'User Name') dispatch(authActions.updateUser({ username: 'test' }));
+  }, [logged, username]);
 
   return (
     <HashRouter>
