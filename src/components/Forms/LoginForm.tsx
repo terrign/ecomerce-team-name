@@ -32,12 +32,12 @@ const LoginForm: React.FC = () => {
     });
 
   const login = async () => {
-    const { email, password }: UserFormData = loginForm.getFieldsValue();
+    const { email, password, remember }: UserFormData = loginForm.getFieldsValue();
     try {
       const resp = await loginRequest(email, password);
       success().then(() => navigate(RouterPath.HOME));
       const username = `${resp.body.customer.firstName} ${resp.body.customer.lastName}`;
-      dispatch(authSlice.actions.login({ token: 'anytoken', username }));
+      dispatch(authSlice.actions.login({ token: 'anytoken', username, remember }));
     } catch (err) {
       error(err.message);
     }

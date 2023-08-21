@@ -29,7 +29,7 @@ export const authSlice = createSlice({
     login: (state: AuthState, action: PayloadAction<AuthState>) => {
       state.token = action.payload ? action.payload.token : 'anytoken';
       state.username = action.payload.username || 'User Name';
-      state.remember = action.payload.remember ?? true;
+      state.remember = action.payload.remember ?? false;
       if (state.remember) setAuthCookie(state.token ?? '', state.username ?? '');
     },
     logout: (state: AuthState) => {
