@@ -22,6 +22,8 @@ import { PROJECT_KEY } from '../../constants/env';
 import { useNavigate } from 'react-router-dom';
 import { RouterPath } from '../../models/RouterPath';
 import { MESSAGE_DURATION } from '../../constants/general';
+import { useAppDispatch } from '../../store/hooks';
+import { authSlice } from '../../store/auth.slice';
 
 const RegistrationForm = () => {
   const [registrationForm] = Form.useForm();
@@ -31,6 +33,7 @@ const RegistrationForm = () => {
   const [addressItemIndex, setAddressItemIndex] = useState(undefined);
   const [addressFormMode, setAddressFormMode] = useState(AddressFormMode.NEW);
   const [messageApi, contextHolder] = message.useMessage();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const addressesContext: RegFormContext['addresses'] = {
@@ -67,6 +70,8 @@ const RegistrationForm = () => {
           type: 'success',
         })
         .then(() => navigate(RouterPath.HOME));
+      const username = `${firstName} ${lastName}`;
+      dispatch(authSlice.actions.login({ token: 'anytoken', username }));
       console.log(res);
     } catch (e) {
       messageApi.open({

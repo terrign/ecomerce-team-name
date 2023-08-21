@@ -7,6 +7,7 @@ export interface UserData {
   firstName: string;
   lastName: string;
   password: string;
+  remember?: boolean;
 }
 export interface UserFormData extends UserData {
   dateOfBirth: DatePickerValue;
