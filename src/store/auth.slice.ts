@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ANONYMOUS_USER } from '../constants/UserMenus';
+import Cookie from '../utils/Cookie';
 
 export type AuthState = {
   token: string | null;
@@ -7,19 +8,15 @@ export type AuthState = {
   remember?: boolean;
 };
 
-const initialState = () => {
-  const auth = { token: null as string, username: ANONYMOUS_USER };
-  document.cookie.split('; ').forEach((item) => {
-    const [key, valueDecoded] = item.split('=');
-    const value = decodeURIComponent(valueDecoded);
-    if (key in auth) Object.assign(auth, { [key]: value });
-  });
-  return { token: auth.token, username: auth.username } as AuthState;
+export type UserState = {
+  username: string;
 };
 
-const setAuthCookie = (token: AuthState['token'], username: AuthState['username']) => {
-  document.cookie = `token=${encodeURIComponent(token)}`;
-  document.cookie = `username=${encodeURIComponent(username)}`;
+const initialState = () => {
+  const auth = { token: null as string, username: ANONYMOUS_USER };
+  auth.token = Cookie.get('token');
+  auth.username = auth.token ? 'User Name' : ANONYMOUS_USER;
+  return { token: auth.token, username: auth.username } as AuthState;
 };
 
 export const authSlice = createSlice({
@@ -30,12 +27,15 @@ export const authSlice = createSlice({
       state.token = action.payload ? action.payload.token : 'anytoken';
       state.username = action.payload.username || 'User Name';
       state.remember = action.payload.remember ?? false;
-      if (state.remember) setAuthCookie(state.token ?? '', state.username ?? '');
+      if (state.remember) Cookie.set('token', state.token ?? '');
     },
     logout: (state: AuthState) => {
       state.token = null;
       state.username = ANONYMOUS_USER;
-      setAuthCookie(state.token ?? '', state.username ?? '');
+      Cookie.delete('token');
+    },
+    updateUser: (state: UserState, action: PayloadAction<UserState>) => {
+      state.username = action.payload.username || 'User Name';
     },
   },
 });

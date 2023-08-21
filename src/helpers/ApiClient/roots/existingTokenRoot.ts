@@ -3,7 +3,7 @@ import { httpMiddlewareOptions } from '../../../constants/api/httpMiddlewareOpti
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { PROJECT_KEY } from '../../../constants/env';
 import myTokenCache from '../TokenStore';
-import LocalStorage from '../../../utils/LocalStorage';
+import Cookie from '../../../utils/Cookie';
 
 // const client = new ClientBuilder()
 //   .withExistingTokenFlow(`Bearer ${myTokenCache.get().token}`, { force: true })
@@ -15,7 +15,7 @@ import LocalStorage from '../../../utils/LocalStorage';
 const getExistingTokenRoot = () => {
   console.log(myTokenCache.get().token);
   const client = new ClientBuilder()
-    .withExistingTokenFlow(`Bearer ${LocalStorage.get('token')}`, { force: false })
+    .withExistingTokenFlow(`Bearer ${Cookie.get('token')}`, { force: false })
     .withHttpMiddleware(httpMiddlewareOptions)
     .build();
   return createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: PROJECT_KEY });

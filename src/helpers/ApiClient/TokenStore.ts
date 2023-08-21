@@ -1,5 +1,5 @@
 import { TokenCache, TokenStore } from '@commercetools/sdk-client-v2';
-import LocalStorage from '../../utils/LocalStorage';
+import Cookie from '../../utils/Cookie';
 
 let store: TokenStore = {
   token: null,
@@ -14,8 +14,7 @@ const myTokenCache: TokenCache = {
 
   set(newStore: TokenStore) {
     store = newStore;
-    // console.log('current cached token', store.token);
-    LocalStorage.setCachedToken();
+    Cookie.set('token', newStore.token);
     return;
   },
 };
