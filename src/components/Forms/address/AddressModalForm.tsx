@@ -14,6 +14,7 @@ import {
   getNameRules,
   getTypeRules,
 } from '../../../constants/forms/address-form/rules';
+import { getRandomKey } from '../../../helpers/getRandomReactKey';
 const { Option } = Select;
 
 const AddressModalForm = () => {
@@ -74,7 +75,7 @@ const AddressModalForm = () => {
         <Form.Item label="Address Type" name="types" tooltip={ADDRESS_TYPE_STRING} rules={getTypeRules(context)}>
           <Select mode="multiple" placeholder="Select address type">
             {ADDRESS_TYPES.map((a) => (
-              <Option value={a} key={a}>
+              <Option value={a} key={getRandomKey(a)}>
                 {a}
               </Option>
             ))}

@@ -1,15 +1,14 @@
 import { Button } from 'antd';
 import React from 'react';
 import myTokenCache from '../TokenStore';
-import apiClient from '../Client';
 import Cookie from '../../../utils/Cookie';
+import getApiClient from '../Client';
 
 const Test = () => {
   const handler = async () => {
     console.log('cache', myTokenCache.get().token);
     console.log(Cookie.get('token'));
-    apiClient
-      .getRoot()
+    getApiClient()()
       .me()
       .get()
       .execute()

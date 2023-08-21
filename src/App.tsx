@@ -12,14 +12,19 @@ const { Content } = Layout;
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
-  const onClick = () => dispatch(userMenuActions.hide());
   const logged: boolean = useAppSelector((state) => state.auth.token > '') ?? false;
   const username = useAppSelector((state) => state.auth.username);
+  const menuHidden = useAppSelector((state) => state.userMenu.visible);
   useEffect(() => {
     // console.log('LOGGED');
     /* TODO get username from server and dispatch to store */
     // if (logged && username === 'User Name') dispatch(authActions.updateUser({ username: 'test' }));
   }, [logged, username]);
+  const onClick = () => {
+    if (menuHidden) {
+      dispatch(userMenuActions.hide());
+    }
+  };
 
   return (
     <HashRouter>

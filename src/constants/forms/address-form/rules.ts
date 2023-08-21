@@ -3,8 +3,9 @@ import { COUNTRIES } from './countries';
 import { AddressFormMode, RegFormContext } from '../../../context/RegistrationFormContext';
 import { AddressType } from './address-types';
 import getAddressTypeRule from '../../../helpers/getAddressTypeRule';
+import { VALID_NAME_MATHCER } from '../registration-form/rules';
 
-const VALID_CITY_MATCHER = /^[a-zA-ZА-Яа-я/s]{1,}$/;
+const VALID_CITY_MATCHER = VALID_NAME_MATHCER;
 
 const COUNTRY_INPUT_RULES: Rule[] = [
   {

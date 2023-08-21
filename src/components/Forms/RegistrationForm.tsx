@@ -22,7 +22,9 @@ import { RouterPath } from '../../models/RouterPath';
 import { MESSAGE_DURATION } from '../../constants/general';
 import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
-import apiClient from '../../helpers/ApiClient/Client';
+import { loginRequest } from '../../helpers/ApiClient/ClientBuilderLogin';
+import myTokenCache from '../../helpers/ApiClient/TokenStore';
+import getApiClient from '../../helpers/ApiClient/Client';
 
 const RegistrationForm = () => {
   const [registrationForm] = Form.useForm();
@@ -57,15 +59,22 @@ const RegistrationForm = () => {
     const userData = { email, lastName, firstName, password, dateOfBirth };
     const body = registrationRequestAdapter(addresses, userData);
     try {
-      const res = await apiClient.getRoot().me().signup().post({ body: body }).execute();
-      messageApi
-        .open({
-          content: 'User created',
-          type: 'success',
+      const res = await getApiClient()().me().signup().post({ body: body }).execute();
+      await loginRequest(email, password);
+      await messageApi.open({
+        content: 'User created',
+        type: 'success',
+      });
+      dispatch(
+        authSlice.actions.login({
+          token: myTokenCache.get().token,
+          username: `${firstName} ${lastName}`,
+          remember: false,
         })
-        .then(() => navigate(RouterPath.HOME));
-      const username = `${firstName} ${lastName}`;
-      dispatch(authSlice.actions.login({ token: 'anytoken', username }));
+      );
+
+      navigate(RouterPath.HOME);
+
       console.log(res);
     } catch (e) {
       messageApi.open({

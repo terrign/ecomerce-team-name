@@ -7,7 +7,6 @@ import { visitorAuthMiddlewareOptions } from '../../../constants/api/visitorAuth
 const projectKey = PROJECT_KEY;
 
 const client = new ClientBuilder()
-  // .withProjectKey(projectKey)
   .withPasswordFlow(visitorAuthMiddlewareOptions)
   .withHttpMiddleware(httpMiddlewareOptions)
   .build();

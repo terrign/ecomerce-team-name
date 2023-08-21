@@ -24,14 +24,18 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state: AuthState, action: PayloadAction<AuthState>) => {
-      state.token = action.payload ? action.payload.token : 'anytoken';
-      state.username = action.payload.username || 'User Name';
+      // state.token = action.payload ? action.payload.token : 'anytoken';
+      state.token = action.payload.token; //action.payload ? action.payload.token : state.token;
+      state.username = action.payload.username; //|| 'User Name';
       state.remember = action.payload.remember ?? false;
-      if (state.remember) Cookie.set('token', state.token ?? '');
+      if (state.remember) {
+        Cookie.set('token', state.token ?? '');
+      } else Cookie.delete('token');
     },
     logout: (state: AuthState) => {
       state.token = null;
       state.username = ANONYMOUS_USER;
+      state.remember = false;
       Cookie.delete('token');
     },
     updateUser: (state: UserState, action: PayloadAction<UserState>) => {

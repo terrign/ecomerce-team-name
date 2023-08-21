@@ -10,6 +10,7 @@ import { EMAIL_INPUT_RULES, PASSWORD_INPUT_RULES } from '../../constants/forms/r
 import { MESSAGE_DURATION } from '../../constants/general';
 import { RouterPath } from '../../models/RouterPath';
 import { UserFormData } from '../../models/apiDrafts';
+import myTokenCache from '../../helpers/ApiClient/TokenStore';
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -35,9 +36,16 @@ const LoginForm: React.FC = () => {
     const { email, password, remember }: UserFormData = loginForm.getFieldsValue();
     try {
       const resp = await loginRequest(email, password);
-      success().then(() => navigate(RouterPath.HOME));
-      const username = `${resp.body.customer.firstName} ${resp.body.customer.lastName}`;
-      dispatch(authSlice.actions.login({ token: 'anytoken', username, remember }));
+      // success().then(() => navigate(RouterPath.HOME));
+      await success();
+      dispatch(
+        authSlice.actions.login({
+          token: myTokenCache.get().token,
+          username: `${resp.body.customer.firstName} ${resp.body.customer.lastName}`,
+          remember,
+        })
+      );
+      navigate(RouterPath.HOME);
     } catch (err) {
       error(err.message);
     }
