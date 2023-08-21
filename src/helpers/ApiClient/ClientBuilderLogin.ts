@@ -3,7 +3,7 @@ import { httpMiddlewareOptions } from './ClientBuilder';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY } from '../../constants/env';
 
-export function authApiRoot(email: string, password: string) {
+export function loginRequest(email: string, password: string) {
   const authMiddlewareOptions = {
     host: AUTH_URL,
     projectKey: PROJECT_KEY,
@@ -24,6 +24,11 @@ export function authApiRoot(email: string, password: string) {
     .withClientCredentialsFlow(authMiddlewareOptions)
     .withHttpMiddleware(httpMiddlewareOptions)
     .build();
-  const apiRoot = createApiBuilderFromCtpClient(client);
-  return apiRoot;
+  const loginRequest = createApiBuilderFromCtpClient(client)
+    .withProjectKey({ projectKey: PROJECT_KEY })
+    .me()
+    .login()
+    .post({ body: { email, password } })
+    .execute();
+  return loginRequest;
 }

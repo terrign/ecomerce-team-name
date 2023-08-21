@@ -1,21 +1,19 @@
-import React, { useState, SyntheticEvent } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Checkbox, Form, Input, Button, message } from 'antd';
-import { authApiRoot } from '../../helpers/ApiClient/ClientBuilderLogin';
-import { PROJECT_KEY } from '../../constants/env';
+import { loginRequest } from '../../helpers/ApiClient/ClientBuilderLogin';
 import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
 import { FORM_STYLE } from '../../constants/forms/form-style';
 import { EMAIL_INPUT_RULES, PASSWORD_INPUT_RULES } from '../../constants/forms/registration-form/rules';
 import { MESSAGE_DURATION } from '../../constants/general';
 import { RouterPath } from '../../models/RouterPath';
+import { UserFormData } from '../../models/apiDrafts';
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userCheck, setUserCheck] = useState({ status: true, message: '' });
+  const [loginForm] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
 
@@ -26,44 +24,28 @@ const LoginForm: React.FC = () => {
       content: 'Successfull login',
     });
 
-  const error = () =>
+  const error = (message: string) =>
     messageApi.open({
       duration: MESSAGE_DURATION,
       type: 'error',
-      content: 'Incorrect email or password',
+      content: message,
     });
 
-  const onChangeEmail = (event: SyntheticEvent) => {
-    setEmail((event.target as HTMLInputElement).value);
-  };
-
-  const onChangePassword = (event: SyntheticEvent) => {
-    setPassword((event.target as HTMLInputElement).value);
-  };
-
   const login = async () => {
-    setUserCheck({ status: true, message: '' });
+    const { email, password }: UserFormData = loginForm.getFieldsValue();
     try {
-      const resp = await authApiRoot(email, password)
-        .withProjectKey({ projectKey: PROJECT_KEY })
-        .me()
-        .login()
-        .post({ body: { email: email, password: password } })
-        .execute();
-      // console.log(resp);
+      const resp = await loginRequest(email, password);
       success().then(() => navigate(RouterPath.HOME));
       const username = `${resp.body.customer.firstName} ${resp.body.customer.lastName}`;
-      console.log(username);
-      dispatch(authSlice.actions.login({ token: 'anytoken', username: username }));
+      dispatch(authSlice.actions.login({ token: 'anytoken', username }));
     } catch (err) {
-      setUserCheck({ status: false, message: err.message });
-      error();
-      console.log(err.message);
+      error(err.message);
     }
   };
 
   return (
     <Form
+      form={loginForm}
       name="normal_login"
       className="login-form"
       initialValues={{ remember: true }}
@@ -72,14 +54,13 @@ const LoginForm: React.FC = () => {
     >
       {contextHolder}
       <Form.Item name="email" rules={EMAIL_INPUT_RULES}>
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" onChange={onChangeEmail} />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
       </Form.Item>
       <Form.Item name="password" rules={PASSWORD_INPUT_RULES} hasFeedback>
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
-          onChange={onChangePassword}
         />
       </Form.Item>
       <Form.Item>
@@ -92,7 +73,7 @@ const LoginForm: React.FC = () => {
         </a>
       </Form.Item>
 
-      <Form.Item validateStatus={`${userCheck ? 'warning' : 'error'}`}>
+      <Form.Item>
         <Button style={{ width: '100%' }} type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
