@@ -11,7 +11,7 @@ const AddressControlledFormItem = ({ index }: { index: number }) => {
   const context = useContext(RegistrationFormContext);
   const values = context.addresses.items[index];
 
-  const addressString = `${values.building ? values.building + ' ' : ''}${values.street}${
+  const addressString = `${values.building ? values.building + ' ' : ''}${values.streetName}${
     values.apartment ? ', Apt ' + values.apartment : ''
   }, ${values.city} ${values.zip}, ${values.country}`;
 
