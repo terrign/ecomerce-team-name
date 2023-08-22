@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Checkbox, Form, Input, Button, message } from 'antd';
 import { loginRequest } from '../../helpers/ApiClient/ClientBuilderLogin';
@@ -17,6 +17,7 @@ const LoginForm: React.FC = () => {
   const [loginForm] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
+  const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const success = () =>
     messageApi.open({
@@ -33,6 +34,7 @@ const LoginForm: React.FC = () => {
     });
 
   const login = async () => {
+    setSubmitDisabled(true);
     const { email, password, remember }: UserFormData = loginForm.getFieldsValue();
     try {
       const resp = await loginRequest(email, password);
@@ -47,7 +49,7 @@ const LoginForm: React.FC = () => {
       );
       navigate(RouterPath.HOME);
     } catch (err) {
-      error(err.message);
+      error(err.message).then(() => setSubmitDisabled(false));
     }
   };
 
@@ -82,10 +84,16 @@ const LoginForm: React.FC = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button style={{ width: '100%' }} type="primary" htmlType="submit" className="login-form-button">
+        <Button
+          style={{ width: '100%' }}
+          type="primary"
+          htmlType="submit"
+          className="login-form-button"
+          disabled={submitDisabled}
+        >
           Log in
         </Button>
-        Or <a href="">register now!</a>
+        Or <NavLink to={RouterPath.REG}>register now!</NavLink>
       </Form.Item>
     </Form>
   );

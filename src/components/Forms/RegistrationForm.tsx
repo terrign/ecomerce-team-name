@@ -17,7 +17,7 @@ import { FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/forms/a
 import { PlusOutlined } from '@ant-design/icons';
 import registrationRequestAdapter from '../../helpers/registrationRequestAdapter';
 import { UserFormData } from '../../models/apiDrafts';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { RouterPath } from '../../models/RouterPath';
 import { MESSAGE_DURATION } from '../../constants/general';
 import { useAppDispatch } from '../../store/hooks';
@@ -34,6 +34,7 @@ const RegistrationForm = () => {
   const [addressItemIndex, setAddressItemIndex] = useState(undefined);
   const [addressFormMode, setAddressFormMode] = useState(AddressFormMode.NEW);
   const [messageApi, contextHolder] = message.useMessage();
+  const [submitDisabled, setSubmitDisabled] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -55,6 +56,7 @@ const RegistrationForm = () => {
     addressForm.resetFields();
   };
   const onFinish = async () => {
+    setSubmitDisabled(true);
     const { email, lastName, firstName, password, dateOfBirth }: UserFormData = registrationForm.getFieldsValue();
     const userData = { email, lastName, firstName, password, dateOfBirth };
     const body = registrationRequestAdapter(addresses, userData);
@@ -77,11 +79,13 @@ const RegistrationForm = () => {
 
       console.log(res);
     } catch (e) {
-      messageApi.open({
-        duration: MESSAGE_DURATION,
-        content: e.message,
-        type: 'error',
-      });
+      messageApi
+        .open({
+          duration: MESSAGE_DURATION,
+          content: e.message,
+          type: 'error',
+        })
+        .then(() => setSubmitDisabled(false));
     }
   };
   return (
@@ -144,11 +148,11 @@ const RegistrationForm = () => {
 
         <AddressModalForm></AddressModalForm>
         <Form.Item {...TAIL_FORM_ITEM_LAYOUT} rules={[]}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" disabled={submitDisabled}>
             Register
           </Button>
           <div style={{ display: 'inline-block', marginLeft: 5, placeSelf: 'end' }}>
-            Or <a href="">login now!</a>
+            Or <NavLink to={RouterPath.LOGIN}>login now!</NavLink>
           </div>
         </Form.Item>
       </Form>
