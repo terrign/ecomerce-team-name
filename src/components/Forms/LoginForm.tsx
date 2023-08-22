@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Checkbox, Form, Input, Button, message } from 'antd';
-import { loginRequest } from '../../helpers/ApiClient/ClientBuilderLogin';
+import { loginRequest } from '../../helpers/ApiClient/loginRequest';
 import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
 import { FORM_STYLE } from '../../constants/forms/form-style';
 import { EMAIL_INPUT_RULES, PASSWORD_INPUT_RULES } from '../../constants/forms/registration-form/rules';
-import { MESSAGE_DURATION } from '../../constants/general';
 import { RouterPath } from '../../models/RouterPath';
 import { UserFormData } from '../../models/apiDrafts';
-import myTokenCache from '../../helpers/ApiClient/TokenStore';
+import tokenCache from '../../helpers/ApiClient/tokenCache';
+import { alertSlice } from '../../store/alert.slice';
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -19,16 +19,8 @@ const LoginForm: React.FC = () => {
   const navigate = useNavigate();
   const [submitDisabled, setSubmitDisabled] = useState(false);
 
-  const success = () =>
-    messageApi.open({
-      duration: MESSAGE_DURATION,
-      type: 'success',
-      content: 'Successfull login',
-    });
-
   const error = (message: string) =>
     messageApi.open({
-      duration: MESSAGE_DURATION,
       type: 'error',
       content: message,
     });
@@ -38,11 +30,10 @@ const LoginForm: React.FC = () => {
     const { email, password, remember }: UserFormData = loginForm.getFieldsValue();
     try {
       const resp = await loginRequest(email, password);
-      // success().then(() => navigate(RouterPath.HOME));
-      await success();
+      dispatch(alertSlice.actions.success('Successfull login'));
       dispatch(
         authSlice.actions.login({
-          token: myTokenCache.get().token,
+          token: tokenCache.get().token,
           username: `${resp.body.customer.firstName} ${resp.body.customer.lastName}`,
           remember,
         })

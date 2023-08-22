@@ -12,11 +12,16 @@ export type UserState = {
   username: string;
 };
 
+// const initialState = () => {
+//   const auth = { token: null as string, username: ANONYMOUS_USER };
+//   auth.token = Cookie.get('token');
+//   auth.username = auth.token ? 'User Name' : ANONYMOUS_USER;
+//   return { token: auth.token, username: auth.username } as AuthState;
+// };
+
 const initialState = () => {
-  const auth = { token: null as string, username: ANONYMOUS_USER };
-  auth.token = Cookie.get('token');
-  auth.username = auth.token ? 'User Name' : ANONYMOUS_USER;
-  return { token: auth.token, username: auth.username } as AuthState;
+  const auth = { token: Cookie.get('token'), username: ANONYMOUS_USER };
+  return auth as AuthState;
 };
 
 export const authSlice = createSlice({
@@ -38,7 +43,7 @@ export const authSlice = createSlice({
       state.remember = false;
       Cookie.delete('token');
     },
-    updateUser: (state: UserState, action: PayloadAction<UserState>) => {
+    updateUserName: (state: UserState, action: PayloadAction<UserState>) => {
       state.username = action.payload.username || 'User Name';
     },
   },

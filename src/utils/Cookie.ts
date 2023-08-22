@@ -1,5 +1,5 @@
 class Cookies {
-  public get(key: string) {
+  public get(key: string): string | null {
     const items = document.cookie.split('; ');
     let value = '';
     for (const item of items) {
@@ -9,7 +9,7 @@ class Cookies {
         break;
       }
     }
-    return value;
+    return value || null;
   }
 
   public set(key: string, value: string, time = 1): void {

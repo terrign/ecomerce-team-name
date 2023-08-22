@@ -19,12 +19,12 @@ import registrationRequestAdapter from '../../helpers/registrationRequestAdapter
 import { UserFormData } from '../../models/apiDrafts';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { RouterPath } from '../../models/RouterPath';
-import { MESSAGE_DURATION } from '../../constants/general';
 import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
-import { loginRequest } from '../../helpers/ApiClient/ClientBuilderLogin';
-import myTokenCache from '../../helpers/ApiClient/TokenStore';
+import { loginRequest } from '../../helpers/ApiClient/loginRequest';
 import getApiClient from '../../helpers/ApiClient/Client';
+import tokenCache from '../../helpers/ApiClient/tokenCache';
+import { alertSlice } from '../../store/alert.slice';
 
 const RegistrationForm = () => {
   const [registrationForm] = Form.useForm();
@@ -61,27 +61,20 @@ const RegistrationForm = () => {
     const userData = { email, lastName, firstName, password, dateOfBirth };
     const body = registrationRequestAdapter(addresses, userData);
     try {
-      const res = await getApiClient()().me().signup().post({ body: body }).execute();
+      await getApiClient()().me().signup().post({ body: body }).execute();
       await loginRequest(email, password);
-      await messageApi.open({
-        content: 'User created',
-        type: 'success',
-      });
+      dispatch(alertSlice.actions.success('User created'));
       dispatch(
         authSlice.actions.login({
-          token: myTokenCache.get().token,
+          token: tokenCache.get().token,
           username: `${firstName} ${lastName}`,
           remember: false,
         })
       );
-
       navigate(RouterPath.HOME);
-
-      console.log(res);
     } catch (e) {
       messageApi
         .open({
-          duration: MESSAGE_DURATION,
           content: e.message,
           type: 'error',
         })
