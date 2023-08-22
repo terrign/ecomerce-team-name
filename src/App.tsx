@@ -7,6 +7,7 @@ import { HashRouter } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { actions as userMenuActions } from './store/userMenu.slice';
 import Header from './components/Header';
+import initAuthState from './store/initAuthState';
 
 const { Content } = Layout;
 
@@ -15,6 +16,7 @@ const App: React.FC = () => {
   const menuHidden = useAppSelector((state) => state.userMenu.visible);
   const alert = useAppSelector((state) => state.alert);
   const [messageApi, contextHolder] = message.useMessage();
+  initAuthState();
 
   useEffect(() => {
     if (alert.content === '') return;

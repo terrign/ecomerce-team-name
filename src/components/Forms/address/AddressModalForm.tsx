@@ -94,7 +94,7 @@ const AddressModalForm = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="street" label="Street" rules={STREET_INPUT_RULES}>
+        <Form.Item name="streetName" label="Street" rules={STREET_INPUT_RULES}>
           <Input />
         </Form.Item>
 

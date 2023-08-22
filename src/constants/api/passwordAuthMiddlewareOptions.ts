@@ -3,6 +3,7 @@ import { AUTH_URL, CLIENT_ID, CLIENT_SECRET, PROJECT_KEY } from '../env';
 import tokenCache from '../../helpers/ApiClient/tokenCache';
 
 const getPasswordAuthOptions = (email: string, password: string): PasswordAuthMiddlewareOptions => {
+  console.log(email, password);
   return {
     host: AUTH_URL,
     projectKey: PROJECT_KEY,

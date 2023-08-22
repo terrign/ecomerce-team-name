@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ANONYMOUS_USER } from '../constants/UserMenus';
 import Cookie from '../utils/Cookie';
+import tokenCache from '../helpers/ApiClient/tokenCache';
 
 export type AuthState = {
   token: string | null;
@@ -42,6 +43,7 @@ export const authSlice = createSlice({
       state.username = ANONYMOUS_USER;
       state.remember = false;
       Cookie.delete('token');
+      tokenCache.set({ token: null, expirationTime: null, refreshToken: null });
     },
     updateUserName: (state: UserState, action: PayloadAction<UserState>) => {
       state.username = action.payload.username || 'User Name';
