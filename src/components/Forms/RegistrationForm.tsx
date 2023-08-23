@@ -23,7 +23,6 @@ import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
 import { loginRequest } from '../../helpers/ApiClient/loginRequest';
 import getApiClient from '../../helpers/ApiClient/Client';
-import tokenCache from '../../helpers/ApiClient/tokenCache';
 import { alertSlice } from '../../store/alert.slice';
 
 const RegistrationForm = () => {
@@ -64,13 +63,7 @@ const RegistrationForm = () => {
       await getApiClient()().me().signup().post({ body: body }).execute();
       await loginRequest(email, password);
       dispatch(alertSlice.actions.success('User created'));
-      dispatch(
-        authSlice.actions.login({
-          token: tokenCache.get().token,
-          username: `${firstName} ${lastName}`,
-          remember: false,
-        })
-      );
+      dispatch(authSlice.actions.login({ username: `${firstName} ${lastName}`, remember: false }));
       navigate(RouterPath.HOME);
     } catch (e) {
       messageApi

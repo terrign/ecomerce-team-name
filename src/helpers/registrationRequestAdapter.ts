@@ -43,9 +43,8 @@ const reduceDate = (value: DatePickerValue) =>
   `${value.$y}-${value.$M.toString().padStart(2, '0')}-${value.$D.toString().padStart(2, '0')}`;
 
 const registrationRequestAdapter: RegistrationRequestBody = (addresses, userData) => {
-  const addressesReduced = reduceAddresses(addresses);
   return {
-    ...addressesReduced,
+    ...reduceAddresses(addresses),
     email: userData.email,
     password: userData.password,
     lastName: userData.lastName,

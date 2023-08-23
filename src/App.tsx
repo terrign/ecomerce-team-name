@@ -25,6 +25,7 @@ const App: React.FC = () => {
       content: alert.content,
     });
   }, [alert.content]);
+
   const onClick = () => {
     if (menuHidden) {
       dispatch(userMenuActions.hide());

@@ -9,7 +9,6 @@ import { FORM_STYLE } from '../../constants/forms/form-style';
 import { EMAIL_INPUT_RULES, PASSWORD_INPUT_RULES } from '../../constants/forms/registration-form/rules';
 import { RouterPath } from '../../models/RouterPath';
 import { UserFormData } from '../../models/apiDrafts';
-import tokenCache from '../../helpers/ApiClient/tokenCache';
 import { alertSlice } from '../../store/alert.slice';
 
 const LoginForm: React.FC = () => {
@@ -33,7 +32,6 @@ const LoginForm: React.FC = () => {
       dispatch(alertSlice.actions.success('Successfull login'));
       dispatch(
         authSlice.actions.login({
-          token: tokenCache.get().token,
           username: `${resp.body.customer.firstName} ${resp.body.customer.lastName}`,
           remember,
         })
@@ -68,10 +66,6 @@ const LoginForm: React.FC = () => {
         <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
-
-        <a className="login-form-forgot" href="" style={{ float: 'right' }}>
-          Forgot password
-        </a>
       </Form.Item>
 
       <Form.Item>
