@@ -2,38 +2,57 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ANONYMOUS_USER } from '../constants/UserMenus';
 import Cookie from '../utils/Cookie';
 import tokenCache from '../helpers/ApiClient/tokenCache';
+import { TokenStore } from '@commercetools/sdk-client-v2';
 
 export type AuthState = {
-  token: string | null;
+  tokenStore: TokenStore;
   username: string;
   remember?: boolean;
 };
 
 const initialState = () => {
-  const auth = { token: Cookie.get('token'), username: ANONYMOUS_USER };
-  return auth as AuthState;
+  const authInitState: AuthState = {
+    tokenStore: {
+      token: Cookie.get('token'),
+      refreshToken: Cookie.get('refreshToken'),
+      expirationTime: 1,
+    },
+    username: ANONYMOUS_USER,
+  };
+  return authInitState;
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state: AuthState, action: PayloadAction<Omit<AuthState, 'token'>>) => {
-      state.token = tokenCache.get().token;
+    login: (state: AuthState, action: PayloadAction<Omit<AuthState, 'tokenStore'>>) => {
+      state.tokenStore = tokenCache.get();
       state.username = action.payload.username;
       state.remember = action.payload.remember ?? false;
       if (state.remember) {
-        Cookie.set('token', state.token ?? '');
-      } else Cookie.delete('token');
+        Cookie.set('token', state.tokenStore.token);
+        Cookie.set('refreshToken', state.tokenStore.refreshToken);
+      } else {
+        Cookie.delete('token');
+        Cookie.delete('refreshToken');
+      }
     },
     logout: (state: AuthState) => {
-      state.token = null;
+      state.tokenStore = { token: null, expirationTime: null, refreshToken: null };
       state.username = ANONYMOUS_USER;
       state.remember = false;
       Cookie.delete('token');
+      Cookie.delete('refreshToken');
       tokenCache.set({ token: null, expirationTime: null, refreshToken: null });
     },
-    updateUserName: (state: AuthState, action: PayloadAction<string>) => {
+    initAuthState: (state: AuthState, action: PayloadAction<string>) => {
+      state.tokenStore = {
+        token: Cookie.get('token'),
+        expirationTime: 99999999999,
+        refreshToken: Cookie.get('refreshToken'),
+      };
+      state.remember = true;
       state.username = action.payload;
     },
   },

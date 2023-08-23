@@ -3,17 +3,30 @@ import getPasswordRoot from './roots/passwordRoot';
 import getExistingTokenRoot from './roots/existingTokenRoot';
 import visitorRoot from './roots/visitorRoot';
 import { store } from '../../store/store';
+import getRefreshTokenRoot from './roots/refreshTokenRoot';
+
+interface Creds {
+  email: string;
+  password: string;
+}
 
 function getApiClient() {
-  const token = store.getState().auth.token;
-  return function getRoot(email?: string, password?: string): ByProjectKeyRequestBuilder {
-    if (email && password) {
-      return getPasswordRoot(email, password);
+  const tokenStore = store.getState().auth.tokenStore;
+  return function getRoot(params?: Creds | 'refresh'): ByProjectKeyRequestBuilder {
+    if (params === 'refresh') {
+      console.log('refresshToken');
+      return getRefreshTokenRoot(tokenStore.refreshToken);
     }
-    if (!token) {
+    if (params) {
+      console.log('passwordToken');
+      return getPasswordRoot(params.email, params.password);
+    }
+    if (!tokenStore.token) {
+      console.log('visitorToken');
       return visitorRoot;
     }
-    return getExistingTokenRoot(token);
+    console.log('existingToken');
+    return getExistingTokenRoot(tokenStore.token);
   };
 }
 

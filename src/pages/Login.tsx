@@ -6,7 +6,7 @@ import { RouterPath } from '../models/RouterPath';
 
 const Login = () => {
   const navigate = useNavigate();
-  const logged: boolean = useAppSelector((state) => state.auth.token > '') ?? false;
+  const logged: boolean = useAppSelector((state) => state.auth.tokenStore.token > '') ?? false;
   useEffect(() => {
     if (logged) navigate(RouterPath.HOME);
   }, [logged]);

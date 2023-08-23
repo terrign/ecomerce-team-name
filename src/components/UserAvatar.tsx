@@ -7,7 +7,7 @@ import { actions as userMenuActions } from '../store/userMenu.slice';
 
 const UserAvatar = () => {
   const dispatch = useAppDispatch();
-  const logged: boolean = useAppSelector((state) => state.auth.token > '') ?? false;
+  const logged: boolean = useAppSelector((state) => state.auth.tokenStore.token > '') ?? false;
   const visible: boolean = useAppSelector((state) => state.userMenu.visible);
   const title = useAppSelector((state) => state.auth.username);
   const styleLogged = logged ? 'header__user-logo_logged' : '';

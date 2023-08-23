@@ -10,7 +10,7 @@ import { RouterPath } from '../models/RouterPath';
 const SideMenu = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const logged: boolean = useAppSelector((state) => state.auth.token > '') ?? false;
+  const logged: boolean = useAppSelector((state) => state.auth.tokenStore.token > '') ?? false;
   const [collapsed, setCollapsed] = useState(window.innerWidth <= 768);
   const [showTrigger, setShowTrigger] = useState(!collapsed);
   const loc = useLocation().pathname;
