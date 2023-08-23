@@ -5,7 +5,7 @@ export interface AddressFormValues {
   types: AddressType[];
   country: string;
   city: string;
-  street: string;
+  streetName: string;
   building: string;
   apartment: string;
   zip: string;

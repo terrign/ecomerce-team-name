@@ -1,45 +1,46 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Checkbox, Form, Input, Button, message } from 'antd';
-import { loginRequest } from '../../helpers/ApiClient/ClientBuilderLogin';
+import { loginRequest } from '../../helpers/ApiClient/loginRequest';
 import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
 import { FORM_STYLE } from '../../constants/forms/form-style';
 import { EMAIL_INPUT_RULES, PASSWORD_INPUT_RULES } from '../../constants/forms/registration-form/rules';
-import { MESSAGE_DURATION } from '../../constants/general';
 import { RouterPath } from '../../models/RouterPath';
 import { UserFormData } from '../../models/apiDrafts';
+import tokenCache from '../../helpers/ApiClient/tokenCache';
+import { alertSlice } from '../../store/alert.slice';
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const [loginForm] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
-
-  const success = () =>
-    messageApi.open({
-      duration: MESSAGE_DURATION,
-      type: 'success',
-      content: 'Successfull login',
-    });
+  const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const error = (message: string) =>
     messageApi.open({
-      duration: MESSAGE_DURATION,
       type: 'error',
       content: message,
     });
 
   const login = async () => {
+    setSubmitDisabled(true);
     const { email, password, remember }: UserFormData = loginForm.getFieldsValue();
     try {
       const resp = await loginRequest(email, password);
-      success().then(() => navigate(RouterPath.HOME));
-      const username = `${resp.body.customer.firstName} ${resp.body.customer.lastName}`;
-      dispatch(authSlice.actions.login({ token: 'anytoken', username, remember }));
+      dispatch(alertSlice.actions.success('Successfull login'));
+      dispatch(
+        authSlice.actions.login({
+          token: tokenCache.get().token,
+          username: `${resp.body.customer.firstName} ${resp.body.customer.lastName}`,
+          remember,
+        })
+      );
+      navigate(RouterPath.HOME);
     } catch (err) {
-      error(err.message);
+      error(err.message).then(() => setSubmitDisabled(false));
     }
   };
 
@@ -74,10 +75,16 @@ const LoginForm: React.FC = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button style={{ width: '100%' }} type="primary" htmlType="submit" className="login-form-button">
+        <Button
+          style={{ width: '100%' }}
+          type="primary"
+          htmlType="submit"
+          className="login-form-button"
+          disabled={submitDisabled}
+        >
           Log in
         </Button>
-        Or <a href="">register now!</a>
+        Or <NavLink to={RouterPath.REG}>register now!</NavLink>
       </Form.Item>
     </Form>
   );

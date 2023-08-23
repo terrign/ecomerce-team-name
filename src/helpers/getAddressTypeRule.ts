@@ -5,6 +5,7 @@ import { AddressFormMode, RegFormContext } from '../context/RegistrationFormCont
 const getAddressTypeRule = (context: RegFormContext, checkType: AddressType): Rule => {
   return () => ({
     validator(_, value: AddressType[]) {
+      if (!value) return Promise.resolve();
       if (value.includes(checkType)) {
         const error = new Error(`You can set only 1 ${checkType} address`);
         if (context.addressFormMode === AddressFormMode.EDIT) {

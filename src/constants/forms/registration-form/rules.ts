@@ -3,8 +3,9 @@ import { DatePickerValue } from '../../../models/DatePickerValue';
 
 const MIN_CUSTOMER_AGE = 13;
 
-const VALID_PASSWORD_MATCHER = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/; //8 symbols min, 1 uppercase, 1 lowercase, 1 number
+const VALID_PASSWORD_MATCHER = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/; //8 symbols min, 1 uppercase, 1 lowercase, 1 number
 
+const VALID_NAME_MATHCER = /[A-Z А-Я,.']{1,}$/gi;
 const isOldEnough = (date: DatePickerValue | null) =>
   date && new Date(date.$y + MIN_CUSTOMER_AGE, date.$M, date.$D) < new Date();
 
@@ -19,9 +20,15 @@ const EMAIL_INPUT_RULES: Rule[] = [
   },
 ];
 
-const FIRST_NAME_INPUT_RULES: Rule[] = [{ required: true, message: 'Please enter your First Name' }];
+const FIRST_NAME_INPUT_RULES: Rule[] = [
+  { required: true, message: 'Please enter your First Name' },
+  { pattern: VALID_NAME_MATHCER, message: 'Name must not contain special characters or numbers' },
+];
 
-const LAST_NAME_INPUT_RULES: Rule[] = [{ required: true, message: 'Please enter your Last Name' }];
+const LAST_NAME_INPUT_RULES: Rule[] = [
+  { required: true, message: 'Please enter your Last Name' },
+  { pattern: VALID_NAME_MATHCER, message: 'Name must not contain special characters or number' },
+];
 
 const BIRTH_DATE_INPUT_RULES: Rule[] = [
   {
@@ -73,4 +80,5 @@ export {
   FIRST_NAME_INPUT_RULES,
   EMAIL_INPUT_RULES,
   VALID_PASSWORD_MATCHER,
+  VALID_NAME_MATHCER,
 };

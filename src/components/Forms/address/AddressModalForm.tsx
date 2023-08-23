@@ -6,7 +6,6 @@ import RegFormContext, { AddressFormMode } from '../../../context/RegistrationFo
 import { ADDRESS_TYPES } from '../../../constants/forms/address-form/address-types';
 import { FORM_ITEM_LAYOUT } from '../../../constants/forms/antd-form-layouts';
 import {
-  ADDRESS_TYPE_STRING,
   CITY_INPUT_RULES,
   COUNTRY_INPUT_RULES,
   STREET_INPUT_RULES,
@@ -14,6 +13,7 @@ import {
   getNameRules,
   getTypeRules,
 } from '../../../constants/forms/address-form/rules';
+import { getRandomKey } from '../../../helpers/getRandomReactKey';
 const { Option } = Select;
 
 const AddressModalForm = () => {
@@ -71,10 +71,10 @@ const AddressModalForm = () => {
         <Form.Item label="Address Name" name="key" tooltip="Unique address name" rules={getNameRules(context)}>
           <Input />
         </Form.Item>
-        <Form.Item label="Address Type" name="types" tooltip={ADDRESS_TYPE_STRING} rules={getTypeRules(context)}>
+        <Form.Item label="Address Type" name="types" rules={getTypeRules(context)}>
           <Select mode="multiple" placeholder="Select address type">
             {ADDRESS_TYPES.map((a) => (
-              <Option value={a} key={a}>
+              <Option value={a} key={getRandomKey(a)}>
                 {a}
               </Option>
             ))}
@@ -94,7 +94,7 @@ const AddressModalForm = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="street" label="Street" rules={STREET_INPUT_RULES}>
+        <Form.Item name="streetName" label="Street" rules={STREET_INPUT_RULES}>
           <Input />
         </Form.Item>
 

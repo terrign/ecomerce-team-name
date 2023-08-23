@@ -3,8 +3,9 @@ import { COUNTRIES } from './countries';
 import { AddressFormMode, RegFormContext } from '../../../context/RegistrationFormContext';
 import { AddressType } from './address-types';
 import getAddressTypeRule from '../../../helpers/getAddressTypeRule';
+import { VALID_NAME_MATHCER } from '../registration-form/rules';
 
-const VALID_CITY_MATCHER = /^[a-zA-ZА-Яа-я/s]{1,}$/;
+const VALID_CITY_MATCHER = VALID_NAME_MATHCER;
 
 const COUNTRY_INPUT_RULES: Rule[] = [
   {
@@ -53,9 +54,10 @@ const getNameRules = (context: RegFormContext): Rule[] => {
   return [
     () => ({
       validator(_, value) {
-        if (value === '') {
-          return Promise.resolve();
-        }
+        // console.log(value);
+        // if (value === undefined) {
+        //   return Promise.resolve();
+        // }
         if (context.addressFormMode === AddressFormMode.EDIT) {
           const addressNamesExcludingCurrent = context.addresses.items.reduce(
             (acc, a, i) => (i === context.addressItemIndex ? acc : [...acc, a.key]),
@@ -72,6 +74,10 @@ const getNameRules = (context: RegFormContext): Rule[] => {
         return Promise.reject(new Error('Address name must be unique'));
       },
     }),
+    {
+      required: true,
+      message: 'Please enter address name',
+    },
   ];
 };
 
@@ -79,18 +85,11 @@ const getTypeRules = (context: RegFormContext): Rule[] => {
   return [
     getAddressTypeRule(context, AddressType.BILLING_DEFAULT),
     getAddressTypeRule(context, AddressType.SHIPPING_DEFAULT),
+    {
+      required: true,
+      message: 'Please select address types',
+    },
   ];
 };
 
-const ADDRESS_TYPE_STRING =
-  'You can choose address types now or later, but only 1 Default Shipping and 1 Default Billing addresses can be set';
-
-export {
-  ZIP_INPUT_RULES,
-  STREET_INPUT_RULES,
-  CITY_INPUT_RULES,
-  COUNTRY_INPUT_RULES,
-  ADDRESS_TYPE_STRING,
-  getNameRules,
-  getTypeRules,
-};
+export { ZIP_INPUT_RULES, STREET_INPUT_RULES, CITY_INPUT_RULES, COUNTRY_INPUT_RULES, getNameRules, getTypeRules };

@@ -1,5 +1,5 @@
-export class Cookie {
-  public get(key: string) {
+class Cookies {
+  public get(key: string): string | null {
     const items = document.cookie.split('; ');
     let value = '';
     for (const item of items) {
@@ -9,7 +9,7 @@ export class Cookie {
         break;
       }
     }
-    return value;
+    return value || null;
   }
 
   public set(key: string, value: string, time = 1): void {
@@ -22,3 +22,6 @@ export class Cookie {
     document.cookie = `${key}=;  Max-Age=0`;
   }
 }
+
+const Cookie = new Cookies();
+export default Cookie;
