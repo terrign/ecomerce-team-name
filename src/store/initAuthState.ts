@@ -22,7 +22,7 @@ const initAuthState = () => {
             .get()
             .execute()
             .then((res) => {
-              dispatch(authSlice.actions.initAuthState(`${res.body.firstName} ${res.body.lastName}`));
+              dispatch(authSlice.actions.initAuthStateWithRefresh(`${res.body.firstName} ${res.body.lastName}`));
             })
             .catch(() => dispatch(authSlice.actions.logout()));
         });

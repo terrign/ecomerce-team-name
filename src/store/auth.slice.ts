@@ -55,6 +55,11 @@ export const authSlice = createSlice({
       state.remember = true;
       state.username = action.payload;
     },
+    initAuthStateWithRefresh: (state: AuthState, action: PayloadAction<string>) => {
+      state.tokenStore = tokenCache.get();
+      state.remember = true;
+      state.username = action.payload;
+    },
   },
 });
 
