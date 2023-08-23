@@ -4,6 +4,8 @@ import Cookie from '../utils/Cookie';
 import tokenCache from '../helpers/ApiClient/tokenCache';
 import { TokenStore } from '@commercetools/sdk-client-v2';
 
+const NO_EXPIRATION = 99999999999;
+
 export type AuthState = {
   tokenStore: TokenStore;
   username: string;
@@ -15,7 +17,7 @@ const initialState = () => {
     tokenStore: {
       token: Cookie.get('token'),
       refreshToken: Cookie.get('refreshToken'),
-      expirationTime: 1,
+      expirationTime: NO_EXPIRATION,
     },
     username: ANONYMOUS_USER,
   };
@@ -49,7 +51,7 @@ export const authSlice = createSlice({
     initAuthState: (state: AuthState, action: PayloadAction<string>) => {
       state.tokenStore = {
         token: Cookie.get('token'),
-        expirationTime: 99999999999,
+        expirationTime: NO_EXPIRATION,
         refreshToken: Cookie.get('refreshToken'),
       };
       state.remember = true;
