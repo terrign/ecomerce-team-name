@@ -55,7 +55,7 @@ const LoginForm: React.FC = () => {
       <Form.Item name="email" rules={EMAIL_INPUT_RULES}>
         <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
       </Form.Item>
-      <Form.Item name="password" rules={PASSWORD_INPUT_RULES} hasFeedback>
+      <Form.Item name="password" rules={PASSWORD_INPUT_RULES} hasFeedback validateFirst>
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"

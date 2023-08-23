@@ -112,7 +112,7 @@ const RegistrationForm = () => {
           <DatePicker />
         </Form.Item>
 
-        <Form.Item name="password" label="Password" rules={PASSWORD_INPUT_RULES} hasFeedback>
+        <Form.Item name="password" label="Password" rules={PASSWORD_INPUT_RULES} hasFeedback validateFirst>
           <Input.Password />
         </Form.Item>
 
