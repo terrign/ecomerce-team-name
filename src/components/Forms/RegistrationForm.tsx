@@ -60,7 +60,7 @@ const RegistrationForm = () => {
     const userData = { email, lastName, firstName, password, dateOfBirth };
     const body = registrationRequestAdapter(addresses, userData);
     try {
-      await getApiClient()().me().signup().post({ body: body }).execute();
+      await getApiClient().me().signup().post({ body: body }).execute();
       await loginRequest(email, password);
       dispatch(alertSlice.actions.success('User created'));
       dispatch(authSlice.actions.login({ username: `${firstName} ${lastName}`, remember: false }));

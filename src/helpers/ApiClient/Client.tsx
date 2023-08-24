@@ -10,7 +10,7 @@ interface Creds {
   password: string;
 }
 
-function getApiClient() {
+function ApiClient() {
   const tokenStore = store.getState().auth.tokenStore;
   return function getRoot(params?: Creds | 'refresh'): ByProjectKeyRequestBuilder {
     if (params === 'refresh') {
@@ -29,5 +29,7 @@ function getApiClient() {
     return getExistingTokenRoot(tokenStore.token);
   };
 }
+
+const getApiClient = ApiClient();
 
 export default getApiClient;

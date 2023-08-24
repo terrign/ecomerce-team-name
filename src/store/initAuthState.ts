@@ -9,7 +9,7 @@ const initAuthState = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (authState.tokenStore.token && authState.username === ANONYMOUS_USER) {
-      getApiClient()()
+      getApiClient()
         .me()
         .get()
         .execute()
@@ -17,7 +17,7 @@ const initAuthState = () => {
           dispatch(authSlice.actions.initAuthState(`${res.body.firstName} ${res.body.lastName}`));
         })
         .catch(() => {
-          getApiClient()('refresh')
+          getApiClient('refresh')
             .me()
             .get()
             .execute()
