@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { RouterPath } from '../models/RouterPath';
-// import Test from '../helpers/ApiClient/tokenStore/temp';
 const Main = () => {
   return (
     <ul>
