@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './hooks';
 import getApiClient from '../helpers/ApiClient/getApiClient';
-import { ANONYMOUS_USER } from '../constants/UserMenus';
 import { authSlice } from './auth.slice';
+import { ANONYMOUS_USER } from '../constants/general';
 
 const initAuthState = () => {
   const authState = useAppSelector((state) => state.auth);

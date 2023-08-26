@@ -61,7 +61,7 @@
     "jest-environment-jsdom": "^29.6.2",
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.1",
-    "react-router-dom": "^6.14.2",
+    "react-router-dom": "^6.15.0",
     "style-loader": "^3.3.3",
     "ts-jest": "^29.1.1",
     "ts-loader": "^9.4.4",
