@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import MainRoutes from './routes/MainRoutes';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import initAuthState from './store/initAuthState';
 import SideMenu from './components/UI/SideMenu';
 import MainLayout from './components/UI/MainLayout';
@@ -11,14 +11,14 @@ const App: React.FC = () => {
   initAuthState();
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <MainLayout>
         <SideMenu />
         <ContentLayout>
           <MainRoutes />
         </ContentLayout>
       </MainLayout>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 export default App;
