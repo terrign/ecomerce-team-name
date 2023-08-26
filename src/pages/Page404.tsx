@@ -9,9 +9,9 @@ const Page404 = () => {
     <div className="page-404">
       <Typography.Paragraph>
         return to{' '}
-        <Typography.Link>
+        <Typography.Text>
           <Link to={RouterPath.HOME}>Home Page</Link>
-        </Typography.Link>
+        </Typography.Text>
       </Typography.Paragraph>
       <img className="page404" src={image404} />
     </div>
