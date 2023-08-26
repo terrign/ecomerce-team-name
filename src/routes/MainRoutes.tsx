@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Home from '../pages/Home';
 import Registration from '../pages/Registration';
 import Login from '../pages/Login';
@@ -10,9 +10,6 @@ import Catalog from '../pages/Catalog';
 import User from '../pages/User';
 
 const MainRoutes = () => {
-  const location = useLocation();
-  console.log(location);
-  console.log(window.location.href);
   return (
     <Routes>
       <Route path={RouterPath.HOME} element={<Home />}></Route>

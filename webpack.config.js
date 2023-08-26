@@ -13,7 +13,7 @@ const baseConfig = (env) => {
     output: {
       path: path.join(__dirname, '/dist'),
       filename: '[id].app.js',
-      publicPath: 'auto',
+      publicPath: '/',
     },
     devServer: {
       port: 8080,
