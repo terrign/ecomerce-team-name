@@ -7,11 +7,13 @@ import { MAIN_ITEMS_ANONYMOUS_USER, MAIN_ITEMS_LOGGED_USER } from '../constants/
 import { actions as authActions } from '../store/auth.slice';
 import { RouterPath } from '../models/RouterPath';
 
+export const LAYOUT_BREAKPOINT = 768; //antd-layout breakpoint - md.
+
 const SideMenu = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const logged: boolean = useAppSelector((state) => state.auth.tokenStore.token > '') ?? false;
-  const [collapsed, setCollapsed] = useState(window.innerWidth <= 768);
+  const [collapsed, setCollapsed] = useState(window.innerWidth <= LAYOUT_BREAKPOINT);
   const [showTrigger, setShowTrigger] = useState(!collapsed);
   const loc = useLocation().pathname;
   const items = logged ? MAIN_ITEMS_LOGGED_USER : MAIN_ITEMS_ANONYMOUS_USER;

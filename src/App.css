@@ -4,25 +4,5 @@ body {
 
 .site-layout .site-layout-background {
   background: #ffffff;
-  padding: 0;
   margin: 0px 16px;
-}
-
-.header {
-  text-align: right;
-  margin: 0;
-  padding: 0px 16px 0px 16px;
-}
-
-.header__user-logo {
-  background-color: #bbbbbb;
-  margin-right: 20px;
-}
-
-.header__user-logo:hover {
-  cursor: pointer;
-}
-
-.header__user-logo_logged {
-  background-color: #87d068;
 }
