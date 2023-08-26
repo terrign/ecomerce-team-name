@@ -3,6 +3,7 @@ import { Layout } from 'antd';
 import { PropsWithChildren } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { actions as userMenuActions } from '../../store/userMenu.slice';
+import './Layout.css';
 
 const MainLayout = (props: PropsWithChildren) => {
   const dispatch = useAppDispatch();
@@ -13,7 +14,7 @@ const MainLayout = (props: PropsWithChildren) => {
     }
   };
   return (
-    <Layout className="main-layout" style={{ minHeight: '100vh' }} onClick={onClick} hasSider>
+    <Layout className="main-layout" onClick={onClick} hasSider>
       {props.children}
     </Layout>
   );

@@ -7,15 +7,7 @@ const ContentLayout = (props: PropsWithChildren) => {
   return (
     <Layout>
       <Header />
-      <Content
-        className="site-layout-background"
-        style={{
-          margin: '24px 16px',
-          padding: 24,
-        }}
-      >
-        {props.children}
-      </Content>
+      <Content className="site-layout-background">{props.children}</Content>
     </Layout>
   );
 };
