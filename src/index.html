@@ -5,6 +5,11 @@
     <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>eCommerce</title>
+    <script>
+      const url = location.href.split(window.location.host);
+      if (!url[1].startsWith('/#/') && url[1].replace('/', ''))
+        location.href = `${url[0]}${window.location.host}/#/error404`;
+    </script>
   </head>
   <body>
     <div id="root"></div>
