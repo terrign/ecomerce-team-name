@@ -11,7 +11,7 @@ const UserMenu = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth);
-  const menuItems = authState.token ? ITEMS_LOGGED_USER : ITEMS_ANONYMOUS_USER;
+  const menuItems = authState.tokenStore.token ? ITEMS_LOGGED_USER : ITEMS_ANONYMOUS_USER;
   const onClick = ({ key }: Parameters<MenuProps['onClick']>[0]) => {
     dispatch(userMenuActions.toggle());
     if (RouterPath.LOGOUT === key) {

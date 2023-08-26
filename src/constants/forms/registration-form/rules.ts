@@ -55,6 +55,14 @@ const PASSWORD_INPUT_RULES: Rule[] = [
     message:
       'Password must contain minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number',
   },
+  () => ({
+    validator(_, value: string) {
+      if (value !== value.trim()) {
+        return Promise.reject(new Error(`Passwords should not contain leading or trailing whitespace`));
+      }
+      return Promise.resolve();
+    },
+  }),
 ];
 
 const CONFIRM_PASSWORD_INPUT_RULES: Rule[] = [

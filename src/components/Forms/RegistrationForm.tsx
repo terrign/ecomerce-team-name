@@ -22,8 +22,7 @@ import { RouterPath } from '../../models/RouterPath';
 import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
 import { loginRequest } from '../../helpers/ApiClient/loginRequest';
-import getApiClient from '../../helpers/ApiClient/Client';
-import tokenCache from '../../helpers/ApiClient/tokenCache';
+import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { alertSlice } from '../../store/alert.slice';
 
 const RegistrationForm = () => {
@@ -61,16 +60,10 @@ const RegistrationForm = () => {
     const userData = { email, lastName, firstName, password, dateOfBirth };
     const body = registrationRequestAdapter(addresses, userData);
     try {
-      await getApiClient()().me().signup().post({ body: body }).execute();
+      await getApiClient().me().signup().post({ body: body }).execute();
       await loginRequest(email, password);
       dispatch(alertSlice.actions.success('User created'));
-      dispatch(
-        authSlice.actions.login({
-          token: tokenCache.get().token,
-          username: `${firstName} ${lastName}`,
-          remember: false,
-        })
-      );
+      dispatch(authSlice.actions.login({ username: `${firstName} ${lastName}`, remember: false }));
       navigate(RouterPath.HOME);
     } catch (e) {
       messageApi
@@ -119,7 +112,7 @@ const RegistrationForm = () => {
           <DatePicker />
         </Form.Item>
 
-        <Form.Item name="password" label="Password" rules={PASSWORD_INPUT_RULES} hasFeedback>
+        <Form.Item name="password" label="Password" rules={PASSWORD_INPUT_RULES} hasFeedback validateFirst>
           <Input.Password />
         </Form.Item>
 

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import getMenuItem, { MenuItem } from '../helpers/getMenuItem';
 import { RouterPath } from '../models/RouterPath';
 
-const ANONYMOUS_USER = 'Anounymous User';
+const ANONYMOUS_USER = 'Anonymous User';
 const ITEMS_ANONYMOUS_USER: MenuItem[] = [
   getMenuItem(<NavLink to={RouterPath.LOGIN}>Login</NavLink>, RouterPath.LOGIN, <UserOutlined />),
   getMenuItem(<NavLink to={RouterPath.REG}>Register</NavLink>, RouterPath.REG, <UserOutlined />),

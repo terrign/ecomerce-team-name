@@ -1262,13 +1262,6 @@ export const COUNTRIES: CountryInfo[] = [
     Regex: '^\\d{4}$',
   },
   {
-    Note: '',
-    Country: 'Portugal',
-    ISO: 'PT',
-    Format: 'NNNN-NNN (NNNN NNN)',
-    Regex: '^\\d{4}[- ]{0,1}\\d{3}$',
-  },
-  {
     Note: 'U.S. ZIP codes. ZIP codes 006XX for NW PR, 007XX for SE PR, in which XX designates the town or post office and 009XX for the San Juan Metropolitan Area, in which XX designates the area or borough of San Juan. The last four digits identify an area within the post office. For example 00716-2604: 00716-for the east section of the city of Ponce and 2604 for Aceitillo St. in the neighborhood of Los Caobos. US Post office is changing the PR address format to the American one: 1234 No Name Avenue, San Juan, PR 00901.',
     Country: 'Puerto Rico',
     ISO: 'PR',

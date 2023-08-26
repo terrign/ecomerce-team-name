@@ -1,3 +1,5 @@
+const COOKIE_EXPIRATION_TIME_IN_DAYS = 200;
+
 class Cookies {
   public get(key: string): string | null {
     const items = document.cookie.split('; ');
@@ -12,7 +14,7 @@ class Cookies {
     return value || null;
   }
 
-  public set(key: string, value: string, time = 1): void {
+  public set(key: string, value: string, time = COOKIE_EXPIRATION_TIME_IN_DAYS): void {
     const date = new Date();
     date.setTime(date.getTime() + time * 24 * 60 * 60 * 1000);
     document.cookie = `${key}=${encodeURIComponent(value ?? '')}; expires=${date.toUTCString()} `;
