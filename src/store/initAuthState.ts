@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './hooks';
-import getApiClient from '../helpers/ApiClient/Client';
+import getApiClient from '../helpers/ApiClient/getApiClient';
 import { ANONYMOUS_USER } from '../constants/UserMenus';
 import { authSlice } from './auth.slice';
 

@@ -22,7 +22,7 @@ import { RouterPath } from '../../models/RouterPath';
 import { useAppDispatch } from '../../store/hooks';
 import { authSlice } from '../../store/auth.slice';
 import { loginRequest } from '../../helpers/ApiClient/loginRequest';
-import getApiClient from '../../helpers/ApiClient/Client';
+import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { alertSlice } from '../../store/alert.slice';
 
 const RegistrationForm = () => {
