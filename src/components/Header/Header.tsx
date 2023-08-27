@@ -5,18 +5,21 @@ import './Header.css';
 import { Link } from 'react-router-dom';
 import UserAvatar from './UserAvatar';
 import { RouterPath } from '../../models/RouterPath';
-import { useAppSelector } from '../../store/hooks';
-
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { actions as alertActions } from '../../store/alert.slice';
 const Header = () => {
+  const dispatch = useAppDispatch();
   const alert = useAppSelector((state) => state.alert);
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     if (alert.content === '') return;
-    messageApi.open({
-      type: alert.type,
-      content: alert.content,
-    });
+    messageApi
+      .open({
+        type: alert.type,
+        content: alert.content,
+      })
+      .then(() => dispatch(alertActions.clear()));
   }, [alert.content]);
   return (
     <Layout.Header className="site-layout-background header">
