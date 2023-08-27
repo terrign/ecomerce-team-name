@@ -3,7 +3,7 @@ export enum RouterPath {
   REG = '/registration',
   LOGIN = '/login',
   CATALOG = '/catalog',
-  PRODUCT = '/product/:productId',
+  PRODUCT = '/product',
   NOT_FOUND = '*',
   USER = '/user',
 }
