@@ -1,6 +1,7 @@
 import React from 'react';
+import { CatalogList } from '../components/Catalog/catalogList';
 const Catalog = () => {
-  return <div>CATALOG PAGE</div>;
+  return <CatalogList />;
 };
 
 export default Catalog;
