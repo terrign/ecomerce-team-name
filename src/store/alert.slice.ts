@@ -19,6 +19,9 @@ export const alertSlice = createSlice({
       state.content = action.payload;
       state.type = 'error';
     },
+    clear: (state: ArgsProps) => {
+      state.content = '';
+    },
   },
 });
 

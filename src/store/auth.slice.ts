@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ANONYMOUS_USER } from '../constants/UserMenus';
 import Cookie from '../utils/Cookie';
 import tokenCache from '../helpers/ApiClient/tokenCache';
 import { TokenStore } from '@commercetools/sdk-client-v2';
+import { ANONYMOUS_USER } from '../constants/general';
 
 const NO_EXPIRATION = 99999999999;
 

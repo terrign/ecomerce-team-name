@@ -1,20 +1,19 @@
 import React from 'react';
 import { Menu, MenuProps } from 'antd';
-import { ITEMS_ANONYMOUS_USER, ITEMS_LOGGED_USER } from '../constants/UserMenus';
-import { useAppSelector, useAppDispatch } from '../store/hooks';
-import { actions as userMenuActions } from '../store/userMenu.slice';
-import { actions as authActions } from '../store/auth.slice';
-import { RouterPath } from '../models/RouterPath';
+import { actions as userMenuActions } from '../../store/userMenu.slice';
 import { useNavigate } from 'react-router-dom';
+import { actions as authActions } from '../../store/auth.slice';
+import getUserMenuItemList from '../../helpers/getUserMenuItemList';
+import { RouterPath } from '../../models/RouterPath';
+import { useAppDispatch } from '../../store/hooks';
 
 const UserMenu = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const authState = useAppSelector((state) => state.auth);
-  const menuItems = authState.tokenStore.token ? ITEMS_LOGGED_USER : ITEMS_ANONYMOUS_USER;
+  const menuItems = getUserMenuItemList();
   const onClick = ({ key }: Parameters<MenuProps['onClick']>[0]) => {
     dispatch(userMenuActions.toggle());
-    if (RouterPath.LOGOUT === key) {
+    if (key === 'Logout') {
       dispatch(authActions.logout());
       navigate(RouterPath.HOME);
     }
