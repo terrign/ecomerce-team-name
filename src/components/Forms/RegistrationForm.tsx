@@ -24,6 +24,7 @@ import { authSlice } from '../../store/auth.slice';
 import { loginRequest } from '../../helpers/ApiClient/loginRequest';
 import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { alertSlice } from '../../store/alert.slice';
+import { customerSlice } from '../../store/customer.slice';
 
 const RegistrationForm = () => {
   const [registrationForm] = Form.useForm();
@@ -61,7 +62,8 @@ const RegistrationForm = () => {
     const body = registrationRequestAdapter(addresses, userData);
     try {
       await getApiClient().me().signup().post({ body: body }).execute();
-      await loginRequest(email, password);
+      const res = await loginRequest(email, password);
+      dispatch(customerSlice.actions.set(res.body.customer));
       dispatch(alertSlice.actions.success('User created'));
       dispatch(authSlice.actions.login({ username: `${firstName} ${lastName}`, remember: false }));
       navigate(RouterPath.HOME);

@@ -2,18 +2,18 @@ import React, { useEffect } from 'react';
 import { useAppSelector } from '../store/hooks';
 import { useNavigate } from 'react-router-dom';
 import { RouterPath } from '../models/RouterPath';
+import UserProfile from '../components/UserProfile/UserProfile';
+
 const User = () => {
-  const isLogged = useAppSelector((state) => Boolean(state.auth.tokenStore.token));
   const navigate = useNavigate();
+  const logged: boolean = useAppSelector((state) => state.auth.tokenStore.token > '') ?? false;
 
   useEffect(() => {
-    if (!isLogged) navigate(RouterPath.LOGIN);
-  }, []);
-
-  if (!isLogged) {
-    return <></>;
-  }
-  return <div>User profile</div>;
+    if (!logged) {
+      navigate(RouterPath.HOME);
+    }
+  }, [logged]);
+  return <>{logged && <UserProfile></UserProfile>}</>;
 };
 
 export default User;
