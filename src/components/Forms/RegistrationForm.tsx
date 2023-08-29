@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Button, Form, Input, DatePicker, message } from 'antd';
 import {
   BIRTH_DATE_INPUT_RULES,
-  CONFIRM_PASSWORD_INPUT_RULES,
   EMAIL_INPUT_RULES,
   FIRST_NAME_INPUT_RULES,
   LAST_NAME_INPUT_RULES,
   PASSWORD_INPUT_RULES,
+  getConfirmPasswoordInputRules,
 } from '../../constants/forms/registration-form/rules';
 import { FORM_STYLE } from '../../constants/forms/form-style';
 import FormAddressControlledList from './address/AddressFormControlledList';
@@ -102,15 +102,15 @@ const RegistrationForm = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="firstName" label="First Name" rules={FIRST_NAME_INPUT_RULES}>
+        <Form.Item name="firstName" label="First name" rules={FIRST_NAME_INPUT_RULES}>
           <Input />
         </Form.Item>
 
-        <Form.Item name="lastName" label="Last Name" rules={LAST_NAME_INPUT_RULES}>
+        <Form.Item name="lastName" label="Last name" rules={LAST_NAME_INPUT_RULES}>
           <Input />
         </Form.Item>
 
-        <Form.Item name="dateOfBirth" label="Birth Date" rules={BIRTH_DATE_INPUT_RULES} validateFirst>
+        <Form.Item name="dateOfBirth" label="Birth date" rules={BIRTH_DATE_INPUT_RULES} validateFirst>
           <DatePicker inputReadOnly />
         </Form.Item>
 
@@ -120,10 +120,10 @@ const RegistrationForm = () => {
 
         <Form.Item
           name="confirm"
-          label="Confirm Password"
+          label="Confirm password"
           dependencies={['password']}
           hasFeedback
-          rules={CONFIRM_PASSWORD_INPUT_RULES}
+          rules={getConfirmPasswoordInputRules('password')}
         >
           <Input.Password />
         </Form.Item>

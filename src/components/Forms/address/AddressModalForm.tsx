@@ -68,10 +68,10 @@ const AddressModalForm = () => {
         autoComplete="off"
         onFinish={onSubmit}
       >
-        <Form.Item label="Address Name" name="key" tooltip="Unique address name" rules={getNameRules(context)}>
+        <Form.Item label="Address name" name="key" tooltip="Unique address name" rules={getNameRules(context)}>
           <Input />
         </Form.Item>
-        <Form.Item label="Address Type" name="types" rules={getTypeRules(context)}>
+        <Form.Item label="Address type" name="types" rules={getTypeRules(context)}>
           <Select mode="multiple" placeholder="Select address type">
             {ADDRESS_TYPES.map((a) => (
               <Option value={a} key={getRandomKey(a)}>
@@ -108,7 +108,7 @@ const AddressModalForm = () => {
 
         <Form.Item
           name="zip"
-          label="Postal Code"
+          label="Postal code"
           rules={ZIP_INPUT_RULES}
           dependencies={['country']}
           tooltip={zipTooltip}

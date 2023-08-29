@@ -11,7 +11,7 @@ import {
 
 export const USER_CARD_TYPE_MAP = {
   email: { title: 'E-mail', rules: EMAIL_INPUT_RULES, action: changeEmail },
-  dateOfBirth: { title: 'Birth Date', rules: BIRTH_DATE_INPUT_RULES, action: setDateOfBirth },
-  firstName: { title: 'First Name', rules: FIRST_NAME_INPUT_RULES, action: setFirstName },
-  lastName: { title: 'Last Name', rules: LAST_NAME_INPUT_RULES, action: setLastName },
+  dateOfBirth: { title: 'Birth date', rules: BIRTH_DATE_INPUT_RULES, action: setDateOfBirth },
+  firstName: { title: 'First name', rules: FIRST_NAME_INPUT_RULES, action: setFirstName },
+  lastName: { title: 'Last name', rules: LAST_NAME_INPUT_RULES, action: setLastName },
 };

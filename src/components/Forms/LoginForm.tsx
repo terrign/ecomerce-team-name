@@ -55,7 +55,7 @@ const LoginForm: React.FC = () => {
     >
       {contextHolder}
       <Form.Item name="email" rules={EMAIL_INPUT_RULES}>
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="E-mail" />
       </Form.Item>
       <Form.Item name="password" rules={PASSWORD_INPUT_RULES} hasFeedback validateFirst>
         <Input.Password
