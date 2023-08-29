@@ -111,7 +111,7 @@ const RegistrationForm = () => {
         </Form.Item>
 
         <Form.Item name="dateOfBirth" label="Birth Date" rules={BIRTH_DATE_INPUT_RULES} validateFirst>
-          <DatePicker />
+          <DatePicker inputReadOnly />
         </Form.Item>
 
         <Form.Item name="password" label="Password" rules={PASSWORD_INPUT_RULES} hasFeedback validateFirst>

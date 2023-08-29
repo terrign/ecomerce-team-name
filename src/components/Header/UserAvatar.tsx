@@ -9,7 +9,7 @@ const UserAvatar = () => {
   const dispatch = useAppDispatch();
   const logged: boolean = useAppSelector((state) => state.auth.tokenStore.token > '') ?? false;
   const visible: boolean = useAppSelector((state) => state.userMenu.visible);
-  const title = useAppSelector((state) => state.auth.username);
+  const title = useAppSelector((state) => state.customer.info?.firstName + ' ' + state.customer.info?.lastName);
   const styleLogged = logged ? 'header__user-logo_logged' : '';
   const onClick = (event: React.SyntheticEvent) => {
     event.stopPropagation();
