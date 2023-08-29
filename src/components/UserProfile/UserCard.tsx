@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
 import dayjs from 'dayjs';
-import { Button, Card, DatePicker, Form, Input, Skeleton } from 'antd';
+import { Button, Card, DatePicker, Form, Input, Skeleton, Space } from 'antd';
 import { SaveOutlined, RollbackOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { UserInfoCardType } from '../../models/UserInfoCardType';
@@ -11,7 +11,7 @@ import { reduceDate } from '../../helpers/registrationRequestAdapter';
 import { USER_CARD_TYPE_MAP as typeMap } from '../../constants/user-card';
 import './UserCard.css';
 
-const UserCard = (props: { type: UserInfoCardType } & PropsWithChildren) => {
+const UserCard = (props: { type: UserInfoCardType; formEnabled: boolean } & PropsWithChildren) => {
   const value = useAppSelector((state) => state.customer.info?.[props.type]);
   const version = useAppSelector((state) => state.customer.info?.version);
   const dispatch = useAppDispatch();
@@ -24,20 +24,6 @@ const UserCard = (props: { type: UserInfoCardType } & PropsWithChildren) => {
     form.resetFields();
     setIsValuesSame(true);
   };
-
-  const title = (
-    <div className="user-card__title">
-      <p>{typeMap[props.type].title}</p>
-      <div className="user-card__controls">
-        <Button type="dashed" icon={<SaveOutlined />} onClick={() => form.submit()} disabled={isValuesSame}>
-          Save
-        </Button>
-        <Button type="dashed" icon={<RollbackOutlined />} onClick={onReset}>
-          Reset
-        </Button>
-      </div>
-    </div>
-  );
 
   const onFinish = async () => {
     const updateValue = valueAdapter(form.getFieldValue(props.type));
@@ -54,8 +40,13 @@ const UserCard = (props: { type: UserInfoCardType } & PropsWithChildren) => {
   return (
     <Card
       className="user-card"
-      title={title}
+      title={typeMap[props.type].title}
       bordered={true}
+      extra={
+        <Button icon={<RollbackOutlined />} onClick={onReset} disabled={!props.formEnabled}>
+          Reset
+        </Button>
+      }
       bodyStyle={{ paddingBottom: 0 }}
       headStyle={{ backgroundColor: 'rgba(73, 119, 216, 0.1)' }}
     >
@@ -63,7 +54,6 @@ const UserCard = (props: { type: UserInfoCardType } & PropsWithChildren) => {
       {value && (
         <Form
           form={form}
-          initialValues={{ [props.type]: props.type === 'dateOfBirth' ? dayjs(value) : value }}
           onFinish={onFinish}
           onValuesChange={(changedValues) => {
             if (valueAdapter(changedValues[props.type]) === valueAdapter(value)) {
@@ -72,10 +62,30 @@ const UserCard = (props: { type: UserInfoCardType } & PropsWithChildren) => {
               setIsValuesSame(false);
             }
           }}
+          disabled={!props.formEnabled}
         >
-          <Form.Item name={props.type} rules={typeMap[props.type].rules} validateFirst>
-            {props.type === 'dateOfBirth' ? <DatePicker style={{ width: '100%' }} inputReadOnly /> : <Input />}
-          </Form.Item>
+          <Space.Compact style={{ width: '100%' }}>
+            <Form.Item
+              name={props.type}
+              rules={typeMap[props.type].rules}
+              validateFirst
+              style={{ width: '100%' }}
+              initialValue={props.type === 'dateOfBirth' ? dayjs(value) : value}
+            >
+              {props.type === 'dateOfBirth' ? <DatePicker inputReadOnly style={{ width: '100%' }} /> : <Input />}
+            </Form.Item>
+            <Form.Item>
+              <Button
+                icon={<SaveOutlined />}
+                type="primary"
+                style={{ position: 'relative', left: '-1px' }}
+                disabled={isValuesSame || !props.formEnabled}
+                onClick={() => form.submit()}
+              >
+                Save
+              </Button>
+            </Form.Item>
+          </Space.Compact>
         </Form>
       )}
     </Card>

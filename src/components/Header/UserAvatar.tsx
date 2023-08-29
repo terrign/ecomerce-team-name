@@ -4,12 +4,16 @@ import { UserOutlined } from '@ant-design/icons';
 import UserMenu from './UserMenu';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { actions as userMenuActions } from '../../store/userMenu.slice';
+import { ANONYMOUS_USER } from '../../constants/general';
 
 const UserAvatar = () => {
   const dispatch = useAppDispatch();
   const logged: boolean = useAppSelector((state) => state.auth.tokenStore.token > '') ?? false;
   const visible: boolean = useAppSelector((state) => state.userMenu.visible);
-  const title = useAppSelector((state) => state.customer.info?.firstName + ' ' + state.customer.info?.lastName);
+  const title = useAppSelector((state) => {
+    const customer = state.customer.info;
+    return customer ? `${customer.firstName} ${customer.lastName}` : ANONYMOUS_USER;
+  });
   const styleLogged = logged ? 'header__user-logo_logged' : '';
   const onClick = (event: React.SyntheticEvent) => {
     event.stopPropagation();

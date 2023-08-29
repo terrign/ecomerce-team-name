@@ -40,7 +40,7 @@ const reduceAddresses = (addresses: AddressFormValues[]): UserAddresses => {
 };
 
 export const reduceDate = (value?: DatePickerValue) =>
-  value ? `${value.$y}-${value.$M.toString().padStart(2, '0')}-${value.$D.toString().padStart(2, '0')}` : null;
+  value ? `${value.$y}-${(value.$M + 1).toString().padStart(2, '0')}-${value.$D.toString().padStart(2, '0')}` : null;
 
 const registrationRequestAdapter: RegistrationRequestBody = (addresses, userData) => {
   return {

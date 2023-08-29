@@ -1,27 +1,9 @@
-.user-card__title {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  justify-items: flex-start;
-}
-
-.user-card__title > p {
-  margin: 0;
-  line-height: 32px;
-}
-
-.user-card__controls {
-  display: flex;
-  gap: 5px;
+.user-card input[disabled] {
+  color: rgba(0, 0, 0, 0.88) !important;
 }
 
 @media screen and (max-width: 460px) {
-  .user-card__title {
-    flex-direction: column;
-    padding-bottom: 12px;
-  }
-
-  .user-card__title button {
+  .user-card .user-card__title button {
     padding-right: 0 !important;
     padding-left: 0 !important;
   }
@@ -30,7 +12,18 @@
     padding: 0px !important;
   }
 
-  .user-card__controls {
+  .user-card .user-card__controls {
     flex-direction: column;
+  }
+
+  .user-card .ant-card-head {
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+    min-height: 42px !important;
+  }
+
+  .user-card .ant-card-body {
+    padding-right: 5px !important;
+    padding-left: 5px !important;
   }
 }
