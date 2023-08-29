@@ -1,0 +1,36 @@
+.user-card__title {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-items: flex-start;
+}
+
+.user-card__title > p {
+  margin: 0;
+  line-height: 32px;
+}
+
+.user-card__controls {
+  display: flex;
+  gap: 5px;
+}
+
+@media screen and (max-width: 460px) {
+  .user-card__title {
+    flex-direction: column;
+    padding-bottom: 12px;
+  }
+
+  .user-card__title button {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .user-card {
+    padding: 0px !important;
+  }
+
+  .user-card__controls {
+    flex-direction: column;
+  }
+}

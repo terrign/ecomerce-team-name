@@ -9,7 +9,7 @@ const UserProfile: React.FC = () => {
     { label: 'Addresses', key: 'userAddresses', children: <UserAddresses /> },
   ];
 
-  return <Tabs defaultActiveKey="1" type="card" size={'large'} items={UserProfileItems} />;
+  return <Tabs defaultActiveKey="1" type="card" items={UserProfileItems} />;
 };
 
 export default UserProfile;
