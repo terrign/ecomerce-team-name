@@ -8,25 +8,16 @@ type CatalogItem = {
   image: string;
   price: number;
   discPrice: number;
+  load: boolean;
 };
-
-// const gridStyleDesc: React.CSSProperties = {
-//   width: '100%',
-//   minHeight: 100,
-// };
-// const gridStylePrice: React.CSSProperties = {
-//   height: 20,
-// };
-
-// const { Meta } = Card;
 
 export const CatalogItem = (props: CatalogItem) => {
   return (
     <Col flex={3} span={8}>
       <Card
+        loading={props.load}
         bordered={false}
         hoverable
-        // loading={true}
         style={{ maxWidth: 240, height: '100%' }}
         cover={
           <div style={{ height: 300, display: 'flex' }}>
@@ -34,9 +25,6 @@ export const CatalogItem = (props: CatalogItem) => {
           </div>
         }
       >
-        {/* <Card.Grid style={gridStyleDesc} hoverable={false}>
-          <Meta title= description={props.description} />
-        </Card.Grid> */}
         <p>{props.name}</p>
         <p>{props.description}</p>
         <p>{props.price / 100}$</p>

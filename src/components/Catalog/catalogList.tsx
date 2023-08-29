@@ -7,18 +7,21 @@ export const CatalogList = () => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [load, setLoading] = useState(true);
 
   const getProducts = async () => {
+    setLoading(true);
     try {
       const resp = await getApiClient()
-        .products()
+        .productProjections()
         .get({ queryArgs: { offset: page } })
         .execute();
       const data = resp.body.results;
       console.log(Math.ceil(resp.body.total / resp.body.limit));
-      // console.log(data);
-      // console.log(resp);
+      console.log(data);
+      console.log(resp);
       setProducts(data);
+      setLoading(false);
       setTotalPages(Math.floor(resp.body.total / resp.body.limit));
     } catch (err) {
       console.log(err);
@@ -32,11 +35,11 @@ export const CatalogList = () => {
     <div>
       <Row gutter={[20, 30]}>
         {products.map((prod, ind) => {
-          const name = prod?.masterData?.current?.name?.en;
-          const description = prod?.masterData?.current?.description?.en;
-          const image = prod?.masterData?.current?.masterVariant?.images[0].url;
-          const price = prod?.masterData?.current?.masterVariant?.prices[0]?.value?.centAmount;
-          const discPrice = prod?.masterData?.current?.masterVariant?.prices[0]?.discounted?.value?.centAmount;
+          const name = prod?.name?.en;
+          const description = prod?.metaDescription?.en;
+          const image = prod?.masterVariant?.images[0].url;
+          const price = prod?.masterVariant?.prices[0]?.value?.centAmount;
+          const discPrice = prod?.masterVariant?.prices[0]?.discounted?.value?.centAmount;
           return (
             <CatalogItem
               key={ind}
@@ -45,6 +48,7 @@ export const CatalogList = () => {
               image={image}
               price={price}
               discPrice={discPrice}
+              load={load}
             />
           );
         })}
