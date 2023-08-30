@@ -3,6 +3,8 @@ import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { Row, Pagination } from 'antd';
 import { CatalogItem } from './catalogItem';
 
+const PROD_LIMIT = 10;
+
 export const CatalogList = () => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
@@ -14,15 +16,15 @@ export const CatalogList = () => {
     try {
       const resp = await getApiClient()
         .productProjections()
-        .get({ queryArgs: { offset: page } })
+        .get({ queryArgs: { limit: PROD_LIMIT, offset: PROD_LIMIT * (page - 1) } })
         .execute();
       const data = resp.body.results;
       console.log(Math.ceil(resp.body.total / resp.body.limit));
-      console.log(data);
+      // console.log(data);
       console.log(resp);
       setProducts(data);
       setLoading(false);
-      setTotalPages(Math.floor(resp.body.total / resp.body.limit));
+      setTotalPages(Math.ceil(resp.body.total / resp.body.limit));
     } catch (err) {
       console.log(err);
     }
@@ -30,6 +32,10 @@ export const CatalogList = () => {
   useEffect(() => {
     getProducts();
   }, [page]);
+
+  const onChangePage = (currPage: number) => {
+    setPage(currPage);
+  };
 
   return (
     <div>
@@ -53,13 +59,7 @@ export const CatalogList = () => {
           );
         })}
       </Row>
-      <Pagination
-        defaultCurrent={1}
-        total={totalPages * 10}
-        onChange={(page) => {
-          setPage(page * 20);
-        }}
-      />
+      <Pagination size="small" total={totalPages * 10} onChange={onChangePage} current={page} />
     </div>
   );
 };

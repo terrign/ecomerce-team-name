@@ -1,6 +1,5 @@
 import React from 'react';
-import { Col } from 'antd';
-import { Card } from 'antd';
+import { Col, Skeleton, Card } from 'antd';
 
 type CatalogItem = {
   name: string;
@@ -20,9 +19,11 @@ export const CatalogItem = (props: CatalogItem) => {
         hoverable
         style={{ maxWidth: 240, height: '100%' }}
         cover={
-          <div style={{ height: 300, display: 'flex' }}>
-            <img alt="example" src={props.image} style={{ margin: 'auto', width: '100%', height: 'auto' }} />
-          </div>
+          <Skeleton loading={props.load}>
+            <div style={{ minHeight: 150, display: 'flex' }}>
+              <img alt="example" src={props.image} style={{ margin: 'auto', maxWidth: 130, maxHeight: 150 }} />
+            </div>
+          </Skeleton>
         }
       >
         <p>{props.name}</p>
