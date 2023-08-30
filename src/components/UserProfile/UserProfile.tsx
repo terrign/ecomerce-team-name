@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs } from 'antd';
-import UserInfo from './UserInfo';
-import UserAddresses from './UserAddresses';
+import UserInfo from './userInfo/UserInfo';
+import UserAddresses from './addresses/UserAddresses';
 
 const UserProfile: React.FC = () => {
   const UserProfileItems = [

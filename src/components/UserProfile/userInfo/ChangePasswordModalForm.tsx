@@ -1,16 +1,16 @@
 import { Form, Input, Modal } from 'antd';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'antd/es/form/Form';
-import { PASSWORD_INPUT_RULES, getConfirmPasswoordInputRules } from '../../constants/forms/registration-form/rules';
-import { PASSWORD_FORM_ITEM_LAYOUT } from '../../constants/forms/antd-form-layouts';
-import changePassword from '../../helpers/ApiClient/customerUpdateRequests.ts/changePassword';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { alertSlice } from '../../store/alert.slice';
-import { loginRequest } from '../../helpers/ApiClient/loginRequest';
-import { authSlice } from '../../store/auth.slice';
-import { customerSlice } from '../../store/customer.slice';
-import tokenCache from '../../helpers/ApiClient/tokenCache';
-import { NEW_PASSWORD_INPUT_RULE } from '../../constants/forms/new-password-rule';
+import { PASSWORD_INPUT_RULES, getConfirmPasswoordInputRules } from '../../../constants/forms/registration-form/rules';
+import { PASSWORD_FORM_ITEM_LAYOUT } from '../../../constants/forms/antd-form-layouts';
+import changePassword from '../../../helpers/ApiClient/customerUpdateRequests.ts/changePassword';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { alertSlice } from '../../../store/alert.slice';
+import { loginRequest } from '../../../helpers/ApiClient/loginRequest';
+import { authSlice } from '../../../store/auth.slice';
+import { customerSlice } from '../../../store/customer.slice';
+import tokenCache from '../../../helpers/ApiClient/tokenCache';
+import { NEW_PASSWORD_INPUT_RULE } from '../../../constants/forms/new-password-rule';
 
 const ChangePasswordModalForm = (props: { open: boolean; setOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [form] = useForm();

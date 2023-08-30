@@ -107,7 +107,7 @@ const AddressModalForm = () => {
         </Form.Item>
 
         <Form.Item
-          name="zip"
+          name="postalCode"
           label="Postal code"
           rules={ZIP_INPUT_RULES}
           dependencies={['country']}

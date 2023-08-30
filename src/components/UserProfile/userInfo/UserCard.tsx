@@ -2,13 +2,13 @@ import React, { PropsWithChildren, useState } from 'react';
 import dayjs from 'dayjs';
 import { Button, Card, DatePicker, Form, Input, Skeleton, Space } from 'antd';
 import { SaveOutlined, RollbackOutlined } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { UserInfoCardType } from '../../models/UserInfoCardType';
-import { customerSlice } from '../../store/customer.slice';
-import { alertSlice } from '../../store/alert.slice';
-import { DatePickerValue } from '../../models/DatePickerValue';
-import { reduceDate } from '../../helpers/registrationRequestAdapter';
-import { USER_CARD_TYPE_MAP as typeMap } from '../../constants/user-card';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { UserInfoCardType } from '../../../models/UserInfoCardType';
+import { customerSlice } from '../../../store/customer.slice';
+import { alertSlice } from '../../../store/alert.slice';
+import { DatePickerValue } from '../../../models/DatePickerValue';
+import { reduceDate } from '../../../helpers/registrationRequestAdapter';
+import { USER_CARD_TYPE_MAP as typeMap } from '../../../constants/user-card';
 import './UserCard.css';
 
 const UserCard = (props: { type: UserInfoCardType; formEnabled: boolean } & PropsWithChildren) => {
@@ -48,7 +48,7 @@ const UserCard = (props: { type: UserInfoCardType; formEnabled: boolean } & Prop
         </Button>
       }
       bodyStyle={{ paddingBottom: 0 }}
-      headStyle={{ backgroundColor: 'rgba(73, 119, 216, 0.1)' }}
+      headStyle={{ backgroundColor: props.formEnabled ? 'rgba(22, 119, 255, 0.38)' : '#fafafa' }}
     >
       {!value && <Skeleton.Input active block style={{ marginBottom: 24 }} />}
       {value && (

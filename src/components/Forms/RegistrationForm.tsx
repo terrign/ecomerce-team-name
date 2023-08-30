@@ -135,7 +135,7 @@ const RegistrationForm = () => {
         </Form.Item>
 
         <AddressModalForm></AddressModalForm>
-        <Form.Item {...TAIL_FORM_ITEM_LAYOUT} rules={[]}>
+        <Form.Item {...TAIL_FORM_ITEM_LAYOUT}>
           <Button type="primary" htmlType="submit" disabled={submitDisabled}>
             Register
           </Button>
