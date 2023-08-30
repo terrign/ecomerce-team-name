@@ -1,7 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
 import dayjs from 'dayjs';
 import { Button, Card, DatePicker, Form, Input, Skeleton, Space } from 'antd';
-import { SaveOutlined, RollbackOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { UserInfoCardType } from '../../../models/UserInfoCardType';
 import { customerSlice } from '../../../store/customer.slice';
@@ -43,7 +42,7 @@ const UserCard = (props: { type: UserInfoCardType; formEnabled: boolean } & Prop
       title={typeMap[props.type].title}
       bordered={true}
       extra={
-        <Button icon={<RollbackOutlined />} onClick={onReset} disabled={!props.formEnabled}>
+        <Button onClick={onReset} disabled={!props.formEnabled}>
           Reset
         </Button>
       }
@@ -76,7 +75,6 @@ const UserCard = (props: { type: UserInfoCardType; formEnabled: boolean } & Prop
             </Form.Item>
             <Form.Item>
               <Button
-                icon={<SaveOutlined />}
                 type="primary"
                 style={{ position: 'relative', left: '-1px' }}
                 disabled={isValuesSame || !props.formEnabled}
