@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   UserOutlined,
   HomeOutlined,
@@ -12,12 +12,17 @@ import { NavLink } from 'react-router-dom';
 import getMenuItem from './getMenuItem';
 import { RouterPath } from '../models/RouterPath';
 import { useAppSelector } from '../store/hooks';
+import getCatalogCategories from './getCatalogCategories';
 
 const getMainMenuItemList = () => {
   const isLogged = useAppSelector((state) => Boolean(state.auth.tokenStore.token));
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    getCatalogCategories(setCategories);
+  }, []);
   return [
     getMenuItem(<NavLink to={RouterPath.HOME}>Home</NavLink>, RouterPath.HOME, <HomeOutlined />),
-    getMenuItem(<NavLink to={RouterPath.CATALOG}>Catalog</NavLink>, RouterPath.CATALOG, <ShopOutlined />),
+    getMenuItem(<NavLink to={RouterPath.CATALOG}>Catalog</NavLink>, RouterPath.CATALOG, <ShopOutlined />, categories),
     getMenuItem(
       'User',
       'UserActions',
