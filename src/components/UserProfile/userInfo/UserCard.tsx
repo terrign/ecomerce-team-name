@@ -6,7 +6,7 @@ import { UserInfoCardType } from '../../../models/UserInfoCardType';
 import { customerSlice } from '../../../store/customer.slice';
 import { alertSlice } from '../../../store/alert.slice';
 import { DatePickerValue } from '../../../models/DatePickerValue';
-import { reduceDate } from '../../../helpers/registrationRequestAdapter';
+import { reduceDate } from '../../../helpers/forms/registrationRequestAdapter';
 import { USER_CARD_TYPE_MAP as typeMap } from '../../../constants/user-card';
 import './UserCard.css';
 

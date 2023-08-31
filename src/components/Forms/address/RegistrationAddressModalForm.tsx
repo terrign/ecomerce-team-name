@@ -1,23 +1,14 @@
 import { Form, Input, Modal, Select } from 'antd';
-import { COUNTRIES, CountryInfo } from '../../../constants/forms/address-form/countries';
 import React, { useContext } from 'react';
-import { useState } from 'react';
 import RegFormContext, { AddressFormMode } from '../../../context/RegistrationFormContext';
 import { ADDRESS_TYPES } from '../../../constants/forms/address-form/address-types';
 import { FORM_ITEM_LAYOUT } from '../../../constants/forms/antd-form-layouts';
-import {
-  CITY_INPUT_RULES,
-  COUNTRY_INPUT_RULES,
-  STREET_INPUT_RULES,
-  ZIP_INPUT_RULES,
-  getNameRules,
-  getTypeRules,
-} from '../../../constants/forms/address-form/rules';
+import { getNameRules, getTypeRules } from '../../../constants/forms/address-form/rules';
 import { getRandomKey } from '../../../helpers/getRandomReactKey';
+import getAddressModalFormStaticFields from '../../../helpers/forms/getAddressModalStaticFields';
 const { Option } = Select;
 
-const AddressModalForm = () => {
-  const [zipTooltip, setZipTootip] = useState('');
+const RegistrationAddressModalForm = () => {
   const context = useContext(RegFormContext);
 
   const onOk = () => {
@@ -37,18 +28,6 @@ const AddressModalForm = () => {
   const onCancel = () => {
     context.setModalOpen(false);
     context.addressForm.resetFields();
-  };
-
-  const zipToolTipUpdatedOnCountryChange = (value: string) => {
-    const countryObject: CountryInfo = COUNTRIES.find((a) => a.Country === value);
-    let toolTipString = '';
-    if (countryObject.Format) {
-      toolTipString += `Format: ${countryObject.Format}`;
-    }
-    if (toolTipString.length === 0) {
-      toolTipString = 'No information on ZIP codes of the selected country';
-    }
-    setZipTootip(toolTipString);
   };
 
   return (
@@ -80,45 +59,10 @@ const AddressModalForm = () => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item name="country" label="Country" rules={COUNTRY_INPUT_RULES}>
-          <Select showSearch onChange={zipToolTipUpdatedOnCountryChange}>
-            {COUNTRIES.map((a) => (
-              <Option value={a.Country} key={a.ISO}>
-                {a.Country}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
-
-        <Form.Item name="city" label="City" rules={CITY_INPUT_RULES}>
-          <Input />
-        </Form.Item>
-
-        <Form.Item name="streetName" label="Street" rules={STREET_INPUT_RULES}>
-          <Input />
-        </Form.Item>
-
-        <Form.Item name="building" label="Building">
-          <Input />
-        </Form.Item>
-
-        <Form.Item name="apartment" label="Apartment/Suite">
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="postalCode"
-          label="Postal code"
-          rules={ZIP_INPUT_RULES}
-          dependencies={['country']}
-          tooltip={zipTooltip}
-          validateFirst
-        >
-          <Input />
-        </Form.Item>
+        {getAddressModalFormStaticFields()}
       </Form>
     </Modal>
   );
 };
 
-export default AddressModalForm;
+export default RegistrationAddressModalForm;

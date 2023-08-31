@@ -1,8 +1,8 @@
-import { AddressFormValues } from '../models/AddressFormValues';
-import { RegistrationRequestBody, UserAddresses } from '../models/apiDrafts';
-import { AddressType } from '../constants/forms/address-form/address-types';
-import { DatePickerValue } from '../models/DatePickerValue';
-import { COUNTRIES } from '../constants/forms/address-form/countries';
+import { AddressFormValues } from '../../models/AddressFormValues';
+import { RegistrationRequestBody, UserAddresses } from '../../models/apiDrafts';
+import { AddressType } from '../../constants/forms/address-form/address-types';
+import { DatePickerValue } from '../../models/DatePickerValue';
+import { COUNTRIES } from '../../constants/forms/address-form/countries';
 
 const reduceAddresses = (addresses: AddressFormValues[]): UserAddresses => {
   return addresses.reduce(

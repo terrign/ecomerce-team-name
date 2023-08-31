@@ -10,9 +10,9 @@ export enum AddressFormMode {
 export interface RegFormContext {
   addresses: {
     items: AddressFormValues[];
-    remove: (i: number) => void | null;
-    add: (address: AddressFormValues) => void | null;
-    edit: (i: number, values: AddressFormValues) => void | null;
+    remove: (i: number) => void | null | Promise<void>;
+    add: (address: AddressFormValues) => void | null | Promise<void>;
+    edit: (i: number, values: AddressFormValues) => void | null | Promise<void>;
   };
   modalOpen: boolean;
   setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;

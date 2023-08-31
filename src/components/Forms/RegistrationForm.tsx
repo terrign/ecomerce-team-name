@@ -12,10 +12,10 @@ import { FORM_STYLE } from '../../constants/forms/form-style';
 import FormAddressControlledList from './address/AddressFormControlledList';
 import RegistrationFormContext, { AddressFormMode, RegFormContext } from '../../context/RegistrationFormContext';
 import { AddressFormValues } from '../../models/AddressFormValues';
-import AddressModalForm from './address/AddressModalForm';
+import RegistrationAddressModalForm from './address/RegistrationAddressModalForm';
 import { FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/forms/antd-form-layouts';
 import { PlusOutlined } from '@ant-design/icons';
-import registrationRequestAdapter from '../../helpers/registrationRequestAdapter';
+import registrationRequestAdapter from '../../helpers/forms/registrationRequestAdapter';
 import { UserFormData } from '../../models/apiDrafts';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { RouterPath } from '../../models/RouterPath';
@@ -134,7 +134,7 @@ const RegistrationForm = () => {
           </Button>
         </Form.Item>
 
-        <AddressModalForm></AddressModalForm>
+        <RegistrationAddressModalForm></RegistrationAddressModalForm>
         <Form.Item {...TAIL_FORM_ITEM_LAYOUT}>
           <Button type="primary" htmlType="submit" disabled={submitDisabled}>
             Register

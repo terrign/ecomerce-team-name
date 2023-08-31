@@ -1,6 +1,6 @@
 import { Rule } from 'antd/es/form';
-import { AddressType } from '../constants/forms/address-form/address-types';
-import { AddressFormMode, RegFormContext } from '../context/RegistrationFormContext';
+import { AddressType } from '../../constants/forms/address-form/address-types';
+import { AddressFormMode, RegFormContext } from '../../context/RegistrationFormContext';
 
 const getAddressTypeRule = (context: RegFormContext, checkType: AddressType): Rule => {
   return () => ({

@@ -2,7 +2,7 @@ import { Rule } from 'antd/es/form';
 import { COUNTRIES } from './countries';
 import { AddressFormMode, RegFormContext } from '../../../context/RegistrationFormContext';
 import { AddressType } from './address-types';
-import getAddressTypeRule from '../../../helpers/getAddressTypeRule';
+import getAddressTypeRule from '../../../helpers/forms/getAddressTypeRule';
 import { VALID_NAME_MATHCER } from '../registration-form/rules';
 
 const VALID_CITY_MATCHER = VALID_NAME_MATHCER;
