@@ -2,25 +2,20 @@ import React, { useEffect, useState } from 'react';
 import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { Row, Pagination } from 'antd';
 import { CatalogItem } from './catalogItem';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../store/hooks';
 
 const PROD_LIMIT = 10;
 
 export const CatalogList = () => {
-  const { category } = useParams();
+  // const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [load, setLoading] = useState(true);
+  const categories = useAppSelector((state) => state.categories);
 
   const getProducts = async () => {
-    // const catResp = await getApiClient()
-    //   .categories()
-    //   .get({ queryArgs: { expand: ['parent', 'ancestors[*]'] } })
-    //   .execute();
-    // console.log(catResp.body.results);
-    // const categor = catResp.body.results.filter((categorie) => categorie.ancestors.length > 0);
-    // console.log(categor);
     setLoading(true);
     try {
       const resp = await getApiClient()
@@ -28,23 +23,21 @@ export const CatalogList = () => {
         .get({ queryArgs: { limit: PROD_LIMIT, offset: PROD_LIMIT * (page - 1) } })
         .execute();
       const data = resp.body.results;
-      // console.log(Math.ceil(resp.body.total / resp.body.limit));
-      // console.log(data);
-      // console.log(resp);
       setProducts(data);
       setLoading(false);
       setTotalPages(Math.ceil(resp.body.total / resp.body.limit));
-      console.log(category);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
     getProducts();
+    console.log(categories);
   }, [page]);
 
   const onChangePage = (currPage: number) => {
     setPage(currPage);
+    console.log(categories);
   };
 
   return (
