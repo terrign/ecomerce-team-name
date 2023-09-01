@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Skeleton, Card } from 'antd';
+import './catalogItem.css';
 
 type CatalogItem = {
   name: string;
@@ -26,10 +27,12 @@ export const CatalogItem = (props: CatalogItem) => {
           </Skeleton>
         }
       >
-        <p>{props.name}</p>
-        <p>{props.description}</p>
-        <p>{props.price / 100}$</p>
-        <p>{props.discPrice / 100}$</p>
+        <div className="card-container">
+          <p className="card-title">{props.name}</p>
+          <p className="card-description">{props.description}</p>
+          <p className={`card-price ${props.discPrice && 'crossed'}`}>{props.price / 100}$</p>
+          {props.discPrice && <p className="card-price">{props.discPrice / 100}$</p>}
+        </div>
       </Card>
     </Col>
   );

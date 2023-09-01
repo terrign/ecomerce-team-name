@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { Row, Pagination } from 'antd';
 import { CatalogItem } from './catalogItem';
-// import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
 
 const PROD_LIMIT = 10;
 
 export const CatalogList = () => {
-  // const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -17,12 +15,20 @@ export const CatalogList = () => {
 
   const getProducts = async () => {
     setLoading(true);
+    // console.log(getCategoryId(category));
     try {
       const resp = await getApiClient()
         .productProjections()
-        .get({ queryArgs: { limit: PROD_LIMIT, offset: PROD_LIMIT * (page - 1) } })
+        .search()
+        .get({
+          queryArgs: {
+            limit: PROD_LIMIT,
+            offset: PROD_LIMIT * (page - 1),
+          },
+        })
         .execute();
       const data = resp.body.results;
+      console.log(data);
       setProducts(data);
       setLoading(false);
       setTotalPages(Math.ceil(resp.body.total / resp.body.limit));
