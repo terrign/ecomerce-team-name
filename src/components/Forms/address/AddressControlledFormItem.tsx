@@ -3,8 +3,9 @@ import { Button, Form, Typography } from 'antd';
 import { MinusCircleOutlined, CopyOutlined, EditOutlined } from '@ant-design/icons';
 import { getRandomKey } from '../../../helpers/getRandomReactKey';
 import './AddressControlledFormItem.css';
-import RegistrationFormContext, { AddressFormMode } from '../../../context/RegistrationFormContext';
+import RegistrationFormContext, { AddressFormMode } from '../../../context/AddressFormContext';
 import { AddressType } from '../../../constants/forms/address-form/address-types';
+import { COUNTRIES } from '../../../constants/forms/address-form/countries';
 const { Text } = Typography;
 
 const AddressControlledFormItem = ({ index }: { index: number }) => {
@@ -13,7 +14,7 @@ const AddressControlledFormItem = ({ index }: { index: number }) => {
 
   const addressString = `${values.building ? values.building + ' ' : ''}${values.streetName}${
     values.apartment ? ', Apt ' + values.apartment : ''
-  }, ${values.city} ${values.zip}, ${values.country}`;
+  }, ${values.city} ${values.postalCode}, ${COUNTRIES.find((a) => a.ISO === values.country).Country}`;
 
   const onAddressEdit = () => {
     context.setAddressItemIndex(() => index);

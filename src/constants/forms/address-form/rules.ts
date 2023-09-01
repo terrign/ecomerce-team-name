@@ -1,6 +1,6 @@
 import { Rule } from 'antd/es/form';
 import { COUNTRIES } from './countries';
-import { AddressFormMode, RegFormContext } from '../../../context/RegistrationFormContext';
+import { AddressFormMode, AddressFormContextType } from '../../../context/AddressFormContext';
 import { AddressType } from './address-types';
 import getAddressTypeRule from '../../../helpers/forms/getAddressTypeRule';
 import { VALID_NAME_MATHCER } from '../registration-form/rules';
@@ -43,21 +43,17 @@ const ZIP_INPUT_RULES: Rule[] = [
       if (!countryInputValue) {
         return Promise.resolve();
       }
-      if (value.match(COUNTRIES.find((a) => a.Country === countryInputValue).Regex)) {
+      if (value.match(COUNTRIES.find((a) => a.ISO === countryInputValue).Regex)) {
         return Promise.resolve();
       }
       return Promise.reject(new Error(`Entered zip does not match format of the selected country`));
     },
   }),
 ];
-const getNameRules = (context: RegFormContext): Rule[] => {
+const getNameRules = (context: AddressFormContextType): Rule[] => {
   return [
     () => ({
       validator(_, value) {
-        // console.log(value);
-        // if (value === undefined) {
-        //   return Promise.resolve();
-        // }
         if (context.addressFormMode === AddressFormMode.EDIT) {
           const addressNamesExcludingCurrent = context.addresses.items.reduce(
             (acc, a, i) => (i === context.addressItemIndex ? acc : [...acc, a.key]),
@@ -81,13 +77,13 @@ const getNameRules = (context: RegFormContext): Rule[] => {
   ];
 };
 
-const getTypeRules = (context: RegFormContext): Rule[] => {
+const getTypeRules = (context: AddressFormContextType): Rule[] => {
   return [
     getAddressTypeRule(context, AddressType.BILLING_DEFAULT),
     getAddressTypeRule(context, AddressType.SHIPPING_DEFAULT),
     {
       required: true,
-      message: 'Please select address types',
+      message: 'Please select address type',
     },
   ];
 };

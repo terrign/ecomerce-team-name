@@ -7,7 +7,6 @@ const AddressTypesList = (addressType: AddressType[]) => {
   return (
     <div className="user-addresses__types-list">
       {addressType?.map((t) => {
-        console.log(t, 'address type');
         let className = 'address-item__type-mark';
         if (t === AddressType.SHIPPING_DEFAULT || t === AddressType.BILLING_DEFAULT) {
           className += ' address-item__type-mark_default';

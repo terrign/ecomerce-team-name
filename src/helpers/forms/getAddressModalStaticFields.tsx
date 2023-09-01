@@ -12,7 +12,7 @@ const { Option } = Select;
 const getAddressModalFormStaticFields = () => {
   const [zipTooltip, setZipTootip] = useState('');
   const zipToolTipUpdatedOnCountryChange = (value: string) => {
-    const countryObject: CountryInfo = COUNTRIES.find((a) => a.Country === value);
+    const countryObject: CountryInfo = COUNTRIES.find((a) => a.ISO === value);
     let toolTipString = '';
     if (countryObject.Format) {
       toolTipString += `Format: ${countryObject.Format}`;
@@ -27,7 +27,7 @@ const getAddressModalFormStaticFields = () => {
       <Form.Item name="country" label="Country" rules={COUNTRY_INPUT_RULES}>
         <Select showSearch onChange={zipToolTipUpdatedOnCountryChange}>
           {COUNTRIES.map((a) => (
-            <Option value={a.Country} key={a.ISO}>
+            <Option value={a.ISO} key={a.ISO}>
               {a.Country}
             </Option>
           ))}

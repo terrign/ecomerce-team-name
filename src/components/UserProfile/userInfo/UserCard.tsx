@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
 import dayjs from 'dayjs';
-import { Button, Card, DatePicker, Form, Input, Skeleton, Space } from 'antd';
+import { Button, Card, DatePicker, Form, Input, Space } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { UserInfoCardType } from '../../../models/UserInfoCardType';
 import { customerSlice } from '../../../store/customer.slice';
@@ -49,43 +49,40 @@ const UserCard = (props: { type: UserInfoCardType; formEnabled: boolean } & Prop
       bodyStyle={{ paddingBottom: 0 }}
       headStyle={{ backgroundColor: props.formEnabled ? 'rgba(22, 119, 255, 0.38)' : '#fafafa' }}
     >
-      {!value && <Skeleton.Input active block style={{ marginBottom: 24 }} />}
-      {value && (
-        <Form
-          form={form}
-          onFinish={onFinish}
-          onValuesChange={(changedValues) => {
-            if (valueAdapter(changedValues[props.type]) === valueAdapter(value)) {
-              setIsValuesSame(true);
-            } else {
-              setIsValuesSame(false);
-            }
-          }}
-          disabled={!props.formEnabled}
-        >
-          <Space.Compact style={{ width: '100%' }}>
-            <Form.Item
-              name={props.type}
-              rules={typeMap[props.type].rules}
-              validateFirst
-              style={{ width: '100%' }}
-              initialValue={props.type === 'dateOfBirth' ? dayjs(value) : value}
+      <Form
+        form={form}
+        onFinish={onFinish}
+        onValuesChange={(changedValues) => {
+          if (valueAdapter(changedValues[props.type]) === valueAdapter(value)) {
+            setIsValuesSame(true);
+          } else {
+            setIsValuesSame(false);
+          }
+        }}
+        disabled={!props.formEnabled}
+      >
+        <Space.Compact style={{ width: '100%' }}>
+          <Form.Item
+            name={props.type}
+            rules={typeMap[props.type].rules}
+            validateFirst
+            style={{ width: '100%' }}
+            initialValue={props.type === 'dateOfBirth' ? dayjs(value) : value}
+          >
+            {props.type === 'dateOfBirth' ? <DatePicker inputReadOnly style={{ width: '100%' }} /> : <Input />}
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              style={{ position: 'relative', left: '-1px' }}
+              disabled={isValuesSame || !props.formEnabled}
+              onClick={() => form.submit()}
             >
-              {props.type === 'dateOfBirth' ? <DatePicker inputReadOnly style={{ width: '100%' }} /> : <Input />}
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type="primary"
-                style={{ position: 'relative', left: '-1px' }}
-                disabled={isValuesSame || !props.formEnabled}
-                onClick={() => form.submit()}
-              >
-                Save
-              </Button>
-            </Form.Item>
-          </Space.Compact>
-        </Form>
-      )}
+              Save
+            </Button>
+          </Form.Item>
+        </Space.Compact>
+      </Form>
     </Card>
   );
 };

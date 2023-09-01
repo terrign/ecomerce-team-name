@@ -10,8 +10,8 @@ import {
 } from '../../constants/forms/registration-form/rules';
 import { FORM_STYLE } from '../../constants/forms/form-style';
 import FormAddressControlledList from './address/AddressFormControlledList';
-import RegistrationFormContext, { AddressFormMode, RegFormContext } from '../../context/RegistrationFormContext';
-import { AddressFormValues } from '../../models/AddressFormValues';
+import RegistrationFormContext, { AddressFormMode, AddressFormContextType } from '../../context/AddressFormContext';
+import { AddressFormValues } from '../../models/AddressFormTypes';
 import RegistrationAddressModalForm from './address/RegistrationAddressModalForm';
 import { FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/forms/antd-form-layouts';
 import { PlusOutlined } from '@ant-design/icons';
@@ -38,7 +38,7 @@ const RegistrationForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const addressesContext: RegFormContext['addresses'] = {
+  const addressesContext: AddressFormContextType['addresses'] = {
     items: addresses,
     remove: (i: number) => {
       setAddresses((prev) => [...prev.slice(0, i), ...prev.slice(i + 1)]);
@@ -134,7 +134,7 @@ const RegistrationForm = () => {
           </Button>
         </Form.Item>
 
-        <RegistrationAddressModalForm></RegistrationAddressModalForm>
+        <RegistrationAddressModalForm type="reg"></RegistrationAddressModalForm>
         <Form.Item {...TAIL_FORM_ITEM_LAYOUT}>
           <Button type="primary" htmlType="submit" disabled={submitDisabled}>
             Register

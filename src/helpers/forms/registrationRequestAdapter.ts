@@ -1,13 +1,12 @@
-import { AddressFormValues } from '../../models/AddressFormValues';
+import { AddressFormValues } from '../../models/AddressFormTypes';
 import { RegistrationRequestBody, UserAddresses } from '../../models/apiDrafts';
 import { AddressType } from '../../constants/forms/address-form/address-types';
 import { DatePickerValue } from '../../models/DatePickerValue';
-import { COUNTRIES } from '../../constants/forms/address-form/countries';
 
 const reduceAddresses = (addresses: AddressFormValues[]): UserAddresses => {
   return addresses.reduce(
     (acc, a, i) => {
-      const addresses = [...acc.addresses, { ...a, country: COUNTRIES.find((o) => o.Country === a.country).ISO }];
+      const addresses = [...acc.addresses, a];
       const shippingAddresses = [...acc.shippingAddresses];
       if (a.types.includes(AddressType.SHIPPING)) {
         shippingAddresses.push(i);

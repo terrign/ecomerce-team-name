@@ -6,15 +6,11 @@
 }
 
 .user-addresses__types-list > span {
-  display: block;
+  display: inline;
   width: min-content;
   text-align: center;
 }
 
 .user-addresses__table table > thead > tr > th {
   z-index: 100 !important;
-}
-
-.user-addresses_last-column {
-  padding: 0 5px !important;
 }
