@@ -1,0 +1,32 @@
+.catalog-container {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 2vw;
+}
+
+@media (max-width: 1400px) {
+  .catalog-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1140px) {
+  .catalog-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .catalog-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .catalog-container {
+    grid-template-columns: 1fr;
+    row-gap: 25px;
+  }
+}

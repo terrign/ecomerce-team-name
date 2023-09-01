@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import getApiClient from '../../helpers/ApiClient/getApiClient';
-import { Row, Pagination } from 'antd';
+import { Pagination } from 'antd';
 import { CatalogItem } from './catalogItem';
 import { useAppSelector } from '../../store/hooks';
+import './catalogList.css';
 
 const PROD_LIMIT = 10;
+// const ROWS = 2;
 
 export const CatalogList = () => {
   const [products, setProducts] = useState([]);
@@ -47,26 +49,28 @@ export const CatalogList = () => {
   };
 
   return (
-    <Row gutter={[20, 30]}>
-      {products.map((prod, ind) => {
-        const name = prod?.name?.en;
-        const description = prod?.metaDescription?.en;
-        const image = prod?.masterVariant?.images[0].url;
-        const price = prod?.masterVariant?.prices[0]?.value?.centAmount;
-        const discPrice = prod?.masterVariant?.prices[0]?.discounted?.value?.centAmount;
-        return (
-          <CatalogItem
-            key={ind}
-            name={name}
-            description={description}
-            image={image}
-            price={price}
-            discPrice={discPrice}
-            load={load}
-          />
-        );
-      })}
-      <Pagination size="small" total={totalPages * 10} onChange={onChangePage} current={page} />
-    </Row>
+    <Fragment>
+      <div className="catalog-container">
+        {products.map((prod, ind) => {
+          const name = prod?.name?.en;
+          const description = prod?.metaDescription?.en;
+          const image = prod?.masterVariant?.images[0].url;
+          const price = prod?.masterVariant?.prices[0]?.value?.centAmount;
+          const discPrice = prod?.masterVariant?.prices[0]?.discounted?.value?.centAmount;
+          return (
+            <CatalogItem
+              key={ind}
+              name={name}
+              description={description}
+              image={image}
+              price={price}
+              discPrice={discPrice}
+              load={load}
+            />
+          );
+        })}
+      </div>
+      <Pagination size="small" total={totalPages * PROD_LIMIT} onChange={onChangePage} current={page} />
+    </Fragment>
   );
 };
