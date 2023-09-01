@@ -2,35 +2,49 @@ import React, { Fragment, useEffect, useState } from 'react';
 import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { Pagination } from 'antd';
 import { CatalogItem } from './catalogItem';
-import { useAppSelector } from '../../store/hooks';
 import './catalogList.css';
+import { useParams } from 'react-router-dom';
+import initCategoryState from '../../store/initCategoryState';
+import { Category } from '@commercetools/platform-sdk';
 
 const PROD_LIMIT = 10;
-// const ROWS = 2;
+
+type queryArgs = {
+  limit: number;
+  offset: number;
+  filter?: string;
+};
 
 export const CatalogList = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [load, setLoading] = useState(true);
-  const categories = useAppSelector((state) => state.categories);
+  const categoryQuery = useParams().category;
 
-  const getProducts = async () => {
+  const getCategoryId = (categoryName: string, categoriesArr: Array<Category>) => {
+    return categoriesArr.find((cat) => cat.slug.en === categoryName).id;
+  };
+
+  const getProducts = async (categoryName?: string) => {
     setLoading(true);
-    // console.log(getCategoryId(category));
     try {
+      const queryArgs: queryArgs = {
+        limit: PROD_LIMIT,
+        offset: PROD_LIMIT * (page - 1),
+      };
+      if (categoryName) {
+        queryArgs.filter = `categories.id: subtree("${getCategoryId(categoryName, categories)}")`;
+      }
       const resp = await getApiClient()
         .productProjections()
         .search()
         .get({
-          queryArgs: {
-            limit: PROD_LIMIT,
-            offset: PROD_LIMIT * (page - 1),
-          },
+          queryArgs,
         })
         .execute();
       const data = resp.body.results;
-      console.log(data);
       setProducts(data);
       setLoading(false);
       setTotalPages(Math.ceil(resp.body.total / resp.body.limit));
@@ -38,19 +52,30 @@ export const CatalogList = () => {
       console.log(err);
     }
   };
+
   useEffect(() => {
-    getProducts();
-    console.log(categories);
+    getProducts(categoryQuery);
   }, [page]);
+  useEffect(() => {
+    initCategoryState(setCategories);
+  }, []);
+  useEffect(() => {
+    getProducts(categoryQuery);
+  }, [categoryQuery]);
 
   const onChangePage = (currPage: number) => {
     setPage(currPage);
-    console.log(categories);
   };
 
   return (
     <Fragment>
-      <div className="catalog-container">
+      <div
+        onClick={() => {
+          console.log(categoryQuery);
+          console.log(categories);
+        }}
+        className="catalog-container"
+      >
         {products.map((prod, ind) => {
           const name = prod?.name?.en;
           const description = prod?.metaDescription?.en;

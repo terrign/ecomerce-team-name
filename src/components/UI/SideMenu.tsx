@@ -7,7 +7,6 @@ import { RouterPath } from '../../models/RouterPath';
 import getMainMenuItemList from '../../helpers/getMainMenuItemList';
 import { actions as authActions } from '../../store/auth.slice';
 import initCategoryState from '../../store/initCategoryState';
-import { categorySlice } from '../../store/category.slice';
 
 export const LAYOUT_BREAKPOINT = 768; //antd-layout breakpoint - md.
 
@@ -21,9 +20,8 @@ const SideMenu = () => {
   const items = getMainMenuItemList(categoriesArr);
   useEffect(() => {
     initCategoryState(setCategoriesArr);
-  }, [categoriesArr]);
+  }, []);
   const onClick = ({ key }: Parameters<MenuProps['onClick']>[0]) => {
-    dispatch(categorySlice.actions.set(categoriesArr));
     if (key === 'Logout') {
       dispatch(authActions.logout());
       navigate(RouterPath.HOME);

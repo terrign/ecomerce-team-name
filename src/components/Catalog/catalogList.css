@@ -4,6 +4,7 @@
   justify-items: center;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 2vw;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 1400px) {
