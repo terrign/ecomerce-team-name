@@ -15,3 +15,7 @@ export interface UserAddressesColumnDataType extends AddressFormValues {
   id: string;
   name: string;
 }
+
+export interface AddressModalFormProps {
+  type: 'reg' | 'profile';
+}

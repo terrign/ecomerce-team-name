@@ -12,7 +12,7 @@ interface AddressModalFormProps {
   type: 'reg' | 'profile';
 }
 
-const RegistrationAddressModalForm = (props: AddressModalFormProps) => {
+const AddressModalForm = (props: AddressModalFormProps) => {
   const context = useContext(AddressFormContext);
 
   const onOk = () => {
@@ -75,4 +75,4 @@ const RegistrationAddressModalForm = (props: AddressModalFormProps) => {
   );
 };
 
-export default RegistrationAddressModalForm;
+export default AddressModalForm;

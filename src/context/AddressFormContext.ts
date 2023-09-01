@@ -10,9 +10,9 @@ export enum AddressFormMode {
 export interface AddressFormContextType {
   addresses: {
     items: AddressFormValues[];
-    remove: (i: number) => void | null | Promise<void>;
+    remove: (i: number) => void | null;
     add: (address?: AddressFormValues) => void | null | Promise<void>;
-    edit: (i?: number, values?: AddressFormValues) => void | null | Promise<void>;
+    edit: (i: number, values: AddressFormValues) => void | null;
     editUserProfile?: (currentAddress: UserAddressesColumnDataType) => Promise<void>;
   };
   modalOpen: boolean;

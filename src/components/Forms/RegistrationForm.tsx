@@ -12,7 +12,6 @@ import { FORM_STYLE } from '../../constants/forms/form-style';
 import FormAddressControlledList from './address/AddressFormControlledList';
 import RegistrationFormContext, { AddressFormMode, AddressFormContextType } from '../../context/AddressFormContext';
 import { AddressFormValues } from '../../models/AddressFormTypes';
-import RegistrationAddressModalForm from './address/RegistrationAddressModalForm';
 import { FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/forms/antd-form-layouts';
 import { PlusOutlined } from '@ant-design/icons';
 import registrationRequestAdapter from '../../helpers/forms/registrationRequestAdapter';
@@ -25,6 +24,7 @@ import { loginRequest } from '../../helpers/ApiClient/loginRequest';
 import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { alertSlice } from '../../store/alert.slice';
 import { customerSlice } from '../../store/customer.slice';
+import AddressModalForm from './address/AddressModalForm';
 
 const RegistrationForm = () => {
   const [registrationForm] = Form.useForm();
@@ -134,7 +134,7 @@ const RegistrationForm = () => {
           </Button>
         </Form.Item>
 
-        <RegistrationAddressModalForm type="reg"></RegistrationAddressModalForm>
+        <AddressModalForm type="reg"></AddressModalForm>
         <Form.Item {...TAIL_FORM_ITEM_LAYOUT}>
           <Button type="primary" htmlType="submit" disabled={submitDisabled}>
             Register

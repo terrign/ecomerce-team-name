@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Dropdown, MenuProps, Table, Form } from 'antd';
-import { AddressType } from '../../../constants/forms/address-form/address-types';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { MinusCircleOutlined, CopyOutlined, SettingFilled, EditOutlined } from '@ant-design/icons';
-import AddressTypesList from './AddressTypesList';
+import { SettingFilled } from '@ant-design/icons';
+import AddressTypesList from '../../Forms/address/AddressTypesList';
 import { tableProps } from '../../../constants/userAddressTableProps';
-const { Column } = Table;
-import './UserAddresses.css';
 import AddressFormContext, { AddressFormMode } from '../../../context/AddressFormContext';
 import { UserAddressesColumnDataType } from '../../../models/AddressFormTypes';
-import RegistrationAddressModalForm from '../../Forms/address/RegistrationAddressModalForm';
 import removeAddress from '../../../helpers/ApiClient/customerUpdateRequests.ts/address/removeAddress';
 import { customerSlice } from '../../../store/customer.slice';
 import { alertSlice } from '../../../store/alert.slice';
@@ -17,14 +13,14 @@ import addAddress from '../../../helpers/ApiClient/customerUpdateRequests.ts/add
 import { COUNTRIES } from '../../../constants/forms/address-form/countries';
 import changeAddress from '../../../helpers/ApiClient/customerUpdateRequests.ts/address/changeAddress';
 import getAddressChangeRequestParameters from '../../../helpers/ApiClient/customerUpdateRequests.ts/address/getAddressChangeRequestParameters';
+import getTableData from '../../../helpers/getUserAddressTableData';
+import AddressModalForm from '../../Forms/address/AddressModalForm';
+import './UserAddresses.css';
+import StaticActionItems from './StaticActionItems';
+const { Column } = Table;
 
 const UserAddresses = () => {
   const customer = useAppSelector((state) => state.customer?.info);
-  const addresses = customer?.addresses;
-  const shippingIds = customer?.shippingAddressIds;
-  const shippingDefault = customer?.defaultShippingAddressId;
-  const billingIds = customer?.billingAddressIds;
-  const billingDefault = customer?.defaultBillingAddressId;
   const [modalOpen, setModalOpen] = useState(false);
   const [mode, setMode] = useState(AddressFormMode.NEW);
   const [form] = Form.useForm();
@@ -44,52 +40,15 @@ const UserAddresses = () => {
   };
 
   useEffect(() => {
-    context.addresses.items = getTableData();
+    context.addresses.items = getTableData(customer);
     context.addresses.add = addAddressHandler;
   }, [customer]);
 
-  function getAddressTypes(id: string) {
-    const result = [];
-    if (id === billingDefault) {
-      result.push(AddressType.BILLING_DEFAULT);
-    }
-    if (id === shippingDefault) {
-      result.push(AddressType.SHIPPING_DEFAULT);
-    }
-    if (shippingIds.includes(id)) {
-      result.push(AddressType.SHIPPING);
-    }
-    if (billingIds.includes(id)) {
-      result.push(AddressType.BILLING);
-    }
-    return result;
-  }
-  function getTableData(): UserAddressesColumnDataType[] {
-    return addresses.reduce((acc, a) => {
-      return [
-        ...acc,
-        {
-          key: a.key,
-          id: a.id,
-          name: a.key,
-          country: COUNTRIES.find((o) => a.country === o.ISO).Country,
-          city: a.city,
-          streetName: a.streetName,
-          building: a.building,
-          apartment: a.apartment,
-          postalCode: a.postalCode,
-          types: getAddressTypes(a.id),
-        },
-      ];
-    }, []);
-  }
-
   const getActionItems = (record: UserAddressesColumnDataType): MenuProps['items'] => {
+    const staticItems = StaticActionItems();
     return [
       {
-        key: 'edit',
-        label: 'Edit',
-        icon: <EditOutlined />,
+        ...staticItems.edit,
         onClick: () => {
           setMode(() => AddressFormMode.EDIT);
           setcurrentAddress(() => record);
@@ -99,9 +58,7 @@ const UserAddresses = () => {
         },
       },
       {
-        key: 'copy',
-        label: 'Copy',
-        icon: <CopyOutlined />,
+        ...staticItems.copy,
         onClick: () => {
           setMode(() => AddressFormMode.COPY);
           form.setFieldsValue({ ...record, country: COUNTRIES.find((a) => a.Country === record.country).ISO });
@@ -109,19 +66,20 @@ const UserAddresses = () => {
         },
       },
       {
-        key: 'delete',
-        label: 'Delete',
-        danger: true,
-        icon: <MinusCircleOutlined />,
+        ...staticItems.delete,
         onClick: () => removeAddressHandler(record.id),
       },
     ];
   };
 
   const removeAddressHandler = async (id: string) => {
-    const res = await removeAddress(customer.version, id);
-    dispatch(customerSlice.actions.set(res.body));
-    dispatch(alertSlice.actions.success('Address has been removed!'));
+    try {
+      const res = await removeAddress(customer.version, id);
+      dispatch(customerSlice.actions.set(res.body));
+      dispatch(alertSlice.actions.success('Address has been removed!'));
+    } catch (e) {
+      dispatch(alertSlice.actions.error(e.message));
+    }
   };
 
   async function editAddressHandler(currentAddress: UserAddressesColumnDataType) {
@@ -152,7 +110,7 @@ const UserAddresses = () => {
 
   return (
     <AddressFormContext.Provider value={contextInit}>
-      <Table dataSource={getTableData()} {...tableProps} className="user-addresses__table">
+      <Table dataSource={getTableData(customer)} {...tableProps} className="user-addresses__table">
         <Column title="Name" dataIndex="name" key="name" />
         <Column title="Country" dataIndex="country" key="country" />
         <Column title="City" dataIndex="city" key="city" />
@@ -164,8 +122,8 @@ const UserAddresses = () => {
           title="Type"
           dataIndex="addressTypes"
           key="addressTypes"
-          width={getTableData().length === 0 ? 100 : 300}
-          render={(_, record: UserAddressesColumnDataType) => AddressTypesList(record.types)}
+          width={getTableData(customer).length === 0 ? 100 : 300}
+          render={(_, record: UserAddressesColumnDataType) => AddressTypesList(record.types, 'profile')}
         ></Column>
         <Column
           fixed="right"
@@ -181,7 +139,7 @@ const UserAddresses = () => {
           }}
         />
       </Table>
-      <RegistrationAddressModalForm type="profile"></RegistrationAddressModalForm>
+      <AddressModalForm type="profile"></AddressModalForm>
       <Button
         type="primary"
         style={{ marginTop: 10 }}

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Spin, Tabs } from 'antd';
+import { Tabs } from 'antd';
 import UserInfo from './userInfo/UserInfo';
 import UserAddresses from './addresses/UserAddresses';
 import { useAppSelector } from '../../store/hooks';
+import Loading from '../UI/Loading';
 
 const UserProfile: React.FC = () => {
   const customer = useAppSelector((state) => state.customer.info);
@@ -11,11 +12,7 @@ const UserProfile: React.FC = () => {
     { label: 'Addresses', key: 'userAddresses', children: <UserAddresses /> },
   ];
 
-  return customer ? (
-    <Tabs defaultActiveKey="1" type="card" items={UserProfileItems} />
-  ) : (
-    <Spin style={{ margin: '30vh auto', display: 'block' }} size="large"></Spin>
-  );
+  return customer ? <Tabs defaultActiveKey="1" type="card" items={UserProfileItems} /> : <Loading />;
 };
 
 export default UserProfile;
