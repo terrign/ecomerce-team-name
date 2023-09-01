@@ -20,16 +20,19 @@ const AddressModalForm = (props: AddressModalFormProps) => {
   };
 
   const onSubmitRegistration = () => {
+    context.setSubmitDisabled(() => true);
     if (context.addressFormMode === AddressFormMode.EDIT) {
       const index = context.addressItemIndex;
       context.addresses.edit(index, context.addressForm.getFieldsValue());
     } else {
       context.addresses.add(context.addressForm.getFieldsValue());
     }
+    context.setSubmitDisabled(() => false);
     context.setModalOpen(false);
   };
 
   const onSubmitProfile = () => {
+    context.setSubmitDisabled(() => true);
     if (context.addressFormMode === AddressFormMode.NEW || context.addressFormMode === AddressFormMode.COPY) {
       context.addresses.add();
     } else {
@@ -43,7 +46,13 @@ const AddressModalForm = (props: AddressModalFormProps) => {
   };
 
   return (
-    <Modal open={context.modalOpen} onOk={onOk} onCancel={onCancel} closeIcon={null}>
+    <Modal
+      open={context.modalOpen}
+      onOk={onOk}
+      onCancel={onCancel}
+      closeIcon={null}
+      okButtonProps={{ disabled: context.submitDisabled }}
+    >
       <Form
         {...FORM_ITEM_LAYOUT}
         style={{ padding: '10px 20px 0 0' }}

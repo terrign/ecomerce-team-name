@@ -24,6 +24,8 @@ export interface AddressFormContextType {
   setAddressItemIndex?: React.Dispatch<React.SetStateAction<number>>;
   currentAddress?: UserAddressesColumnDataType;
   setCurrentAddress?: React.Dispatch<React.SetStateAction<UserAddressesColumnDataType>>;
+  setSubmitDisabled?: React.Dispatch<React.SetStateAction<boolean>>;
+  submitDisabled: boolean;
 }
 
 const AddressFormContext = createContext<AddressFormContextType>({
@@ -36,6 +38,7 @@ const AddressFormContext = createContext<AddressFormContextType>({
   modalOpen: false,
   addressForm: null,
   addressFormMode: AddressFormMode.NEW,
+  submitDisabled: false,
 });
 
 export default AddressFormContext;

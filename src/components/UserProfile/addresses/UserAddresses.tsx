@@ -26,6 +26,7 @@ const UserAddresses = () => {
   const [form] = Form.useForm();
   const [currentAddress, setcurrentAddress] = useState<UserAddressesColumnDataType>();
   const context = useContext(AddressFormContext);
+  const [submitDisabled, setSubmitDisabled] = useState(false);
   const dispatch = useAppDispatch();
 
   const contextInit = {
@@ -37,6 +38,8 @@ const UserAddresses = () => {
     setAddressFormMode: setMode,
     currentAddress,
     setcurrentAddress,
+    setSubmitDisabled,
+    submitDisabled,
   };
 
   useEffect(() => {
@@ -50,6 +53,7 @@ const UserAddresses = () => {
       {
         ...staticItems.edit,
         onClick: () => {
+          setSubmitDisabled(() => false);
           setMode(() => AddressFormMode.EDIT);
           setcurrentAddress(() => record);
           form.setFieldsValue({ ...record, country: COUNTRIES.find((a) => a.Country === record.country).ISO });
@@ -60,6 +64,7 @@ const UserAddresses = () => {
       {
         ...staticItems.copy,
         onClick: () => {
+          setSubmitDisabled(() => false);
           setMode(() => AddressFormMode.COPY);
           form.setFieldsValue({ ...record, country: COUNTRIES.find((a) => a.Country === record.country).ISO });
           setModalOpen(() => true);
@@ -92,6 +97,7 @@ const UserAddresses = () => {
     } catch (e) {
       const message = e.message.match(`The given address with 'key`) ? 'Address name already in use' : e.message;
       dispatch(alertSlice.actions.error(message));
+      setSubmitDisabled(() => false);
     }
   }
 
@@ -105,6 +111,7 @@ const UserAddresses = () => {
     } catch (e) {
       const message = e.message.match(`The given address with 'key`) ? 'Address name already in use' : e.message;
       dispatch(alertSlice.actions.error(message));
+      setSubmitDisabled(() => false);
     }
   }
 
@@ -145,6 +152,7 @@ const UserAddresses = () => {
         style={{ marginTop: 10 }}
         onClick={() => {
           form.resetFields();
+          setSubmitDisabled(() => false);
           setMode(AddressFormMode.NEW);
           setModalOpen(() => true);
         }}

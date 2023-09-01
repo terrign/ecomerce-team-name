@@ -87,6 +87,8 @@ const RegistrationForm = () => {
         setAddressFormMode,
         addressItemIndex,
         setAddressItemIndex,
+        setSubmitDisabled,
+        submitDisabled,
       }}
     >
       {contextHolder}
