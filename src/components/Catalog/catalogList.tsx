@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import getApiClient from '../../helpers/ApiClient/getApiClient';
-import { Pagination } from 'antd';
+import { Pagination, Spin } from 'antd';
 import { CatalogItem } from './catalogItem';
 import './catalogList.css';
 import { useParams } from 'react-router-dom';
@@ -16,6 +16,7 @@ type queryArgs = {
 };
 
 export const CatalogList = () => {
+  const [categoryStatus, setCategoryStatus] = useState(false);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [page, setPage] = useState(1);
@@ -54,28 +55,38 @@ export const CatalogList = () => {
   };
 
   useEffect(() => {
-    getProducts(categoryQuery);
-  }, [page]);
+    const fetchCategories = async () => {
+      try {
+        await getCategories(setCategories);
+        setCategoryStatus(true);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchCategories();
+  }, [categoryQuery]);
+
   useEffect(() => {
-    getCategories(setCategories);
-  }, []);
+    if (categoryStatus) {
+      getProducts(categoryQuery);
+    }
+  }, [categoryStatus, categoryQuery, page]);
   useEffect(() => {
-    getProducts(categoryQuery);
+    setPage(1);
+    if (page != 1) {
+      setCategoryStatus(false);
+    }
   }, [categoryQuery]);
 
   const onChangePage = (currPage: number) => {
     setPage(currPage);
   };
 
-  return (
+  return !categoryStatus ? (
+    <Spin />
+  ) : (
     <Fragment>
-      <div
-        onClick={() => {
-          console.log(categoryQuery);
-          console.log(categories);
-        }}
-        className="catalog-container"
-      >
+      <div className="catalog-container">
         {products.map((prod, ind) => {
           const id = prod?.masterVariant.key;
           const name = prod?.name?.en;
