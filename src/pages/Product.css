@@ -2,6 +2,9 @@
   .ant-image-mask {
     border-radius: 8px !important;
   }
+  .ant-image-img {
+    object-fit: contain;
+  }
 }
 .root-block-preview {
   visibility: hidden;
