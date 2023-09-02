@@ -1,0 +1,8 @@
+.ant-image {
+  .ant-image-mask {
+    border-radius: 8px !important;
+  }
+}
+.root-block-preview {
+  visibility: hidden;
+}

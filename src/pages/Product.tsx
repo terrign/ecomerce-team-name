@@ -1,8 +1,145 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect, CSSProperties } from 'react';
+import { useParams, Navigate } from 'react-router-dom';
+import { Skeleton, Carousel, Image, Space, Card } from 'antd';
+import getProduct, { ProductDetails } from '../helpers/ApiClient/products/productById';
+import { RouterPath } from '../models/RouterPath';
+import { ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
+import './Product.css';
+import emptyImage from '../assets/empty.png';
+import ArrowButton from '../components/Product/ArrowButton';
 
 const Product = () => {
   const params = useParams();
-  return <div>{params.productId}</div>;
+  const [loading, setLoading] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [preview, setPreview] = useState(false);
+  const [previewGroup, setPreviewGroup] = useState(false);
+  const [result, setResult] = useState<ProductDetails>({
+    key: '',
+    name: '',
+    description: '',
+    variants: [],
+    attributes: [],
+    error: '',
+  });
+
+  async function fetchProduct(): Promise<void> {
+    setLoading(true);
+    setResult(await getProduct(params.productId));
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
+  useEffect(() => {
+    if (!previewGroup) {
+      document.querySelectorAll<HTMLElement>('.ant-image-preview-mask').forEach((node) => {
+        node.style.display = 'none';
+      });
+      document.querySelectorAll<HTMLElement>('.ant-image-preview-close').forEach((node) => {
+        node.style.display = 'none';
+      });
+    }
+  }, [previewGroup]);
+
+  if (result.error) return <Navigate to={RouterPath.ERROR_404} />;
+  if (loading) return <Skeleton active />;
+
+  // console.log('Result', result);
+  const sliderImageSize = '300px';
+  const previewImageSize = '800px';
+  const carouselStyle: CSSProperties = {
+    width: '100%',
+    textAlign: 'center',
+  };
+  const afterChange = () => setCurrent(current);
+  const previewToolbarRender = () => false;
+  const previewOnVisibleChange = () => {
+    setPreview(false);
+    setPreviewGroup(true);
+  };
+  const previewGroupOnChange = (current: number) => setCurrent(current);
+  const previewGroupOnVisibleChange = () => {
+    setPreviewGroup(false);
+    setPreview(false);
+  };
+  const previewImageRender = () => {
+    return (
+      <Image.PreviewGroup
+        key={`preview-group`}
+        preview={{
+          visible: previewGroup,
+          current: current,
+          toolbarRender: (_, { transform: { scale }, actions: { onZoomOut, onZoomIn } }) => (
+            <Space size={12}>
+              <ZoomOutOutlined disabled={scale === 1} onClick={onZoomOut} />
+              <ZoomInOutlined disabled={scale === 50} onClick={onZoomIn} />
+            </Space>
+          ),
+          onChange: previewGroupOnChange,
+          onVisibleChange: previewGroupOnVisibleChange,
+        }}
+      >
+        {result.variants.map(({ url }, index) => (
+          <Image
+            key={`preview-img-${index}`}
+            src={url}
+            fallback={emptyImage}
+            preview={{
+              visible: preview,
+              onVisibleChange: () => setPreview(false),
+            }}
+            rootClassName="root-block-preview"
+            height={previewImageSize}
+          />
+        ))}
+      </Image.PreviewGroup>
+    );
+  };
+  return (
+    <Card title={result.name}>
+      <Carousel
+        variableWidth={false}
+        centerMode={true}
+        draggable={true}
+        arrows={true}
+        prevArrow={<ArrowButton type={'left'} />}
+        nextArrow={<ArrowButton type={'right'} />}
+        initialSlide={current}
+        slidesToShow={1}
+        infinite={false}
+        vertical={false}
+        rows={1}
+        style={carouselStyle}
+        afterChange={afterChange}
+      >
+        {result.variants.map(({ url }, index) => (
+          <Image
+            key={`slider-img-${index}`}
+            src={url}
+            height={sliderImageSize}
+            fallback={emptyImage}
+            preview={{
+              toolbarRender: previewToolbarRender,
+              onVisibleChange: previewOnVisibleChange,
+              imageRender: previewImageRender,
+            }}
+          />
+        ))}
+      </Carousel>
+      <p>{result.description}</p>
+      <Space align={'start'} wrap direction={'horizontal'} style={{ display: 'flex' }}>
+        {result.attributes.map(({ name, label }, index) => {
+          return (
+            <Card key={`card-${name}-${index}`} title={name} size="small">
+              <div key={`div-${name}-${index}`}>{label}</div>
+            </Card>
+          );
+        })}
+      </Space>
+    </Card>
+  );
 };
 export default Product;
