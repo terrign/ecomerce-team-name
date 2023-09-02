@@ -1,4 +1,4 @@
-import React, { useState, useEffect, CSSProperties } from 'react';
+import React, { useState, useEffect, CSSProperties, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { Skeleton, Carousel, Image, Space, Card } from 'antd';
 import getProduct, { ProductDetails } from '../helpers/ApiClient/products/productById';
@@ -7,11 +7,13 @@ import { ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
 import './Product.css';
 import emptyImage from '../assets/empty.png';
 import ArrowButton from '../components/Product/ArrowButton';
+import { CarouselRef } from 'antd/es/carousel';
 
 const Product = () => {
   const params = useParams();
   const [loading, setLoading] = useState(false);
   const [current, setCurrent] = useState(0);
+  const carouselRef = useRef<CarouselRef>();
   const [preview, setPreview] = useState(false);
   const [previewGroup, setPreviewGroup] = useState(false);
   const [result, setResult] = useState<ProductDetails>({
@@ -42,6 +44,7 @@ const Product = () => {
         node.style.display = 'none';
       });
     }
+    carouselRef.current.goTo(current, false);
   }, [previewGroup]);
 
   if (result.error) return <Navigate to={RouterPath.ERROR_404} />;
@@ -114,6 +117,7 @@ const Product = () => {
         rows={1}
         style={carouselStyle}
         afterChange={afterChange}
+        ref={carouselRef}
       >
         {result.variants.map(({ url }, index) => (
           <Image
