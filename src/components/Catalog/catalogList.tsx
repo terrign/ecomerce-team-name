@@ -4,7 +4,7 @@ import { Pagination } from 'antd';
 import { CatalogItem } from './catalogItem';
 import './catalogList.css';
 import { useParams } from 'react-router-dom';
-import initCategoryState from '../../store/initCategoryState';
+import getCategories from '../../helpers/ApiClient/getCategories';
 import { Category } from '@commercetools/platform-sdk';
 
 const PROD_LIMIT = 10;
@@ -57,7 +57,7 @@ export const CatalogList = () => {
     getProducts(categoryQuery);
   }, [page]);
   useEffect(() => {
-    initCategoryState(setCategories);
+    getCategories(setCategories);
   }, []);
   useEffect(() => {
     getProducts(categoryQuery);

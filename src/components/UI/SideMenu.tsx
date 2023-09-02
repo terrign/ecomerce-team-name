@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../store/hooks';
 import { RouterPath } from '../../models/RouterPath';
 import getMainMenuItemList from '../../helpers/getMainMenuItemList';
 import { actions as authActions } from '../../store/auth.slice';
-import initCategoryState from '../../store/initCategoryState';
+import getCategories from '../../helpers/ApiClient/getCategories';
 
 export const LAYOUT_BREAKPOINT = 768; //antd-layout breakpoint - md.
 
@@ -19,7 +19,7 @@ const SideMenu = () => {
   const loc = useLocation().pathname;
   const items = getMainMenuItemList(categoriesArr);
   useEffect(() => {
-    initCategoryState(setCategoriesArr);
+    getCategories(setCategoriesArr);
   }, []);
   const onClick = ({ key }: Parameters<MenuProps['onClick']>[0]) => {
     if (key === 'Logout') {
