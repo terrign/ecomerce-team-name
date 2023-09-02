@@ -37,15 +37,10 @@ const Product = () => {
 
   useEffect(() => {
     if (!previewGroup) {
-      // document.querySelectorAll<HTMLElement>('.ant-image-preview-mask').forEach((node) => {
-      //   node.style.display = 'none';
-      // });
-      // document.querySelectorAll<HTMLElement>('.ant-image-preview-close').forEach((node) => {
-      //   node.style.display = 'none';
-      // });
+      document.querySelectorAll<HTMLElement>('.ant-image-preview-close').forEach((node) => node.click());
     }
     carouselRef.current.goTo(current, false);
-  }, [previewGroup]);
+  }, [preview, previewGroup]);
 
   if (result.error) return <Navigate to={RouterPath.ERROR_404} />;
   if (loading) return <Skeleton active />;
@@ -59,15 +54,11 @@ const Product = () => {
   };
   const afterChange = (currentSlide: number) => setCurrent(currentSlide);
   const previewToolbarRender = () => false;
-  const previewOnVisibleChange = () => {
-    setPreview(false);
-    setPreviewGroup(true);
+  const previewOnVisibleChange = (value: boolean) => {
+    setPreview(value);
+    setPreviewGroup(value);
   };
   const previewGroupOnChange = (current: number) => setCurrent(current);
-  const previewGroupOnVisibleChange = () => {
-    setPreviewGroup(false);
-    setPreview(false);
-  };
   const previewImageRender = () => {
     return (
       <Image.PreviewGroup
@@ -82,7 +73,10 @@ const Product = () => {
             </Space>
           ),
           onChange: previewGroupOnChange,
-          onVisibleChange: previewGroupOnVisibleChange,
+          onVisibleChange(open) {
+            setPreviewGroup(open);
+            setPreview(open);
+          },
         }}
       >
         {result.variants.map(({ url }, index) => (
@@ -92,7 +86,6 @@ const Product = () => {
             fallback={emptyImage}
             preview={{
               visible: preview,
-              onVisibleChange: () => setPreview(false),
             }}
             rootClassName="root-block-preview"
             height={previewImageSize}
