@@ -37,12 +37,12 @@ const Product = () => {
 
   useEffect(() => {
     if (!previewGroup) {
-      document.querySelectorAll<HTMLElement>('.ant-image-preview-mask').forEach((node) => {
-        node.style.display = 'none';
-      });
-      document.querySelectorAll<HTMLElement>('.ant-image-preview-close').forEach((node) => {
-        node.style.display = 'none';
-      });
+      // document.querySelectorAll<HTMLElement>('.ant-image-preview-mask').forEach((node) => {
+      //   node.style.display = 'none';
+      // });
+      // document.querySelectorAll<HTMLElement>('.ant-image-preview-close').forEach((node) => {
+      //   node.style.display = 'none';
+      // });
     }
     carouselRef.current.goTo(current, false);
   }, [previewGroup]);
@@ -57,7 +57,7 @@ const Product = () => {
     width: '100%',
     textAlign: 'center',
   };
-  const afterChange = () => setCurrent(current);
+  const afterChange = (currentSlide: number) => setCurrent(currentSlide);
   const previewToolbarRender = () => false;
   const previewOnVisibleChange = () => {
     setPreview(false);
