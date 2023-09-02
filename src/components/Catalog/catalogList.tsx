@@ -77,6 +77,7 @@ export const CatalogList = () => {
         className="catalog-container"
       >
         {products.map((prod, ind) => {
+          const id = prod?.masterVariant.key;
           const name = prod?.name?.en;
           const description = prod?.metaDescription?.en;
           const image = prod?.masterVariant?.images[0].url;
@@ -85,6 +86,7 @@ export const CatalogList = () => {
           return (
             <CatalogItem
               key={ind}
+              id={id}
               name={name}
               description={description}
               image={image}

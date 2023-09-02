@@ -1,8 +1,11 @@
 import React from 'react';
 import { Skeleton, Card } from 'antd';
 import './catalogItem.css';
+import { Link } from 'react-router-dom';
+import { RouterPath } from '../../models/RouterPath';
 
 type CatalogItem = {
+  id: number;
   name: string;
   description: string;
   image: string;
@@ -31,6 +34,7 @@ export const CatalogItem = (props: CatalogItem) => {
         <p className="card-description">{props.description}</p>
         <p className={`card-price ${props.discPrice && 'crossed'}`}>{props.price / 100}$</p>
         {props.discPrice && <p className="card-price">{props.discPrice / 100}$</p>}
+        <Link to={`${RouterPath.PRODUCT}/${props.id}`}>More</Link>
       </div>
     </Card>
   );
