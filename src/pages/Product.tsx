@@ -108,6 +108,7 @@ const Product = () => {
         infinite={false}
         vertical={false}
         rows={1}
+        centerPadding={'0px'}
         style={carouselStyle}
         afterChange={afterChange}
         ref={carouselRef}
