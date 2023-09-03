@@ -47,6 +47,17 @@ const CatalogList = () => {
     return categoriesArr.find((cat) => cat.slug.en === categoryName).id;
   };
 
+  const transformParamsObjectToArray = (obj: URLSearchParams) => {
+    const result = [];
+    const object = Object.fromEntries(obj);
+    for (const key in object) {
+      if (key === 'name.en' || key === 'price') {
+        result.push(`${key} ${object[key]}`);
+      }
+    }
+    return result;
+  };
+
   const getProducts = async (categoryName?: string, subCategoryName?: string, sort?: URLSearchParams) => {
     setLoading(true);
     try {
@@ -60,10 +71,9 @@ const CatalogList = () => {
       if (!subCategoryName && categoryName) {
         queryArgs.filter = `categories.id: subtree("${getCategoryId(categoryName, categories)}")`;
       }
+      console.log(transformParamsObjectToArray(search));
       if (sort) {
-        queryArgs.sort = Array.from(search).map((val) => {
-          return `${val[0]} ${val[1]}`;
-        });
+        queryArgs.sort = transformParamsObjectToArray(search);
       }
       const resp = await getApiClient()
         .productProjections()
@@ -111,11 +121,13 @@ const CatalogList = () => {
     });
   };
 
-  console.log(
-    Array.from(search).map((val) => {
-      return `${val[0]} ${val[1]}`;
-    })
-  );
+  // console.log(Object.fromEntries(search));
+
+  // console.log(
+  //   Array.from(search).map((val) => {
+  //     return `${val[0]} ${val[1]}`;
+  //   })
+  // );
 
   return (
     <>
@@ -139,7 +151,7 @@ const CatalogList = () => {
             onChange={(value) => addSortParam(value, 'name.en')}
             value={search.get('name.en')}
             allowClear
-            onClear={() => deleteParam('name')}
+            onClear={() => deleteParam('name.en')}
           >
             <Option value="asc">Name ↓</Option>
             <Option value="desc">Name ↑</Option>
