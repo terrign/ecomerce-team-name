@@ -21,6 +21,7 @@ export interface ProductDetails {
   key: string;
   name: string;
   description: string;
+  discount: boolean;
   error: string;
   variants: ProductImage[];
   attributes: ProductAttribute[];
@@ -46,6 +47,7 @@ const emptyDetail: ProductDetails = {
   key: '',
   name: '',
   description: '',
+  discount: false,
   variants: [],
   attributes: [],
   error: 'error',
@@ -74,6 +76,7 @@ async function getProduct(key: string): Promise<ProductDetails> {
           }
         : emptyAttr;
       const salePrice = price?.discounted?.value ?? 0;
+      const discount = salePrice !== 0;
       const salePriceAttribute = salePrice
         ? {
             key: 'sale-price',
@@ -93,7 +96,7 @@ async function getProduct(key: string): Promise<ProductDetails> {
         }),
       ].filter(({ name = '' }) => name);
 
-      return { key, name, description, variants, attributes, error: '' };
+      return { key, name, description, discount, variants, attributes, error: '' };
     })
     .catch((error) => {
       console.log('Error:', error);

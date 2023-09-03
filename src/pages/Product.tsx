@@ -20,6 +20,7 @@ const Product = () => {
     key: '',
     name: '',
     description: '',
+    discount: false,
     variants: [],
     attributes: [],
     error: '',
@@ -129,10 +130,13 @@ const Product = () => {
       </Carousel>
       <p>{result.description}</p>
       <Space align={'start'} wrap direction={'horizontal'} style={{ display: 'flex' }}>
-        {result.attributes.map(({ name, label }, index) => {
+        {result.attributes.map(({ key, name, label }, index) => {
+          const style = result.discount && key === 'product-price' ? { textDecoration: 'line-through' } : {};
           return (
             <Card key={`card-${name}-${index}`} title={name} size="small">
-              <div key={`div-${name}-${index}`}>{label}</div>
+              <div key={`div-${name}-${index}`} style={style}>
+                {label}
+              </div>
             </Card>
           );
         })}
