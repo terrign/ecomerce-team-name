@@ -12,15 +12,16 @@ export interface CustomArrowProps extends PropsWithChildren, ArrowProps {}
 const ArrowButton = (allProps: CustomArrowProps) => {
   const { type, currentSlide, slideCount, ...props } = allProps;
   let color = 'black';
-  if (type === 'left' && currentSlide < 1) color = 'gray';
-  if (type === 'right' && currentSlide + 1 >= slideCount) color = 'gray';
-  const arrowStyle = { fontSize: '30px', color: color };
+  if (type === 'left' && currentSlide < 1) color = 'lightgray';
+  if (type === 'right' && currentSlide + 1 >= slideCount) color = 'lightgray';
+  const arrowStyle1 = { fontSize: '30px', color: color, marginLeft: '26px' };
+  const arrowStyle2 = { fontSize: '30px', color: color, marginLeft: '-50px' };
 
   const arrow =
-    type === 'left' ? <LeftCircleOutlined style={arrowStyle} /> : <RightCircleOutlined style={arrowStyle} />;
+    type === 'left' ? <LeftCircleOutlined style={arrowStyle1} /> : <RightCircleOutlined style={arrowStyle2} />;
 
   return (
-    <div {...props}>
+    <div {...props} style={{ position: 'absolute', zIndex: 100 }}>
       <Button {...props} icon={arrow} />
     </div>
   );
