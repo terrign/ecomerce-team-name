@@ -7,13 +7,13 @@ interface FilterPanelProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
 const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
   const onClose = () => {
     setOpen(() => false);
   };
   return (
     <Drawer placement="right" onClose={onClose} open={open} title={<SearchFilter callback={setOpen} />}>
+
       <Form>
         <Form.Item label="Name " style={{ display: 'flex', justifyContent: 'flex-start' }}>
           <Select style={{ width: 100 }}>
