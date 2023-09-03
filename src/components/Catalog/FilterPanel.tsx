@@ -1,18 +1,19 @@
 import { Drawer, Form, Select } from 'antd';
 import React from 'react';
+import SearchFilter from './Search';
 const { Option } = Select;
 
 interface FilterPanelProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-const FilterPanel = (props: FilterPanelProps) => {
+const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
   const onClose = () => {
-    props.setOpen(() => false);
+    setOpen(() => false);
   };
   return (
-    <Drawer placement="right" onClose={onClose} open={props.open} title="Filters">
+    <Drawer placement="right" onClose={onClose} open={open} title={<SearchFilter callback={setOpen} />}>
+
       <Form>
         <Form.Item label="Name " style={{ display: 'flex', justifyContent: 'flex-start' }}>
           <Select style={{ width: 100 }}>
