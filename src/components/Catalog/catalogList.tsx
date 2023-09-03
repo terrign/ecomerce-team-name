@@ -8,6 +8,7 @@ import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { Category } from '@commercetools/platform-sdk';
 import { CatalogItem } from './CatalogItem';
 import './CatalogList.css';
+import { URLSearchParams } from 'url';
 const { Option } = Select;
 
 const PROD_LIMIT = 10;
@@ -16,6 +17,7 @@ type queryArgs = {
   limit: number;
   offset: number;
   filter?: string;
+  sort?: Array<string>;
 };
 
 const CatalogList = () => {
@@ -45,7 +47,7 @@ const CatalogList = () => {
     return categoriesArr.find((cat) => cat.slug.en === categoryName).id;
   };
 
-  const getProducts = async (categoryName?: string, subCategoryName?: string) => {
+  const getProducts = async (categoryName?: string, subCategoryName?: string, sort?: URLSearchParams) => {
     setLoading(true);
     try {
       const queryArgs: queryArgs = {
@@ -57,6 +59,11 @@ const CatalogList = () => {
       }
       if (!subCategoryName && categoryName) {
         queryArgs.filter = `categories.id: subtree("${getCategoryId(categoryName, categories)}")`;
+      }
+      if (sort) {
+        queryArgs.sort = Array.from(search).map((val) => {
+          return `${val[0]} ${val[1]}`;
+        });
       }
       const resp = await getApiClient()
         .productProjections()
@@ -75,8 +82,8 @@ const CatalogList = () => {
   };
 
   useEffect(() => {
-    getProducts(categoryQuery, subCategoryQuery);
-  }, [categoryQuery, subCategoryQuery, page]);
+    getProducts(categoryQuery, subCategoryQuery, search);
+  }, [categoryQuery, subCategoryQuery, search, page]);
 
   useEffect(() => {
     setPage(1);
@@ -104,7 +111,11 @@ const CatalogList = () => {
     });
   };
 
-  console.log(params, Object.fromEntries(search));
+  console.log(
+    Array.from(search).map((val) => {
+      return `${val[0]} ${val[1]}`;
+    })
+  );
 
   return (
     <>
@@ -125,8 +136,8 @@ const CatalogList = () => {
           <Select
             style={{ width: 100 }}
             placeholder="Name"
-            onChange={(value) => addSortParam(value, 'name')}
-            value={search.get('name')}
+            onChange={(value) => addSortParam(value, 'name.en')}
+            value={search.get('name.en')}
             allowClear
             onClear={() => deleteParam('name')}
           >
