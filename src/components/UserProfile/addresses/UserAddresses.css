@@ -1,0 +1,16 @@
+.user-addresses__types-list {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 270px;
+  gap: 1px;
+}
+
+.user-addresses__types-list > span {
+  display: inline;
+  width: min-content;
+  text-align: center;
+}
+
+.user-addresses__table table > thead > tr > th {
+  z-index: 100 !important;
+}

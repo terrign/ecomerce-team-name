@@ -80,6 +80,23 @@ const CONFIRM_PASSWORD_INPUT_RULES: Rule[] = [
   }),
 ];
 
+const getConfirmPasswoordInputRules = (connectedField: string): Rule[] => {
+  return [
+    {
+      required: true,
+      message: 'Please confirm your password',
+    },
+    ({ getFieldValue }) => ({
+      validator(_, value) {
+        if (!value || getFieldValue(connectedField) === value) {
+          return Promise.resolve();
+        }
+        return Promise.reject(new Error(`Passwords don't match`));
+      },
+    }),
+  ];
+};
+
 export {
   CONFIRM_PASSWORD_INPUT_RULES,
   PASSWORD_INPUT_RULES,
@@ -89,4 +106,5 @@ export {
   EMAIL_INPUT_RULES,
   VALID_PASSWORD_MATCHER,
   VALID_NAME_MATHCER,
+  getConfirmPasswoordInputRules,
 };

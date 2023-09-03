@@ -2,20 +2,19 @@ import React, { useState } from 'react';
 import { Button, Form, Input, DatePicker, message } from 'antd';
 import {
   BIRTH_DATE_INPUT_RULES,
-  CONFIRM_PASSWORD_INPUT_RULES,
   EMAIL_INPUT_RULES,
   FIRST_NAME_INPUT_RULES,
   LAST_NAME_INPUT_RULES,
   PASSWORD_INPUT_RULES,
+  getConfirmPasswoordInputRules,
 } from '../../constants/forms/registration-form/rules';
 import { FORM_STYLE } from '../../constants/forms/form-style';
 import FormAddressControlledList from './address/AddressFormControlledList';
-import RegistrationFormContext, { AddressFormMode, RegFormContext } from '../../context/RegistrationFormContext';
-import { AddressFormValues } from '../../models/AddressFormValues';
-import AddressModalForm from './address/AddressModalForm';
+import RegistrationFormContext, { AddressFormMode, AddressFormContextType } from '../../context/AddressFormContext';
+import { AddressFormValues } from '../../models/AddressFormTypes';
 import { FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/forms/antd-form-layouts';
 import { PlusOutlined } from '@ant-design/icons';
-import registrationRequestAdapter from '../../helpers/registrationRequestAdapter';
+import registrationRequestAdapter from '../../helpers/forms/registrationRequestAdapter';
 import { UserFormData } from '../../models/apiDrafts';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { RouterPath } from '../../models/RouterPath';
@@ -24,6 +23,8 @@ import { authSlice } from '../../store/auth.slice';
 import { loginRequest } from '../../helpers/ApiClient/loginRequest';
 import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { alertSlice } from '../../store/alert.slice';
+import { customerSlice } from '../../store/customer.slice';
+import AddressModalForm from './address/AddressModalForm';
 
 const RegistrationForm = () => {
   const [registrationForm] = Form.useForm();
@@ -37,7 +38,7 @@ const RegistrationForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const addressesContext: RegFormContext['addresses'] = {
+  const addressesContext: AddressFormContextType['addresses'] = {
     items: addresses,
     remove: (i: number) => {
       setAddresses((prev) => [...prev.slice(0, i), ...prev.slice(i + 1)]);
@@ -61,7 +62,8 @@ const RegistrationForm = () => {
     const body = registrationRequestAdapter(addresses, userData);
     try {
       await getApiClient().me().signup().post({ body: body }).execute();
-      await loginRequest(email, password);
+      const res = await loginRequest(email, password);
+      dispatch(customerSlice.actions.set(res.body.customer));
       dispatch(alertSlice.actions.success('User created'));
       dispatch(authSlice.actions.login({ username: `${firstName} ${lastName}`, remember: false }));
       navigate(RouterPath.HOME);
@@ -85,6 +87,8 @@ const RegistrationForm = () => {
         setAddressFormMode,
         addressItemIndex,
         setAddressItemIndex,
+        setSubmitDisabled,
+        submitDisabled,
       }}
     >
       {contextHolder}
@@ -100,16 +104,16 @@ const RegistrationForm = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="firstName" label="First Name" rules={FIRST_NAME_INPUT_RULES}>
+        <Form.Item name="firstName" label="First name" rules={FIRST_NAME_INPUT_RULES}>
           <Input />
         </Form.Item>
 
-        <Form.Item name="lastName" label="Last Name" rules={LAST_NAME_INPUT_RULES}>
+        <Form.Item name="lastName" label="Last name" rules={LAST_NAME_INPUT_RULES}>
           <Input />
         </Form.Item>
 
-        <Form.Item name="dateOfBirth" label="Birth Date" rules={BIRTH_DATE_INPUT_RULES} validateFirst>
-          <DatePicker />
+        <Form.Item name="dateOfBirth" label="Birth date" rules={BIRTH_DATE_INPUT_RULES} validateFirst>
+          <DatePicker inputReadOnly />
         </Form.Item>
 
         <Form.Item name="password" label="Password" rules={PASSWORD_INPUT_RULES} hasFeedback validateFirst>
@@ -118,10 +122,10 @@ const RegistrationForm = () => {
 
         <Form.Item
           name="confirm"
-          label="Confirm Password"
+          label="Confirm password"
           dependencies={['password']}
           hasFeedback
-          rules={CONFIRM_PASSWORD_INPUT_RULES}
+          rules={getConfirmPasswoordInputRules('password')}
         >
           <Input.Password />
         </Form.Item>
@@ -132,8 +136,8 @@ const RegistrationForm = () => {
           </Button>
         </Form.Item>
 
-        <AddressModalForm></AddressModalForm>
-        <Form.Item {...TAIL_FORM_ITEM_LAYOUT} rules={[]}>
+        <AddressModalForm type="reg"></AddressModalForm>
+        <Form.Item {...TAIL_FORM_ITEM_LAYOUT}>
           <Button type="primary" htmlType="submit" disabled={submitDisabled}>
             Register
           </Button>

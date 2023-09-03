@@ -1,5 +1,5 @@
 import { CountryInfo } from '../constants/forms/address-form/countries';
-import { AddressFormValues } from './AddressFormValues';
+import { AddressFormValues } from './AddressFormTypes';
 import { DatePickerValue } from './DatePickerValue';
 
 export interface UserData {
