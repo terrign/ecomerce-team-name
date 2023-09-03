@@ -21,24 +21,21 @@ const CatalogList = () => {
     borderRadius: token.borderRadiusLG,
   };
 
-  const onPriceSortChange = (value: string) => {
+  const addSortParam = (value: string, paramName: string) => {
     const serchParams = Object.fromEntries(search);
     if (value === 'asc') {
-      setSearch({ ...serchParams, price: 'asc' });
+      setSearch({ ...serchParams, [paramName]: 'asc' });
     }
     if (value === 'desc') {
-      setSearch({ ...serchParams, price: 'desc' });
+      setSearch({ ...serchParams, [paramName]: 'desc' });
     }
   };
 
-  const onNameSortChange = (value: string) => {
-    const serchParams = Object.fromEntries(search);
-    if (value === 'asc') {
-      setSearch({ ...serchParams, name: 'asc' });
-    }
-    if (value === 'desc') {
-      setSearch({ ...serchParams, name: 'desc' });
-    }
+  const deleteParam = (paramName: string) => {
+    setSearch((params) => {
+      params.delete(paramName);
+      return params;
+    });
   };
 
   console.log(params, Object.fromEntries(search));
@@ -48,11 +45,25 @@ const CatalogList = () => {
       <Breadcrumb items={useBreadItems(params)} style={{ marginBottom: 10 }} />
       <Space style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10, flexWrap: 'wrap' }}>
         <Space style={{ margin: '0 auto' }}>
-          <Select style={{ width: 100 }} placeholder="Price" onChange={onPriceSortChange} value={search.get('price')}>
+          <Select
+            style={{ width: 100 }}
+            placeholder="Price"
+            onChange={(value) => addSortParam(value, 'price')}
+            value={search.get('price')}
+            allowClear
+            onClear={() => deleteParam('price')}
+          >
             <Option value="asc">Price ↓</Option>
             <Option value="desc">Price ↑</Option>
           </Select>
-          <Select style={{ width: 100 }} placeholder="Name" onChange={onNameSortChange} value={search.get('name')}>
+          <Select
+            style={{ width: 100 }}
+            placeholder="Name"
+            onChange={(value) => addSortParam(value, 'name')}
+            value={search.get('name')}
+            allowClear
+            onClear={() => deleteParam('name')}
+          >
             <Option value="asc">Name ↓</Option>
             <Option value="desc">Name ↑</Option>
           </Select>
