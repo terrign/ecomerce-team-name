@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Layout } from 'antd';
@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../store/hooks';
 import { RouterPath } from '../../models/RouterPath';
 import getMainMenuItemList from '../../helpers/getMainMenuItemList';
 import { actions as authActions } from '../../store/auth.slice';
+import getCategories from '../../helpers/ApiClient/getCategories';
 
 export const LAYOUT_BREAKPOINT = 768; //antd-layout breakpoint - md.
 
@@ -14,8 +15,12 @@ const SideMenu = () => {
   const dispatch = useAppDispatch();
   const [collapsed, setCollapsed] = useState(window.innerWidth <= LAYOUT_BREAKPOINT);
   const [showTrigger, setShowTrigger] = useState(!collapsed);
+  const [categoriesArr, setCategoriesArr] = useState([]);
   const loc = useLocation().pathname;
-  const items = getMainMenuItemList();
+  const items = getMainMenuItemList(categoriesArr);
+  useEffect(() => {
+    getCategories(setCategoriesArr);
+  }, []);
   const onClick = ({ key }: Parameters<MenuProps['onClick']>[0]) => {
     if (key === 'Logout') {
       dispatch(authActions.logout());

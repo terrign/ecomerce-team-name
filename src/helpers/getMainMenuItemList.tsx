@@ -12,12 +12,23 @@ import { NavLink } from 'react-router-dom';
 import getMenuItem from './getMenuItem';
 import { RouterPath } from '../models/RouterPath';
 import { useAppSelector } from '../store/hooks';
+import { Category } from '@commercetools/platform-sdk';
 
-const getMainMenuItemList = () => {
+const getMainMenuItemList = (categoriesArr: Array<Category>) => {
   const isLogged = useAppSelector((state) => Boolean(state.auth.tokenStore.token));
   return [
     getMenuItem(<NavLink to={RouterPath.HOME}>Home</NavLink>, RouterPath.HOME, <HomeOutlined />),
-    getMenuItem(<NavLink to={RouterPath.CATALOG}>Catalog</NavLink>, RouterPath.CATALOG, <ShopOutlined />),
+    getMenuItem(
+      <NavLink to={RouterPath.CATALOG}>Catalog</NavLink>,
+      RouterPath.CATALOG,
+      <ShopOutlined />,
+      categoriesArr.map((category) => {
+        return getMenuItem(
+          <NavLink to={`${RouterPath.CATALOG}/${category.slug.en}`}>{category.name.en}</NavLink>,
+          `${RouterPath.CATALOG}/${category.slug.en}`
+        );
+      })
+    ),
     getMenuItem(
       'User',
       'UserActions',
