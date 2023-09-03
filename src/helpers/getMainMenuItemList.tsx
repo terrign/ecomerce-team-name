@@ -27,8 +27,8 @@ const getMainMenuItemList = () => {
       <ShopOutlined />,
       categories.map((category) => {
         return getMenuItem(
-          <NavLink to={`${RouterPath.CATALOG}/${category.name}`}>{category.name}</NavLink>,
-          `${RouterPath.CATALOG}/${category.name}`,
+          <NavLink to={`${RouterPath.CATALOG}/${category.slug}`}>{category.name}</NavLink>,
+          `${RouterPath.CATALOG}/${category.slug}`,
           <UnorderedListOutlined />,
           category.children.map((child) => {
             return getMenuItem(

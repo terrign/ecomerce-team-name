@@ -1,11 +1,14 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import { Breadcrumb, Button, Pagination, Select, Space, theme } from 'antd';
+import React, { useState, useEffect, Fragment } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
+import useBreadItems from './getBreadItems';
+import FilterPanel from './FilterPanel';
+import { useAppSelector } from '../../store/hooks';
 import getApiClient from '../../helpers/ApiClient/getApiClient';
-import { Pagination, Spin } from 'antd';
+import { Category } from '@commercetools/platform-sdk';
 import { CatalogItem } from './catalogItem';
 import './catalogList.css';
-import { useParams } from 'react-router-dom';
-import getCategories from '../../helpers/ApiClient/getCategories';
-import { Category } from '@commercetools/platform-sdk';
+const { Option } = Select;
 
 const PROD_LIMIT = 10;
 
@@ -15,27 +18,44 @@ type queryArgs = {
   filter?: string;
 };
 
-export const CatalogList = () => {
-  const [categoryStatus, setCategoryStatus] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+const CatalogList = () => {
+  const params = useParams();
+  const categories = useAppSelector((state) => state.categories.items);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [products, setProducts] = useState([]);
   const [load, setLoading] = useState(true);
+  const [search, setSearch] = useSearchParams();
+  const [filterOpen, setFilterOpen] = useState(false);
+  const { token } = theme.useToken();
   const categoryQuery = useParams().category;
+  const subCategoryQuery = useParams().subCategory;
+  const containerStyle: React.CSSProperties = {
+    position: 'relative',
+    minHeight: 600,
+    padding: 48,
+    overflow: 'hidden',
+    textAlign: 'center',
+    background: token.colorFillAlter,
+    border: `1px solid ${token.colorBorderSecondary}`,
+    borderRadius: token.borderRadiusLG,
+  };
 
   const getCategoryId = (categoryName: string, categoriesArr: Array<Category>) => {
     return categoriesArr.find((cat) => cat.slug.en === categoryName).id;
   };
 
-  const getProducts = async (categoryName?: string) => {
+  const getProducts = async (categoryName?: string, subCategoryName?: string) => {
     setLoading(true);
     try {
       const queryArgs: queryArgs = {
         limit: PROD_LIMIT,
         offset: PROD_LIMIT * (page - 1),
       };
-      if (categoryName) {
+      if (subCategoryName) {
+        queryArgs.filter = `categories.id: subtree("${getCategoryId(subCategoryName, categories)}")`;
+      }
+      if (!subCategoryName && categoryName) {
         queryArgs.filter = `categories.id: subtree("${getCategoryId(categoryName, categories)}")`;
       }
       const resp = await getApiClient()
@@ -55,60 +75,88 @@ export const CatalogList = () => {
   };
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        await getCategories(setCategories);
-        setCategoryStatus(true);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchCategories();
-  }, [categoryQuery]);
+    getProducts(categoryQuery, subCategoryQuery);
+  }, [categoryQuery, subCategoryQuery, page]);
 
   useEffect(() => {
-    if (categoryStatus) {
-      getProducts(categoryQuery);
-    }
-  }, [categoryStatus, categoryQuery, page]);
-  useEffect(() => {
     setPage(1);
-    if (page != 1) {
-      setCategoryStatus(false);
-    }
-  }, [categoryQuery]);
+  }, [categoryQuery, subCategoryQuery]);
 
   const onChangePage = (currPage: number) => {
     setPage(currPage);
+    console.log(categoryQuery);
   };
 
-  return !categoryStatus ? (
-    <Spin />
-  ) : (
-    <Fragment>
-      <div className="catalog-container">
-        {products.map((prod, ind) => {
-          const id = prod?.masterVariant.key;
-          const name = prod?.name?.en;
-          const description = prod?.metaDescription?.en;
-          const image = prod?.masterVariant?.images[0].url;
-          const price = prod?.masterVariant?.prices[0]?.value?.centAmount;
-          const discPrice = prod?.masterVariant?.prices[0]?.discounted?.value?.centAmount;
-          return (
-            <CatalogItem
-              key={ind}
-              id={id}
-              name={name}
-              description={description}
-              image={image}
-              price={price}
-              discPrice={discPrice}
-              load={load}
-            />
-          );
-        })}
+  const onPriceSortChange = (value: string) => {
+    const serchParams = Object.fromEntries(search);
+    if (value === 'asc') {
+      setSearch({ ...serchParams, price: 'asc' });
+    }
+    if (value === 'desc') {
+      setSearch({ ...serchParams, price: 'desc' });
+    }
+  };
+
+  const onNameSortChange = (value: string) => {
+    const serchParams = Object.fromEntries(search);
+    if (value === 'asc') {
+      setSearch({ ...serchParams, name: 'asc' });
+    }
+    if (value === 'desc') {
+      setSearch({ ...serchParams, name: 'desc' });
+    }
+  };
+
+  console.log(params, Object.fromEntries(search));
+
+  return (
+    <>
+      <Breadcrumb items={useBreadItems(params)} style={{ marginBottom: 10 }} />
+      <Space style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10, flexWrap: 'wrap' }}>
+        <Space style={{ margin: '0 auto' }}>
+          <Select style={{ width: 100 }} placeholder="Price" onChange={onPriceSortChange} value={search.get('price')}>
+            <Option value="asc">Price ↓</Option>
+            <Option value="desc">Price ↑</Option>
+          </Select>
+          <Select style={{ width: 100 }} placeholder="Name" onChange={onNameSortChange} value={search.get('name')}>
+            <Option value="asc">Name ↓</Option>
+            <Option value="desc">Name ↑</Option>
+          </Select>
+        </Space>
+        <Button onClick={() => setFilterOpen((prev) => !prev)} style={{ width: 208 }}>
+          Filters
+        </Button>
+      </Space>
+      <div style={containerStyle}>
+        <FilterPanel open={filterOpen} setOpen={setFilterOpen} />
+        <Fragment>
+          <div className="catalog-container">
+            {products.map((prod, ind) => {
+              const id = prod?.masterVariant.key;
+              const name = prod?.name?.en;
+              const description = prod?.metaDescription?.en;
+              const image = prod?.masterVariant?.images[0].url;
+              const price = prod?.masterVariant?.prices[0]?.value?.centAmount;
+              const discPrice = prod?.masterVariant?.prices[0]?.discounted?.value?.centAmount;
+              return (
+                <CatalogItem
+                  key={ind}
+                  id={id}
+                  name={name}
+                  description={description}
+                  image={image}
+                  price={price}
+                  discPrice={discPrice}
+                  load={load}
+                />
+              );
+            })}
+          </div>
+          <Pagination size="small" total={totalPages * PROD_LIMIT} onChange={onChangePage} current={page} />
+        </Fragment>
       </div>
-      <Pagination size="small" total={totalPages * PROD_LIMIT} onChange={onChangePage} current={page} />
-    </Fragment>
+    </>
   );
 };
+
+export default CatalogList;
