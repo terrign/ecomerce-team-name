@@ -3,12 +3,14 @@ import { reducer as authReducer } from './auth.slice';
 import { reducer as userMenuReducer } from './userMenu.slice';
 import { reducer as alertReducer } from './alert.slice';
 import { reducer as customerReducer } from './customer.slice';
+import { reducer as categoriesReducer } from './categories.slice';
 
 const reducers = combineReducers({
   auth: authReducer,
   userMenu: userMenuReducer,
   alert: alertReducer,
   customer: customerReducer,
+  categories: categoriesReducer,
 });
 
 export const store = configureStore({
