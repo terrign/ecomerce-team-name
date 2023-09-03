@@ -7,25 +7,35 @@ import {
   LoginOutlined,
   ProfileOutlined,
   ShopOutlined,
+  UnorderedListOutlined,
 } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import getMenuItem from './getMenuItem';
 import { RouterPath } from '../models/RouterPath';
 import { useAppSelector } from '../store/hooks';
-import { Category } from '@commercetools/platform-sdk';
+import useCategoryTree from '../hooks/useCategoryTree';
 
-const getMainMenuItemList = (categoriesArr: Array<Category>) => {
+const getMainMenuItemList = () => {
   const isLogged = useAppSelector((state) => Boolean(state.auth.tokenStore.token));
+  const categories = useCategoryTree();
+
   return [
     getMenuItem(<NavLink to={RouterPath.HOME}>Home</NavLink>, RouterPath.HOME, <HomeOutlined />),
     getMenuItem(
       <NavLink to={RouterPath.CATALOG}>Catalog</NavLink>,
       RouterPath.CATALOG,
       <ShopOutlined />,
-      categoriesArr.map((category) => {
+      categories.map((category) => {
         return getMenuItem(
-          <NavLink to={`${RouterPath.CATALOG}/${category.slug.en}`}>{category.name.en}</NavLink>,
-          `${RouterPath.CATALOG}/${category.slug.en}`
+          <NavLink to={`${RouterPath.CATALOG}/${category.name}`}>{category.name}</NavLink>,
+          `${RouterPath.CATALOG}/${category.name}`,
+          <UnorderedListOutlined />,
+          category.children.map((child) => {
+            return getMenuItem(
+              <NavLink to={`${RouterPath.CATALOG}/${category.slug}/${child.slug}`}>{child.name}</NavLink>,
+              `${RouterPath.CATALOG}/${category.slug}/${child.slug}`
+            );
+          })
         );
       })
     ),
