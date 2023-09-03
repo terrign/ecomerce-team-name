@@ -1,13 +1,13 @@
 import { Breadcrumb, Button, Pagination, Select, Space, theme } from 'antd';
 import React, { useState, useEffect, Fragment } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import useBreadItems from './getBreadItems';
+import getBreadItems from './getBreadItems';
 import FilterPanel from './FilterPanel';
 import { useAppSelector } from '../../store/hooks';
 import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { Category } from '@commercetools/platform-sdk';
-import { CatalogItem } from './catalogItem';
-import './catalogList.css';
+import { CatalogItem } from './CatalogItem';
+import './CatalogList.css';
 const { Option } = Select;
 
 const PROD_LIMIT = 10;
@@ -33,7 +33,7 @@ const CatalogList = () => {
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     minHeight: 600,
-    padding: 48,
+    padding: 10,
     overflow: 'hidden',
     textAlign: 'center',
     background: token.colorFillAlter,
@@ -87,38 +87,49 @@ const CatalogList = () => {
     console.log(categoryQuery);
   };
 
-  const onPriceSortChange = (value: string) => {
+  const addSortParam = (value: string, paramName: string) => {
     const serchParams = Object.fromEntries(search);
     if (value === 'asc') {
-      setSearch({ ...serchParams, price: 'asc' });
+      setSearch({ ...serchParams, [paramName]: 'asc' });
     }
     if (value === 'desc') {
-      setSearch({ ...serchParams, price: 'desc' });
+      setSearch({ ...serchParams, [paramName]: 'desc' });
     }
   };
 
-  const onNameSortChange = (value: string) => {
-    const serchParams = Object.fromEntries(search);
-    if (value === 'asc') {
-      setSearch({ ...serchParams, name: 'asc' });
-    }
-    if (value === 'desc') {
-      setSearch({ ...serchParams, name: 'desc' });
-    }
+  const deleteParam = (paramName: string) => {
+    setSearch((params) => {
+      params.delete(paramName);
+      return params;
+    });
   };
 
   console.log(params, Object.fromEntries(search));
 
   return (
     <>
-      <Breadcrumb items={useBreadItems(params)} style={{ marginBottom: 10 }} />
+      <Breadcrumb items={getBreadItems(params)} style={{ marginBottom: 10 }} />
       <Space style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10, flexWrap: 'wrap' }}>
         <Space style={{ margin: '0 auto' }}>
-          <Select style={{ width: 100 }} placeholder="Price" onChange={onPriceSortChange} value={search.get('price')}>
+          <Select
+            style={{ width: 100 }}
+            placeholder="Price"
+            onChange={(value) => addSortParam(value, 'price')}
+            value={search.get('price')}
+            allowClear
+            onClear={() => deleteParam('price')}
+          >
             <Option value="asc">Price ↓</Option>
             <Option value="desc">Price ↑</Option>
           </Select>
-          <Select style={{ width: 100 }} placeholder="Name" onChange={onNameSortChange} value={search.get('name')}>
+          <Select
+            style={{ width: 100 }}
+            placeholder="Name"
+            onChange={(value) => addSortParam(value, 'name')}
+            value={search.get('name')}
+            allowClear
+            onClear={() => deleteParam('name')}
+          >
             <Option value="asc">Name ↓</Option>
             <Option value="desc">Name ↑</Option>
           </Select>

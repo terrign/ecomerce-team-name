@@ -1,6 +1,6 @@
 import React from 'react';
 import { Skeleton, Card } from 'antd';
-import './catalogItem.css';
+import './CatalogItem.css';
 import { Link } from 'react-router-dom';
 import { RouterPath } from '../../models/RouterPath';
 
