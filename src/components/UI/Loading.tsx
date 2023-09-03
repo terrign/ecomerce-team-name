@@ -1,6 +1,6 @@
 import React from 'react';
 import { Spin } from 'antd';
 
-const Loading = () => <Spin style={{ margin: '30vh auto', display: 'block' }} size="large"></Spin>;
+const Loading = () => <Spin style={{ position: 'absolute', top: '45%', left: '50%' }} size="large"></Spin>;
 
 export default Loading;

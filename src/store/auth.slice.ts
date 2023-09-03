@@ -59,6 +59,8 @@ export const authSlice = createSlice({
     },
     initAuthStateWithRefresh: (state: AuthState, action: PayloadAction<string>) => {
       state.tokenStore = tokenCache.get();
+      console.log(tokenCache.get());
+      Cookie.set('token', state.tokenStore.token);
       state.remember = true;
       state.username = action.payload;
     },
