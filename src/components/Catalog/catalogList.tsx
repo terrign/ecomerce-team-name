@@ -5,7 +5,7 @@ import getBreadItems from './getBreadItems';
 import FilterPanel from './FilterPanel';
 import { CatalogItem } from './CatalogItem';
 import './CatalogList.css';
-import getProductList from '../../helpers/ApiClient/getProducts';
+import getProductList from '../../helpers/ApiClient/getProductList';
 import useCategoryTree from '../../hooks/useCategoryTree';
 import { useAppDispatch } from '../../store/hooks';
 import { alertSlice } from '../../store/alert.slice';
@@ -73,7 +73,7 @@ const CatalogList = () => {
     <>
       <Breadcrumb items={getBreadItems(params)} style={{ marginBottom: 10 }} />
       <Space style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10, flexWrap: 'wrap' }}>
-        <Space style={{ margin: '0 auto' }}>
+        <Space.Compact style={{ margin: '0 auto' }}>
           <Select
             style={{ width: 100 }}
             placeholder="Price"
@@ -88,15 +88,15 @@ const CatalogList = () => {
           <Select
             style={{ width: 100 }}
             placeholder="Name"
-            onChange={(value) => addSortParam(value, 'name.en')}
-            value={search.get('name.en')}
+            onChange={(value) => addSortParam(value, 'name')}
+            value={search.get('name')}
             allowClear
-            onClear={() => deleteParam('name.en')}
+            onClear={() => deleteParam('name')}
           >
             <Option value="asc">Name ↓</Option>
             <Option value="desc">Name ↑</Option>
           </Select>
-        </Space>
+        </Space.Compact>
         <Button onClick={() => setFilterOpen((prev) => !prev)} style={{ width: 208 }}>
           Filters
         </Button>

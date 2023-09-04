@@ -14,6 +14,9 @@ export const productsQueryAdapter: QueryAdapter = (page, { category, subCategory
     : categories.find((a) => a.name.toLowerCase() === category)?.id;
   const filter = categoryId ? [`categories.id: subtree("${categoryId}")`] : [];
 
+  if (queryParams.color) filter.push(`variants.attributes.color:"${queryParams.color}"`);
+  if (queryParams.brand) filter.push(`variants.attributes.brand:"${queryParams.brand}"`);
+
   const sort = [];
   if (queryParams.price) sort.push(`price ${queryParams.price}`);
   if (queryParams.name) sort.push(`name.en ${queryParams.name}`);
