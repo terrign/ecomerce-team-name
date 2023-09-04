@@ -36,7 +36,7 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
     const newParams = { ...getParams() };
     if (values.color) newParams.color = values.color;
     if (values.brand) newParams.brand = values.brand;
-    if (values.price.some((a: number) => a) && values.price) {
+    if (values.price) {
       newParams.priceFrom = values.price[0];
       newParams.priceTo = values.price[1];
     }
@@ -52,8 +52,6 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
     };
     if (params.priceTo && params.priceFrom) {
       values.price = [params.priceFrom, params.priceTo];
-    } else {
-      values.price = ['0', '3000'];
     }
     return values;
   };
@@ -68,7 +66,7 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
           params.delete(key);
         }
       }
-      form.setFieldsValue({ color: undefined, brand: undefined, price: [0, 3000] });
+      form.setFieldsValue({ color: undefined, brand: undefined, price: undefined });
       return params;
     });
   };
@@ -85,7 +83,7 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
           <Slider range marks={marks} max={3000} />
         </Form.Item>
         <Form.Item label="Brand" name="brand">
-          <Select>
+          <Select allowClear>
             <Option value="Apple">Apple</Option>
             <Option value="Acer">Acer</Option>
             <Option value="AMD">AMD</Option>
@@ -105,7 +103,7 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
           </Select>
         </Form.Item>
         <Form.Item label="Color" name="color">
-          <Select>
+          <Select allowClear>
             <Option value="black">Black</Option>
             <Option value="blue">Blue</Option>
             <Option value="gray">Gray</Option>
