@@ -15,6 +15,10 @@ const marks: SliderMarks = {
   3000: '3000$',
 };
 
+interface ParamValues {
+  [key: string]: string | string[] | undefined;
+}
+
 interface FilterPanelProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -41,14 +45,19 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
   };
 
   const getFormInitValues = () => {
-    const values = {
+    const params = getParams();
+    const values: ParamValues = {
       color: getParams().color,
       brand: getParams().brand,
+      price: undefined,
     };
+    if (params.priceTo && params.priceFrom) {
+      values.price = [params.priceFrom, params.priceTo];
+    } else {
+      values.price = ['0', '3000'];
+    }
     return values;
   };
-
-  getFormInitValues;
 
   const resetFilters = () => {
     setSearch((params) => {
@@ -71,11 +80,7 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
         wrapperCol={{ span: 24 }}
         form={form}
         onFinish={onFinish}
-        initialValues={{
-          color: getParams().color,
-          brand: getParams().brand,
-          price: [getParams().priceFrom, getParams().priceTo],
-        }}
+        initialValues={getFormInitValues()}
       >
         <Form.Item label="Price" name="price">
           <Slider range marks={marks} max={3000} />
