@@ -42,7 +42,6 @@ const Product = () => {
   }, []);
 
   useEffect(() => {
-    console.log('in');
     if (isModalOpen) dispatch(productSliderActions.syncSliders({ nameFrom: sliderNames[0], nameTo: sliderNames[1] }));
     else dispatch(productSliderActions.syncSliders({ nameFrom: sliderNames[1], nameTo: sliderNames[0] }));
   }, [isModalOpen]);
