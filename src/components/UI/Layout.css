@@ -7,3 +7,10 @@
 .main-layout {
   min-height: 100vh;
 }
+
+@media screen and (max-width: 768px) {
+  .main-layout .site-layout-background {
+    margin: 0px 0px 16px;
+    padding: 12px;
+  }
+}

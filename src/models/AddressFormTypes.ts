@@ -8,5 +8,14 @@ export interface AddressFormValues {
   streetName: string;
   building: string;
   apartment: string;
-  zip: string;
+  postalCode: string;
+}
+
+export interface UserAddressesColumnDataType extends AddressFormValues {
+  id: string;
+  name: string;
+}
+
+export interface AddressModalFormProps {
+  type: 'reg' | 'profile';
 }

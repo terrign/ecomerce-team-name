@@ -1,8 +1,8 @@
 import { Rule } from 'antd/es/form';
-import { AddressType } from '../constants/forms/address-form/address-types';
-import { AddressFormMode, RegFormContext } from '../context/RegistrationFormContext';
+import { AddressType } from '../../constants/forms/address-form/address-types';
+import { AddressFormMode, AddressFormContextType } from '../../context/AddressFormContext';
 
-const getAddressTypeRule = (context: RegFormContext, checkType: AddressType): Rule => {
+const getAddressTypeRule = (context: AddressFormContextType, checkType: AddressType): Rule => {
   return () => ({
     validator(_, value: AddressType[]) {
       if (!value) return Promise.resolve();
