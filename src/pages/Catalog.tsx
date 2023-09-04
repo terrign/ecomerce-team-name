@@ -1,6 +1,10 @@
 import React from 'react';
+import useCatalogRedirect from '../hooks/useCatalogRedirect';
+import CatalogList from '../components/Catalog/CatalogList';
+
 const Catalog = () => {
-  return <div>CATALOG PAGE</div>;
+  useCatalogRedirect();
+  return <CatalogList />;
 };
 
 export default Catalog;

@@ -16,7 +16,8 @@ const SideMenu = () => {
   const [showTrigger, setShowTrigger] = useState(!collapsed);
   const loc = useLocation().pathname;
   const items = getMainMenuItemList();
-  const onClick = ({ key }: Parameters<MenuProps['onClick']>[0]) => {
+  const onClick = ({ key, domEvent }: Parameters<MenuProps['onClick']>[0]) => {
+    domEvent.stopPropagation();
     if (key === 'Logout') {
       dispatch(authActions.logout());
       navigate(RouterPath.HOME);
@@ -42,7 +43,7 @@ const SideMenu = () => {
         mode="inline"
         selectedKeys={[loc]}
         items={items}
-        style={{ position: 'sticky', left: 0, top: 0, padding: '10px 0 0' }}
+        style={{ position: 'sticky', left: 0, top: 0, padding: '10px 0 0', userSelect: 'none' }}
         onClick={onClick}
       />
     </Layout.Sider>
