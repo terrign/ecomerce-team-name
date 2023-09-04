@@ -72,7 +72,7 @@ const CatalogList = () => {
   return (
     <>
       <Breadcrumb items={getBreadItems(params)} style={{ marginBottom: 10 }} />
-      <Space style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10, flexWrap: 'wrap' }}>
+      <Space className="catalog__filter-container">
         <Space.Compact style={{ margin: '0 auto' }}>
           <Select
             style={{ width: 100 }}
@@ -97,7 +97,7 @@ const CatalogList = () => {
             <Option value="desc">Name ↑</Option>
           </Select>
         </Space.Compact>
-        <Button onClick={() => setFilterOpen((prev) => !prev)} style={{ width: 208 }}>
+        <Button onClick={() => setFilterOpen((prev) => !prev)} style={{ width: 199 }}>
           Filters
         </Button>
       </Space>

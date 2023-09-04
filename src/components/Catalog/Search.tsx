@@ -25,7 +25,7 @@ const SearchFilter = ({ callback }: { callback: React.Dispatch<React.SetStateAct
       onSearch={onSearch}
       allowClear
       defaultValue={search.get('text')}
-      placeholder="Catalog search. For example 'laptop'"
+      placeholder="Catalog search. E.g. 'laptop'"
     ></Search>
   );
 };
