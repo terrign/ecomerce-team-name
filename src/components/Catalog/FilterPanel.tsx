@@ -33,8 +33,22 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
     const newParams = { ...getParams() };
     if (values.color) newParams.color = values.color;
     if (values.brand) newParams.brand = values.brand;
+    if (values.price.some((a: number) => a) && values.price) {
+      newParams.priceFrom = values.price[0];
+      newParams.priceTo = values.price[1];
+    }
     setSearch(newParams);
   };
+
+  const getFormInitValues = () => {
+    const values = {
+      color: getParams().color,
+      brand: getParams().brand,
+    };
+    return values;
+  };
+
+  getFormInitValues;
 
   const resetFilters = () => {
     setSearch((params) => {
@@ -46,7 +60,7 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
           params.delete(key);
         }
       }
-      form.setFieldsValue({ color: null, brand: null });
+      form.setFieldsValue({ color: undefined, brand: undefined, price: [0, 3000] });
       return params;
     });
   };
@@ -57,7 +71,11 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
         wrapperCol={{ span: 24 }}
         form={form}
         onFinish={onFinish}
-        initialValues={{ color: getParams().color, brand: getParams().brand }}
+        initialValues={{
+          color: getParams().color,
+          brand: getParams().brand,
+          price: [getParams().priceFrom, getParams().priceTo],
+        }}
       >
         <Form.Item label="Price" name="price">
           <Slider range marks={marks} max={3000} />

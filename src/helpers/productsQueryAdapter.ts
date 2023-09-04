@@ -17,6 +17,11 @@ export const productsQueryAdapter: QueryAdapter = (page, { category, subCategory
   if (queryParams.color) filter.push(`variants.attributes.color:"${queryParams.color}"`);
   if (queryParams.brand) filter.push(`variants.attributes.brand:"${queryParams.brand}"`);
 
+  if (queryParams.priceFrom && queryParams.priceTo)
+    filter.push(
+      `variants.price.centAmount:range (${Number(queryParams.priceFrom) * 100} to ${Number(queryParams.priceTo) * 100})`
+    );
+
   const sort = [];
   if (queryParams.price) sort.push(`price ${queryParams.price}`);
   if (queryParams.name) sort.push(`name.en ${queryParams.name}`);
