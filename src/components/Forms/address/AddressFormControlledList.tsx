@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AddressControlledFormItem from './AddressControlledFormItem';
 import { getRandomKey } from '../../../helpers/getRandomReactKey';
 
-import RegFormContext from '../../../context/RegistrationFormContext';
+import RegFormContext from '../../../context/AddressFormContext';
 
 const FormAddressControlledList = () => {
   const context = useContext(RegFormContext);

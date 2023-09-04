@@ -1,0 +1,29 @@
+.user-card input[disabled] {
+  color: rgba(0, 0, 0, 0.88) !important;
+}
+
+@media screen and (max-width: 460px) {
+  .user-card .user-card__title button {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .user-card {
+    padding: 0px !important;
+  }
+
+  .user-card .user-card__controls {
+    flex-direction: column;
+  }
+
+  .user-card .ant-card-head {
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+    min-height: 42px !important;
+  }
+
+  .user-card .ant-card-body {
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+  }
+}

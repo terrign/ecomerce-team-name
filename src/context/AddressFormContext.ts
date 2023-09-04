@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { AddressFormValues } from '../models/AddressFormValues';
+import { AddressFormValues, UserAddressesColumnDataType } from '../models/AddressFormTypes';
 import { FormInstance } from 'antd';
 
 export enum AddressFormMode {
@@ -7,12 +7,13 @@ export enum AddressFormMode {
   NEW = 'new',
   COPY = 'copy',
 }
-export interface RegFormContext {
+export interface AddressFormContextType {
   addresses: {
     items: AddressFormValues[];
     remove: (i: number) => void | null;
-    add: (address: AddressFormValues) => void | null;
+    add: (address?: AddressFormValues) => void | null | Promise<void>;
     edit: (i: number, values: AddressFormValues) => void | null;
+    editUserProfile?: (currentAddress: UserAddressesColumnDataType) => Promise<void>;
   };
   modalOpen: boolean;
   setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,9 +22,13 @@ export interface RegFormContext {
   setAddressFormMode?: React.Dispatch<React.SetStateAction<AddressFormMode>>;
   addressItemIndex?: number;
   setAddressItemIndex?: React.Dispatch<React.SetStateAction<number>>;
+  currentAddress?: UserAddressesColumnDataType;
+  setCurrentAddress?: React.Dispatch<React.SetStateAction<UserAddressesColumnDataType>>;
+  setSubmitDisabled?: React.Dispatch<React.SetStateAction<boolean>>;
+  submitDisabled: boolean;
 }
 
-const RegistrationFormContext = createContext<RegFormContext>({
+const AddressFormContext = createContext<AddressFormContextType>({
   addresses: {
     items: [],
     remove: null,
@@ -33,6 +38,7 @@ const RegistrationFormContext = createContext<RegFormContext>({
   modalOpen: false,
   addressForm: null,
   addressFormMode: AddressFormMode.NEW,
+  submitDisabled: false,
 });
 
-export default RegistrationFormContext;
+export default AddressFormContext;

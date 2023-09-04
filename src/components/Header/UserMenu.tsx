@@ -6,6 +6,7 @@ import { actions as authActions } from '../../store/auth.slice';
 import getUserMenuItemList from '../../helpers/getUserMenuItemList';
 import { RouterPath } from '../../models/RouterPath';
 import { useAppDispatch } from '../../store/hooks';
+import { customerSlice } from '../../store/customer.slice';
 
 const UserMenu = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const UserMenu = () => {
     dispatch(userMenuActions.toggle());
     if (key === 'Logout') {
       dispatch(authActions.logout());
+      dispatch(customerSlice.actions.delete());
       navigate(RouterPath.HOME);
     }
   };

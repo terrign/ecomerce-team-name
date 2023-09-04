@@ -22,17 +22,15 @@ const TAIL_FORM_ITEM_LAYOUT = {
   },
 };
 
-const FORM_DIVIDER_ITEM_LAYOUT = {
+const PASSWORD_FORM_ITEM_LAYOUT = {
+  labelCol: {
+    sm: { span: 10 },
+    xs: { span: 24 },
+  },
   wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
+    sm: { span: 16 },
+    xs: { span: 24 },
   },
 };
 
-export { FORM_DIVIDER_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT, FORM_ITEM_LAYOUT };
+export { TAIL_FORM_ITEM_LAYOUT, FORM_ITEM_LAYOUT, PASSWORD_FORM_ITEM_LAYOUT };

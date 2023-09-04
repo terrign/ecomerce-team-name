@@ -8,8 +8,8 @@ export const visitorAuthMiddlewareOptions: PasswordAuthMiddlewareOptions = {
     clientId: CLIENT_ID,
     clientSecret: CLIENT_SECRET,
     user: {
-      username: 'johndoe@example.com',
-      password: 'secret123',
+      username: 'anonymous@user.com',
+      password: 'q9gvqkua',
     },
   },
   scopes: [`manage_project:${PROJECT_KEY}`],
