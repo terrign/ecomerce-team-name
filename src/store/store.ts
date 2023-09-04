@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { reducer as authReducer } from './auth.slice';
 import { reducer as userMenuReducer } from './userMenu.slice';
 import { reducer as alertReducer } from './alert.slice';
+import { reducer as productSliderReducer } from './productSlider.slice';
 import { reducer as customerReducer } from './customer.slice';
 import { reducer as categoriesReducer } from './categories.slice';
 
@@ -9,6 +10,7 @@ const reducers = combineReducers({
   auth: authReducer,
   userMenu: userMenuReducer,
   alert: alertReducer,
+  productSlider: productSliderReducer,
   customer: customerReducer,
   categories: categoriesReducer,
 });
