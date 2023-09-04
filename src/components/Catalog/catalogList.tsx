@@ -53,12 +53,12 @@ const CatalogList = () => {
   };
 
   const addSortParam = (value: string, paramName: string) => {
-    const serchParams = Object.fromEntries(search);
+    const searchParams = Object.fromEntries(search);
     if (value === 'asc') {
-      setSearch({ ...serchParams, [paramName]: 'asc' });
+      setSearch({ ...searchParams, [paramName]: 'asc' });
     }
     if (value === 'desc') {
-      setSearch({ ...serchParams, [paramName]: 'desc' });
+      setSearch({ ...searchParams, [paramName]: 'desc' });
     }
   };
 

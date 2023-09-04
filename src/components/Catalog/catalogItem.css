@@ -5,6 +5,10 @@
   justify-content: space-between;
 }
 
+.price-container {
+  min-height: 60px;
+}
+
 .card-title {
   font-family: Montserrat, sans-serif;
   color: rgb(74, 65, 65);

@@ -6,7 +6,7 @@ import { RouterPath } from '../../models/RouterPath';
 import { capitalizeFirstLetter } from '../../helpers/capitalizeFirstLetter';
 
 const getBreadItems = ({ category, subCategory }: { category?: string; subCategory?: string }) => {
-  const calalogItem = {
+  const catalogItem = {
     title: (
       <>
         <ShopOutlined />
@@ -15,7 +15,7 @@ const getBreadItems = ({ category, subCategory }: { category?: string; subCatego
     ),
   };
 
-  const items: Array<{ title: React.JSX.Element | string }> = [calalogItem];
+  const items: Array<{ title: React.JSX.Element | string }> = [catalogItem];
 
   if (category && subCategory)
     items.push({

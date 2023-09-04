@@ -4,7 +4,6 @@ import SearchFilter from './Search';
 import { Slider } from 'antd';
 import { SliderMarks } from 'antd/es/slider';
 import { useSearchParams } from 'react-router-dom';
-// import { useSearchParams } from 'react-router-dom';
 
 const { Option } = Select;
 
