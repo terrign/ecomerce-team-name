@@ -88,10 +88,10 @@ const CatalogList = () => {
           <Select
             style={{ width: 100 }}
             placeholder="Name"
-            onChange={(value) => addSortParam(value, 'name')}
-            value={search.get('name')}
+            onChange={(value) => addSortParam(value, 'name.en')}
+            value={search.get('name.en')}
             allowClear
-            onClear={() => deleteParam('name')}
+            onClear={() => deleteParam('name.en')}
           >
             <Option value="asc">Name ↓</Option>
             <Option value="desc">Name ↑</Option>
