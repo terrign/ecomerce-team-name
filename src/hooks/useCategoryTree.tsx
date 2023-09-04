@@ -1,6 +1,6 @@
 import { useAppSelector } from '../store/hooks';
 
-interface CategoryTreeItem {
+export interface CategoryTreeItem {
   id: string;
   name: string;
   slug: string;

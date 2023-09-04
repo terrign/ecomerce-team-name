@@ -20,18 +20,15 @@ const App: React.FC = () => {
   const init = async () => {
     if (authState.tokenStore.token) {
       try {
-        console.log('trying token');
         const res = await getApiClient().me().get().execute();
         dispatch(authSlice.actions.initAuthState(`${res.body.firstName} ${res.body.lastName}`));
         dispatch(customerSlice.actions.set(res.body));
       } catch {
         try {
-          console.log('trying Refrehtoken');
           const res = await getApiClient('refresh').me().get().execute();
           dispatch(authSlice.actions.initAuthStateWithRefresh(`${res.body.firstName} ${res.body.lastName}`));
           dispatch(customerSlice.actions.set(res.body));
         } catch {
-          console.log('logout');
           dispatch(authSlice.actions.logout());
         }
       }
