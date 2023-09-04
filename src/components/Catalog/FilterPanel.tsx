@@ -89,12 +89,30 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
           <Select>
             <Option value="Apple">Apple</Option>
             <Option value="Acer">Acer</Option>
+            <Option value="AMD">AMD</Option>
+            <Option value="Dreame">Dreame</Option>
+            <Option value="Google">Google</Option>
+            <Option value="Intel">Intel</Option>
+            <Option value="Karcher">Karcher</Option>
+            <Option value="Kingston">Kingston</Option>
+            <Option value="LG">LG</Option>
+            <Option value="Honor">Honor</Option>
+            <Option value="HP">HP</Option>
+            <Option value="Huawei">Huawei</Option>
+            <Option value="Lenovo">Lenovo</Option>
+            <Option value="Poco">Poco</Option>
+            <Option value="Samsung">Samsung</Option>
+            <Option value="Xiaomi">Xiaomi</Option>
           </Select>
         </Form.Item>
         <Form.Item label="Color" name="color">
           <Select>
             <Option value="black">Black</Option>
+            <Option value="blue">Blue</Option>
+            <Option value="gray">Gray</Option>
             <Option value="silver">Silver</Option>
+            <Option value="white">White</Option>
+            <Option value="yellow">Yellow</Option>
           </Select>
         </Form.Item>
         <Form.Item>
