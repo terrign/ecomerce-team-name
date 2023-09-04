@@ -35,7 +35,6 @@ const CatalogList = () => {
       setLoading(() => false);
       setTotalPages(Math.ceil(res.body.total / res.body.limit));
     } catch (e) {
-      console.error(e.message);
       dispatch(alertSlice.actions.error('Something went wrong. Please reload the page'));
     }
   };

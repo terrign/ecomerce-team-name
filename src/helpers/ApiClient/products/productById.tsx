@@ -98,8 +98,7 @@ async function getProduct(key: string): Promise<ProductDetails> {
 
       return { key, name, description, discount, variants, attributes, error: '' };
     })
-    .catch((error) => {
-      console.log('Error:', error);
+    .catch(() => {
       return emptyDetail;
     });
 }
