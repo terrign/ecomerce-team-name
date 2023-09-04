@@ -46,7 +46,7 @@ const CatalogList = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [categoryQuery, subCategoryQuery]);
+  }, [categoryQuery, subCategoryQuery, search]);
 
   const onChangePage = (currPage: number) => {
     setPage(() => currPage);
