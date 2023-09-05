@@ -13,19 +13,19 @@
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1240px) {
   .catalog-container {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1020px) {
   .catalog-container {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 515px) {
+@media (max-width: 576px) {
   .catalog-container {
     grid-template-columns: 1fr;
     row-gap: 25px;
