@@ -10,7 +10,7 @@ const User = () => {
 
   useEffect(() => {
     if (!logged) {
-      navigate(RouterPath.HOME);
+      navigate(RouterPath.LOGIN);
     }
   }, [logged]);
   return <>{logged && <UserProfile></UserProfile>}</>;
