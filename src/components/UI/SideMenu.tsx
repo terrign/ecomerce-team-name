@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Layout } from 'antd';
@@ -26,6 +26,11 @@ const SideMenu = () => {
   const breakPointHandler = () => {
     setShowTrigger((prev) => !prev);
   };
+
+  useEffect(() => {
+    const cl = document.body.classList;
+    collapsed ? setTimeout(() => cl.remove('side-menu_not-collapsed'), 300) : cl.add('side-menu_not-collapsed');
+  }, [collapsed]);
 
   return (
     <Layout.Sider

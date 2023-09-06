@@ -29,7 +29,6 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
   const onClose = () => {
     setOpen(() => false);
   };
-  setSearch;
 
   const onFinish = () => {
     const values = form.getFieldsValue();
@@ -41,6 +40,7 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
       newParams.priceTo = values.price[1];
     }
     setSearch(newParams);
+    setOpen(() => false);
   };
 
   const getFormInitValues = () => {
@@ -67,6 +67,7 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
         }
       }
       form.setFieldsValue({ color: undefined, brand: undefined, price: undefined });
+      setOpen(() => false);
       return params;
     });
   };

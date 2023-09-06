@@ -22,12 +22,18 @@ const getMainMenuItemList = () => {
   return [
     getMenuItem(<NavLink to={RouterPath.HOME}>Home</NavLink>, RouterPath.HOME, <HomeOutlined />),
     getMenuItem(
-      <NavLink to={RouterPath.CATALOG}>Catalog</NavLink>,
+      <NavLink to={RouterPath.CATALOG} onClick={(event) => event.stopPropagation()}>
+        Catalog
+      </NavLink>,
       RouterPath.CATALOG,
-      <ShopOutlined />,
+      <NavLink to={RouterPath.CATALOG}>
+        <ShopOutlined />
+      </NavLink>,
       categories.map((category) => {
         return getMenuItem(
-          <NavLink to={`${RouterPath.CATALOG}/${category.slug}`}>{category.name}</NavLink>,
+          <NavLink to={`${RouterPath.CATALOG}/${category.slug}`} onClick={(event) => event.stopPropagation()}>
+            {category.name}
+          </NavLink>,
           `${RouterPath.CATALOG}/${category.slug}`,
           <UnorderedListOutlined />,
           category.children.map((child) => {
