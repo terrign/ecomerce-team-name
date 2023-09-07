@@ -51,8 +51,17 @@ const Product = () => {
 
   return (
     <>
-      <Modal getContainer={false} footer={null} centered={true} open={isModalOpen} onCancel={handleCancel}>
-        <Slider name={sliderNames[1]} urls={result.variants.map(({ url }) => url)} onClick={() => {}} />
+      <Modal
+        getContainer={false}
+        footer={null}
+        centered={true}
+        open={isModalOpen}
+        onCancel={handleCancel}
+        className="product__ant-modal"
+      >
+        <div className="product__ant-modal-body">
+          <Slider name={sliderNames[1]} urls={result.variants.map(({ url }) => url)} onClick={() => {}} />
+        </div>
       </Modal>
 
       <Card title={result.name}>
