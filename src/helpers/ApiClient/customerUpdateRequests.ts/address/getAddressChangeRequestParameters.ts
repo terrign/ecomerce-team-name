@@ -16,10 +16,10 @@ const getAddressChangeRequestParameters = (form: FormInstance): [BaseAddress, Ad
     postalCode: a.postalCode,
   };
   const typeOptions: AddAddressTypeOptions = {
-    isDefaultBilling: a.types.includes(AddressType.BILLING_DEFAULT),
-    isDefaultShipping: a.types.includes(AddressType.SHIPPING_DEFAULT),
-    isBilling: a.types.includes(AddressType.BILLING),
-    isShipping: a.types.includes(AddressType.SHIPPING),
+    isDefaultBilling: a.types?.includes(AddressType.BILLING_DEFAULT),
+    isDefaultShipping: a.types?.includes(AddressType.SHIPPING_DEFAULT),
+    isBilling: a.types?.includes(AddressType.BILLING),
+    isShipping: a.types?.includes(AddressType.SHIPPING),
   };
   return [address, typeOptions];
 };
