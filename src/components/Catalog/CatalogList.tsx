@@ -41,14 +41,27 @@ const CatalogList = () => {
 
   useEffect(() => {
     getProducts();
+    addPageParam(page);
   }, [page, search, categoryQuery, subCategoryQuery]);
 
   useEffect(() => {
     setPage(1);
-  }, [categoryQuery, subCategoryQuery, search]);
+  }, [
+    categoryQuery,
+    subCategoryQuery,
+    Object.fromEntries(search).name,
+    Object.fromEntries(search).price,
+    Object.fromEntries(search).color,
+    Object.fromEntries(search).brand,
+  ]);
 
   const onChangePage = (currPage: number) => {
     setPage(() => currPage);
+  };
+
+  const addPageParam = (page: number) => {
+    const searchParams = Object.fromEntries(search);
+    setSearch({ ...searchParams, page: page.toString() });
   };
 
   const addSortParam = (value: string, paramName: string) => {
