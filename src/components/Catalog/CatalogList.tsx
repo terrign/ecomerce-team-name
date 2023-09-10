@@ -25,6 +25,7 @@ const CatalogList = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const categoryQuery = useParams().category;
   const subCategoryQuery = useParams().subCategory;
+  const searchStorage = Object.fromEntries(search);
 
   const getProducts = async () => {
     setLoading(() => true);
@@ -38,7 +39,6 @@ const CatalogList = () => {
       dispatch(alertSlice.actions.error('Something went wrong. Please reload the page'));
     }
   };
-
   useEffect(() => {
     getProducts();
     addPageParam(page);
@@ -49,10 +49,12 @@ const CatalogList = () => {
   }, [
     categoryQuery,
     subCategoryQuery,
-    Object.fromEntries(search).name,
-    Object.fromEntries(search).price,
-    Object.fromEntries(search).color,
-    Object.fromEntries(search).brand,
+    searchStorage.name,
+    searchStorage.price,
+    searchStorage.color,
+    searchStorage.brand,
+    searchStorage.priceFrom,
+    searchStorage.priceTo,
   ]);
 
   const onChangePage = (currPage: number) => {
