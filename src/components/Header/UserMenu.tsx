@@ -5,15 +5,19 @@ import getUserMenuItemList from '../../helpers/getUserMenuItemList';
 
 import { useAppDispatch } from '../../store/hooks';
 import useLogout from '../../hooks/useLogout';
+import { RouterPath } from '../../models/RouterPath';
+import { useNavigate } from 'react-router-dom';
 
 const UserMenu = () => {
   const dispatch = useAppDispatch();
   const menuItems = getUserMenuItemList();
+  const navigate = useNavigate();
   const logout = useLogout();
   const onClick = ({ key }: Parameters<MenuProps['onClick']>[0]) => {
     dispatch(userMenuActions.toggle());
     if (key === 'Logout') {
       logout();
+      navigate(RouterPath.HOME);
     }
   };
 

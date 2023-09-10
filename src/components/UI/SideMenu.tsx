@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, MenuProps } from 'antd';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import getMainMenuItemList from '../../helpers/getMainMenuItemList';
 
 import useLogout from '../../hooks/useLogout';
+import { RouterPath } from '../../models/RouterPath';
 
 export const LAYOUT_BREAKPOINT = 768; //antd-layout breakpoint - md.
 
@@ -15,10 +16,12 @@ const SideMenu = () => {
   const loc = useLocation().pathname;
   const items = getMainMenuItemList();
   const logout = useLogout();
+  const navigate = useNavigate();
   const onClick = ({ key, domEvent }: Parameters<MenuProps['onClick']>[0]) => {
     domEvent.stopPropagation();
     if (key === 'Logout') {
       logout();
+      navigate(RouterPath.HOME);
     }
   };
   const breakPointHandler = () => {
