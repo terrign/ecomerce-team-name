@@ -1,23 +1,19 @@
 import React from 'react';
 import { Menu, MenuProps } from 'antd';
 import { actions as userMenuActions } from '../../store/userMenu.slice';
-import { useNavigate } from 'react-router-dom';
-import { actions as authActions } from '../../store/auth.slice';
 import getUserMenuItemList from '../../helpers/getUserMenuItemList';
-import { RouterPath } from '../../models/RouterPath';
+
 import { useAppDispatch } from '../../store/hooks';
-import { customerSlice } from '../../store/customer.slice';
+import useLogout from '../../hooks/useLogout';
 
 const UserMenu = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const menuItems = getUserMenuItemList();
+  const logout = useLogout();
   const onClick = ({ key }: Parameters<MenuProps['onClick']>[0]) => {
     dispatch(userMenuActions.toggle());
     if (key === 'Logout') {
-      dispatch(authActions.logout());
-      dispatch(customerSlice.actions.delete());
-      navigate(RouterPath.HOME);
+      logout();
     }
   };
 

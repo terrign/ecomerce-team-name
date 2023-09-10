@@ -7,6 +7,7 @@ import UserAvatar from './UserAvatar';
 import { RouterPath } from '../../models/RouterPath';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { actions as alertActions } from '../../store/alert.slice';
+import CartIcon from './CartIcon';
 const Header = () => {
   const dispatch = useAppDispatch();
   const alert = useAppSelector((state) => state.alert);
@@ -27,7 +28,10 @@ const Header = () => {
       <Link to={RouterPath.HOME}>
         <img src={logo} className="header__site-logo"></img>
       </Link>
-      <UserAvatar />
+      <div style={{ display: 'flex', width: 75, justifyContent: 'space-between' }}>
+        <CartIcon />
+        <UserAvatar />
+      </div>
     </Layout.Header>
   );
 };

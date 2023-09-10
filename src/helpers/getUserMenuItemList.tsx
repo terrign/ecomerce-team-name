@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import getMenuItem from './getMenuItem';
 import { RouterPath } from '../models/RouterPath';
 import { useAppSelector } from '../store/hooks';
+import { UserType } from '../store/auth.slice';
 
 const getUserMenuItemList = () => {
-  const isLogged = useAppSelector((state) => Boolean(state.auth.tokenStore.token));
-  return isLogged
+  const userType = useAppSelector((state) => state.auth.userType);
+  return userType === UserType.CUSTOMER
     ? [
         getMenuItem(<Link to={RouterPath.USER}>Profile</Link>, RouterPath.USER, <ProfileOutlined />),
         getMenuItem('Logout', 'Logout', <LogoutOutlined />),
