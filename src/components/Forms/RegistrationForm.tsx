@@ -25,6 +25,7 @@ import getApiClient from '../../helpers/ApiClient/getApiClient';
 import { alertSlice } from '../../store/alert.slice';
 import { customerSlice } from '../../store/customer.slice';
 import AddressModalForm from './address/AddressModalForm';
+import { cartSlice } from '../../store/cart.slice';
 
 const RegistrationForm = () => {
   const [registrationForm] = Form.useForm();
@@ -61,11 +62,13 @@ const RegistrationForm = () => {
     const userData = { email, lastName, firstName, password, dateOfBirth };
     const body = registrationRequestAdapter(addresses, userData);
     try {
-      await getApiClient().me().signup().post({ body: body }).execute();
+      await getApiClient().me().signup().post({ body: body }).execute(); //asigns anon cart to user if anonRoot is in use now
+      dispatch(authSlice.actions.logout()); //clear token cache;
       const res = await loginRequest(email, password);
       dispatch(customerSlice.actions.set(res.body.customer));
+      dispatch(cartSlice.actions.set(res.body.cart));
       dispatch(alertSlice.actions.success('User created'));
-      dispatch(authSlice.actions.login({ username: `${firstName} ${lastName}`, remember: false }));
+      dispatch(authSlice.actions.login(false));
       navigate(RouterPath.HOME);
     } catch (e) {
       messageApi

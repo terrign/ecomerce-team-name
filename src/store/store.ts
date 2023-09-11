@@ -5,6 +5,7 @@ import { reducer as alertReducer } from './alert.slice';
 import { reducer as productSliderReducer } from './productSlider.slice';
 import { reducer as customerReducer } from './customer.slice';
 import { reducer as categoriesReducer } from './categories.slice';
+import { reducer as cartReducer } from './cart.slice';
 
 const reducers = combineReducers({
   auth: authReducer,
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   productSlider: productSliderReducer,
   customer: customerReducer,
   categories: categoriesReducer,
+  cart: cartReducer,
 });
 
 export const store = configureStore({
