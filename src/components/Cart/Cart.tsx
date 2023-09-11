@@ -6,10 +6,11 @@ import removeLineItem from '../../helpers/ApiClient/cart/removeLineItem';
 import { useAppSelector } from '../../store/hooks';
 
 const Cart = () => {
-  const productsInCart = useAppSelector((state) =>
-    state.cart.cart.lineItems.map((a) => {
-      return <pre key={a.productId}>{`${a.name.en}: ${a.quantity}`}</pre>;
-    })
+  const productsInCart = useAppSelector(
+    (state) =>
+      state.cart.cart?.lineItems.map((a) => {
+        return <pre key={a.productId}>{`${a.name.en}: ${a.quantity}`}</pre>;
+      })
   );
   const addItem1 = async () => {
     const res = await addLineItem('21ef990f-4cda-4884-97c1-ff9fd55f8ea4');
