@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import SearchFilter from './Search';
 import { Slider } from 'antd';
 import { SliderMarks } from 'antd/es/slider';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import getProductAttributes from '../../helpers/ApiClient/getAttributes';
+import useCategoryTree from '../../hooks/useCategoryTree';
 
 const { Option } = Select;
 
@@ -25,6 +26,9 @@ interface FilterPanelProps {
 }
 const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
   const [search, setSearch] = useSearchParams();
+  const category = useParams().category;
+  const subCategory = useParams().subCategory;
+  const categories = useCategoryTree();
   const [brands, setBrands] = useState([]);
   const [colors, setColors] = useState([]);
   const [form] = Form.useForm();
@@ -33,9 +37,8 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
     setOpen(() => false);
   };
   useEffect(() => {
-    getProductAttributes(setBrands, setColors);
-  }, []);
-
+    getProductAttributes(setBrands, setColors, categories, category, subCategory);
+  }, [category, subCategory]);
   const onFinish = () => {
     const values = form.getFieldsValue();
     const newParams = { ...getParams() };
