@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { RouterPath } from '../models/RouterPath';
-// import Test from '../helpers/ApiClient/tokenStore/temp';
-const Main = () => {
+const Home = () => {
   return (
     <ul>
       <li>
@@ -18,4 +17,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Home;

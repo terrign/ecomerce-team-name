@@ -1,0 +1,31 @@
+.header {
+  margin: 0;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__user-logo {
+  background-color: #bbbbbb;
+}
+
+.header__site-logo {
+  display: block;
+  height: auto;
+  width: 135px;
+}
+
+.header__user-logo:hover {
+  cursor: pointer;
+}
+
+.header__user-logo_logged {
+  background-color: #87d068;
+}
+
+@media screen and (max-width: 768px) {
+  .header__site-logo {
+    width: 85px;
+  }
+}

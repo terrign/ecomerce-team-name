@@ -1,8 +1,8 @@
 export enum AddressType {
-  BILLING = 'Billing Address',
-  SHIPPING = 'Shipping Address',
-  BILLING_DEFAULT = 'Default Billing Address',
-  SHIPPING_DEFAULT = 'Default Shipping Address',
+  BILLING = 'Billing',
+  SHIPPING = 'Shipping',
+  BILLING_DEFAULT = 'Default Billing',
+  SHIPPING_DEFAULT = 'Default Shipping',
 }
 
 export const ADDRESS_TYPES = [

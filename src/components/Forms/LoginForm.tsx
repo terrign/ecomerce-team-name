@@ -10,6 +10,7 @@ import { EMAIL_INPUT_RULES, PASSWORD_INPUT_RULES } from '../../constants/forms/r
 import { RouterPath } from '../../models/RouterPath';
 import { UserFormData } from '../../models/apiDrafts';
 import { alertSlice } from '../../store/alert.slice';
+import { customerSlice } from '../../store/customer.slice';
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -36,6 +37,7 @@ const LoginForm: React.FC = () => {
           remember,
         })
       );
+      dispatch(customerSlice.actions.set(resp.body.customer));
       navigate(RouterPath.HOME);
     } catch (err) {
       error(err.message).then(() => setSubmitDisabled(false));
@@ -53,7 +55,7 @@ const LoginForm: React.FC = () => {
     >
       {contextHolder}
       <Form.Item name="email" rules={EMAIL_INPUT_RULES}>
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="E-mail" />
       </Form.Item>
       <Form.Item name="password" rules={PASSWORD_INPUT_RULES} hasFeedback validateFirst>
         <Input.Password

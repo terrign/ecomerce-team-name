@@ -1,0 +1,20 @@
+.main-layout .site-layout-background {
+  background: #ffffff;
+  margin: 0px 16px 16px;
+  padding: 24px;
+}
+
+.main-layout {
+  min-height: 100vh;
+}
+
+@media screen and (max-width: 768px) {
+  .main-layout .site-layout-background {
+    margin: 0px 0px 16px;
+    padding: 12px;
+  }
+}
+
+body.side-menu_not-collapsed .ant-menu-submenu.ant-menu-submenu-popup {
+  opacity: 0 !important;
+}

@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Layout } from 'antd';
-import { useAppSelector, useAppDispatch } from '../store/hooks';
-import { MAIN_ITEMS_ANONYMOUS_USER, MAIN_ITEMS_LOGGED_USER } from '../constants/MainMenus';
-import { actions as authActions } from '../store/auth.slice';
-import { RouterPath } from '../models/RouterPath';
+import { useAppDispatch } from '../../store/hooks';
+import { RouterPath } from '../../models/RouterPath';
+import getMainMenuItemList from '../../helpers/getMainMenuItemList';
+import { actions as authActions } from '../../store/auth.slice';
+
+export const LAYOUT_BREAKPOINT = 768; //antd-layout breakpoint - md.
 
 const SideMenu = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const logged: boolean = useAppSelector((state) => state.auth.tokenStore.token > '') ?? false;
-  const [collapsed, setCollapsed] = useState(window.innerWidth <= 768);
+  const [collapsed, setCollapsed] = useState(window.innerWidth <= LAYOUT_BREAKPOINT);
   const [showTrigger, setShowTrigger] = useState(!collapsed);
   const loc = useLocation().pathname;
-  const items = logged ? MAIN_ITEMS_LOGGED_USER : MAIN_ITEMS_ANONYMOUS_USER;
-  const onClick = ({ key }: Parameters<MenuProps['onClick']>[0]) => {
-    if (RouterPath.LOGOUT === key) {
+  const items = getMainMenuItemList();
+  const onClick = ({ key, domEvent }: Parameters<MenuProps['onClick']>[0]) => {
+    domEvent.stopPropagation();
+    if (key === 'Logout') {
       dispatch(authActions.logout());
       navigate(RouterPath.HOME);
     }
@@ -24,6 +26,11 @@ const SideMenu = () => {
   const breakPointHandler = () => {
     setShowTrigger((prev) => !prev);
   };
+
+  useEffect(() => {
+    const cl = document.body.classList;
+    collapsed ? setTimeout(() => cl.remove('side-menu_not-collapsed'), 300) : cl.add('side-menu_not-collapsed');
+  }, [collapsed]);
 
   return (
     <Layout.Sider
@@ -41,7 +48,7 @@ const SideMenu = () => {
         mode="inline"
         selectedKeys={[loc]}
         items={items}
-        style={{ position: 'sticky', left: 0, top: 0, padding: '10px 0 0' }}
+        style={{ position: 'sticky', left: 0, top: 0, padding: '10px 0 0', userSelect: 'none' }}
         onClick={onClick}
       />
     </Layout.Sider>

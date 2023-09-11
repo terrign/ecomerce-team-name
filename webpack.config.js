@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { merge } = require('webpack-merge');
 const EslintPlugin = require('eslint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const baseConfig = (env) => {
   return {
@@ -12,7 +13,7 @@ const baseConfig = (env) => {
     output: {
       path: path.join(__dirname, '/dist'),
       filename: '[id].app.js',
-      publicPath: 'auto',
+      publicPath: '/',
     },
     devServer: {
       port: 8080,
@@ -56,6 +57,9 @@ const baseConfig = (env) => {
       new CleanWebpackPlugin(),
       new Dotenv({
         path: env ? `./.env.${env}` : './.env',
+      }),
+      new CopyPlugin({
+        patterns: [path.resolve(__dirname, '_redirects')],
       }),
     ],
   };
