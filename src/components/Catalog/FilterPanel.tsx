@@ -1,9 +1,10 @@
 import { Button, Drawer, Form, Select, Space } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchFilter from './Search';
 import { Slider } from 'antd';
 import { SliderMarks } from 'antd/es/slider';
 import { useSearchParams } from 'react-router-dom';
+import getProductAttributes from '../../helpers/ApiClient/getAttributes';
 
 const { Option } = Select;
 
@@ -24,11 +25,16 @@ interface FilterPanelProps {
 }
 const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
   const [search, setSearch] = useSearchParams();
+  const [brands, setBrands] = useState([]);
+  const [colors, setColors] = useState([]);
   const [form] = Form.useForm();
   const getParams = () => Object.fromEntries(search);
   const onClose = () => {
     setOpen(() => false);
   };
+  useEffect(() => {
+    getProductAttributes(setBrands, setColors);
+  }, []);
 
   const onFinish = () => {
     const values = form.getFieldsValue();
@@ -85,7 +91,10 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
         </Form.Item>
         <Form.Item label="Brand" name="brand">
           <Select allowClear>
-            <Option value="Apple">Apple</Option>
+            {brands.map((brand) => {
+              return <Option value={brand}>{brand}</Option>;
+            })}
+            {/* <Option value="Apple">Apple</Option>
             <Option value="Acer">Acer</Option>
             <Option value="AMD">AMD</Option>
             <Option value="Dreame">Dreame</Option>
@@ -100,17 +109,20 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
             <Option value="Lenovo">Lenovo</Option>
             <Option value="Poco">Poco</Option>
             <Option value="Samsung">Samsung</Option>
-            <Option value="Xiaomi">Xiaomi</Option>
+            <Option value="Xiaomi">Xiaomi</Option> */}
           </Select>
         </Form.Item>
         <Form.Item label="Color" name="color">
           <Select allowClear>
-            <Option value="black">Black</Option>
+            {colors.map((color) => {
+              return <Option value={color}>{color}</Option>;
+            })}
+            {/* <Option value="black">Black</Option>
             <Option value="blue">Blue</Option>
             <Option value="gray">Gray</Option>
             <Option value="silver">Silver</Option>
             <Option value="white">White</Option>
-            <Option value="yellow">Yellow</Option>
+            <Option value="yellow">Yellow</Option> */}
           </Select>
         </Form.Item>
         <Form.Item>

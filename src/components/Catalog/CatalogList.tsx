@@ -117,31 +117,35 @@ const CatalogList = () => {
       </Space>
 
       <FilterPanel open={filterOpen} setOpen={setFilterOpen} />
-      <Fragment>
-        <div className="catalog-container">
-          {products.map((prod, ind) => {
-            const id = prod?.masterVariant.key;
-            const name = prod?.name?.en;
-            const description = prod?.metaDescription?.en;
-            const image = prod?.masterVariant?.images[0].url;
-            const price = prod?.masterVariant?.prices[0]?.value?.centAmount;
-            const discPrice = prod?.masterVariant?.prices[0]?.discounted?.value?.centAmount;
-            return (
-              <CatalogItem
-                key={ind}
-                id={id}
-                name={name}
-                description={description}
-                image={image}
-                price={price}
-                discPrice={discPrice}
-                load={load}
-              />
-            );
-          })}
-        </div>
-        <Pagination size="small" total={totalPages * CATALOG_ITEMS_PER_PAGE} onChange={onChangePage} current={page} />
-      </Fragment>
+      {products.length === 0 ? (
+        <p>Sorry there is no such items</p>
+      ) : (
+        <Fragment>
+          <div className="catalog-container">
+            {products.map((prod, ind) => {
+              const id = prod?.masterVariant.key;
+              const name = prod?.name?.en;
+              const description = prod?.metaDescription?.en;
+              const image = prod?.masterVariant?.images[0].url;
+              const price = prod?.masterVariant?.prices[0]?.value?.centAmount;
+              const discPrice = prod?.masterVariant?.prices[0]?.discounted?.value?.centAmount;
+              return (
+                <CatalogItem
+                  key={ind}
+                  id={id}
+                  name={name}
+                  description={description}
+                  image={image}
+                  price={price}
+                  discPrice={discPrice}
+                  load={load}
+                />
+              );
+            })}
+          </div>
+          <Pagination size="small" total={totalPages * CATALOG_ITEMS_PER_PAGE} onChange={onChangePage} current={page} />
+        </Fragment>
+      )}
     </>
   );
 };
