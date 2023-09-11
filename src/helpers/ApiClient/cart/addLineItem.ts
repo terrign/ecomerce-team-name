@@ -20,25 +20,29 @@ const addLineItem = async (productId: string) => {
       store.dispatch(alertSlice.actions.error(e.message));
     }
   }
-  const res = await getApiClient()
-    .me()
-    .carts()
-    .withId({ ID: store.getState().cart.cart.id })
-    .post({
-      body: {
-        version: store.getState().cart.cart.version,
-        actions: [
-          {
-            action: 'addLineItem',
-            productId: productId,
-            quantity: 1,
-          },
-        ],
-      },
-    })
-    .execute();
-  store.dispatch(cartSlice.actions.set(res.body));
-  return res;
+  try {
+    const res = await getApiClient()
+      .me()
+      .carts()
+      .withId({ ID: store.getState().cart.cart.id })
+      .post({
+        body: {
+          version: store.getState().cart.cart.version,
+          actions: [
+            {
+              action: 'addLineItem',
+              productId: productId,
+              quantity: 1,
+            },
+          ],
+        },
+      })
+      .execute();
+    store.dispatch(cartSlice.actions.set(res.body));
+    return res;
+  } catch (e) {
+    store.dispatch(alertSlice.actions.error(e.message));
+  }
 };
 
 export default addLineItem;

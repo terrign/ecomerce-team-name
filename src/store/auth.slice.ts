@@ -40,7 +40,7 @@ export const authSlice = createSlice({
       if (state.remember) {
         Cookie.set('token', state.tokenStore.token);
         Cookie.set('refreshToken', state.tokenStore.refreshToken);
-        Cookie.set('userType', `${state.userType}`);
+        Cookie.set('userType', String(UserType.CUSTOMER));
       } else {
         Cookie.delete('token');
         Cookie.delete('refreshToken');
