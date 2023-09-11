@@ -40,7 +40,13 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
     const values = form.getFieldsValue();
     const newParams = { ...getParams() };
     if (values.color) newParams.color = values.color;
+    else {
+      delete newParams.color;
+    }
     if (values.brand) newParams.brand = values.brand;
+    else {
+      delete newParams.brand;
+    }
     if (values.price) {
       newParams.priceFrom = values.price[0];
       newParams.priceTo = values.price[1];
@@ -91,8 +97,12 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
         </Form.Item>
         <Form.Item label="Brand" name="brand">
           <Select allowClear>
-            {brands.map((brand) => {
-              return <Option value={brand}>{brand}</Option>;
+            {brands.map((brand, ind) => {
+              return (
+                <Option key={ind} value={brand}>
+                  {brand}
+                </Option>
+              );
             })}
             {/* <Option value="Apple">Apple</Option>
             <Option value="Acer">Acer</Option>
@@ -114,8 +124,12 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
         </Form.Item>
         <Form.Item label="Color" name="color">
           <Select allowClear>
-            {colors.map((color) => {
-              return <Option value={color}>{color}</Option>;
+            {colors.map((color, ind) => {
+              return (
+                <Option key={ind} value={color}>
+                  {color}
+                </Option>
+              );
             })}
             {/* <Option value="black">Black</Option>
             <Option value="blue">Blue</Option>
