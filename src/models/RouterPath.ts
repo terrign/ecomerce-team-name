@@ -8,4 +8,5 @@ export enum RouterPath {
   ERROR_404 = '/error404',
   USER = '/user',
   CART = '/cart',
+  ABOUT = '/about',
 }
