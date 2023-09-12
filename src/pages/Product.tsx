@@ -39,6 +39,7 @@ const Product = () => {
 
   useEffect(() => {
     fetchProduct();
+    dispatch(productSliderActions.resetSliders());
   }, []);
 
   useEffect(() => {

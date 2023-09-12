@@ -16,6 +16,9 @@ export const productSliderSlice = createSlice({
   name: 'productSlider',
   initialState,
   reducers: {
+    resetSliders: (state: ProductSliderState) => {
+      Object.keys(state).forEach((key) => delete state[key]);
+    },
     setSlider: (state: ProductSliderState, action: PayloadAction<ProductSliderSetAction>) => {
       state[action.payload.name] = action.payload.index;
     },
