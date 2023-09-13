@@ -1,18 +1,23 @@
 import { CATALOG_ITEMS_PER_PAGE } from '../constants/general';
 import { QueryAdapter } from '../models/Catalog';
+import { CategoryTreeItem } from '../hooks/useCategoryTree';
 
 const baseQueryArgs = {
   limit: CATALOG_ITEMS_PER_PAGE,
   fuzzy: true,
 };
 
-export const productsQueryAdapter: QueryAdapter = (page, { category, subCategory }, queryParams, categories) => {
+export const findCategoryId = (category: string, subCategory: string, categories: Array<CategoryTreeItem>) => {
   const categoryId = subCategory
     ? categories
         .find((a) => a.name.toLowerCase() === category)
         .children.find((a) => a.name.toLowerCase() === subCategory)?.id
     : categories.find((a) => a.name.toLowerCase() === category)?.id;
-  const filter = categoryId ? [`categories.id: subtree("${categoryId}")`] : [];
+  return categoryId ? [`categories.id: subtree("${categoryId}")`] : [];
+};
+
+export const productsQueryAdapter: QueryAdapter = (page, { category, subCategory }, queryParams, categories) => {
+  const filter = findCategoryId(category, subCategory, categories);
 
   if (queryParams.color) filter.push(`variants.attributes.color:"${queryParams.color}"`);
   if (queryParams.brand) filter.push(`variants.attributes.brand:"${queryParams.brand}"`);
