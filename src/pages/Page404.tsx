@@ -8,7 +8,7 @@ const Page404 = () => {
   return (
     <div className="page-404">
       <Typography.Paragraph>
-        return to{' '}
+        Return to{' '}
         <Typography.Text>
           <Link to={RouterPath.HOME}>Home Page</Link>
         </Typography.Text>

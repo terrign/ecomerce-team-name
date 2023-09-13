@@ -1,46 +1,48 @@
-import { Button } from 'antd';
+import { Button, List, Popconfirm, Typography } from 'antd';
 import React from 'react';
-import addLineItem from '../../helpers/ApiClient/cart/addLineItem';
-import getMyCart from '../../helpers/ApiClient/cart/getMyCart';
-import removeLineItem from '../../helpers/ApiClient/cart/removeLineItem';
 import { useAppSelector } from '../../store/hooks';
+import clearCart from '../../helpers/ApiClient/cart/clearCart';
+import lineItemsReducer from '../../helpers/reduceLineItems';
+import CartItem from './CartItem';
+import './Cart.css';
 
 const Cart = () => {
-  const productsInCart = useAppSelector(
-    (state) =>
-      state.cart.cart?.lineItems.map((a) => {
-        return <pre key={a.productId}>{`${a.name.en}: ${a.quantity}`}</pre>;
-      })
-  );
-  const addItem1 = async () => {
-    const res = await addLineItem('21ef990f-4cda-4884-97c1-ff9fd55f8ea4');
-    console.log(res);
-  };
-  const addItem2 = async () => {
-    const res = await addLineItem('85368c2e-f667-4e20-8941-1e6a71a956e2');
-    console.log(res);
-  };
-  const removeItem1 = async () => {
-    const res = await removeLineItem('21ef990f-4cda-4884-97c1-ff9fd55f8ea4');
-    console.log(res);
-  };
-  const removeItem2 = async () => {
-    const res = await removeLineItem('85368c2e-f667-4e20-8941-1e6a71a956e2');
-    console.log(res);
-  };
-  const onMe = async () => {
-    const res = await getMyCart();
-    console.log(res.body);
+  const cart = useAppSelector((state) => state.cart.cart);
+  const items = lineItemsReducer(cart?.lineItems);
+
+  const onClear = () => {
+    clearCart();
   };
 
   return (
     <>
-      <Button onClick={addItem1}>addItem1</Button>
-      <Button onClick={addItem2}>addItem2</Button>
-      <Button onClick={removeItem1}>removeItem1</Button>
-      <Button onClick={removeItem2}>removeItem2</Button>
-      <Button onClick={onMe}>Carts</Button>
-      {productsInCart}
+      <div className="cart-wrapper">
+        <List
+          dataSource={items}
+          renderItem={(itemData) => <CartItem {...itemData}></CartItem>}
+          footer={
+            cart?.lineItems.length > 0 && (
+              <div className="cart-footer">
+                <Popconfirm
+                  title="Clear cart"
+                  description="All items will be removed. Are you sure?"
+                  onConfirm={onClear}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button type="primary" danger>
+                    Clear cart
+                  </Button>
+                </Popconfirm>
+
+                <Typography.Title style={{ fontSize: '1.5rem', textAlign: 'end' }}>
+                  Total: {cart?.totalPrice.centAmount / 100}$
+                </Typography.Title>
+              </div>
+            )
+          }
+        ></List>
+      </div>
     </>
   );
 };
