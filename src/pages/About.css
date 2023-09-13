@@ -1,0 +1,62 @@
+.about-header {
+  border-radius: 10px;
+  text-indent: 50px;
+  white-space: nowrap;
+}
+
+.about-text {
+  text-indent: 50px; 
+}
+
+.about-logo {
+  width: 100px;
+  float: right;
+  padding-top: 20px;
+}
+
+.about-container {
+  overflow: hidden;
+  width: 100%;
+  text-indent: 50px;
+  padding-top: 30px; 
+}
+
+.about-shaped {
+  width: 200px;
+  height: 250px;
+  background-size: cover;
+  float: left;
+  shape-margin: 0px;
+  padding: 0px;
+  border-radius: 0px;
+  margin: 5px 20px 5px 10px;
+  object-fit: cover;
+  box-shadow: 2px 3px 10px #777777;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: center;
+}
+
+.about-portrait {
+  width: 170px;
+  height: 200px;
+  align-self: center;
+  object-fit: cover;
+}
+
+.about-portrait-title {
+  font-style: italic;
+  align-self: center;
+  text-indent: 0px;
+  padding-top: 5px;
+}
+
+.about-github {
+  width: 26px;
+  padding-left: 10px;
+}
+
+.about-github:hover {
+  filter: brightness(120%);
+}
