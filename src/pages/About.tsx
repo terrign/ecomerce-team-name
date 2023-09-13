@@ -20,8 +20,8 @@ const About = () => {
               <div className="about-shaped">
                 <img src={portrait} alt="photo" className="about-portrait" />
                 <Typography.Text className="about-portrait-title">
-                  {name}
                   <a href={githubLink}>
+                    {name}
                     <img src={github} alt="github link" className="about-github" />
                   </a>
                 </Typography.Text>
