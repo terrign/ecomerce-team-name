@@ -1,9 +1,11 @@
 import { Button, Drawer, Form, Select, Space } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchFilter from './Search';
 import { Slider } from 'antd';
 import { SliderMarks } from 'antd/es/slider';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
+import getProductAttributes from '../../helpers/ApiClient/getAttributes';
+import useCategoryTree from '../../hooks/useCategoryTree';
 
 const { Option } = Select;
 
@@ -24,17 +26,30 @@ interface FilterPanelProps {
 }
 const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
   const [search, setSearch] = useSearchParams();
+  const category = useParams().category;
+  const subCategory = useParams().subCategory;
+  const categories = useCategoryTree();
+  const [brands, setBrands] = useState([]);
+  const [colors, setColors] = useState([]);
   const [form] = Form.useForm();
   const getParams = () => Object.fromEntries(search);
   const onClose = () => {
     setOpen(() => false);
   };
-
+  useEffect(() => {
+    getProductAttributes(setBrands, setColors, categories, category, subCategory);
+  }, [category, subCategory]);
   const onFinish = () => {
     const values = form.getFieldsValue();
     const newParams = { ...getParams() };
     if (values.color) newParams.color = values.color;
+    else {
+      delete newParams.color;
+    }
     if (values.brand) newParams.brand = values.brand;
+    else {
+      delete newParams.brand;
+    }
     if (values.price) {
       newParams.priceFrom = values.price[0];
       newParams.priceTo = values.price[1];
@@ -85,32 +100,24 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
         </Form.Item>
         <Form.Item label="Brand" name="brand">
           <Select allowClear>
-            <Option value="Apple">Apple</Option>
-            <Option value="Acer">Acer</Option>
-            <Option value="AMD">AMD</Option>
-            <Option value="Dreame">Dreame</Option>
-            <Option value="Google">Google</Option>
-            <Option value="Intel">Intel</Option>
-            <Option value="Karcher">Karcher</Option>
-            <Option value="Kingston">Kingston</Option>
-            <Option value="LG">LG</Option>
-            <Option value="Honor">Honor</Option>
-            <Option value="HP">HP</Option>
-            <Option value="Huawei">Huawei</Option>
-            <Option value="Lenovo">Lenovo</Option>
-            <Option value="Poco">Poco</Option>
-            <Option value="Samsung">Samsung</Option>
-            <Option value="Xiaomi">Xiaomi</Option>
+            {brands.map((brand, ind) => {
+              return (
+                <Option key={ind} value={brand}>
+                  {brand}
+                </Option>
+              );
+            })}
           </Select>
         </Form.Item>
         <Form.Item label="Color" name="color">
           <Select allowClear>
-            <Option value="black">Black</Option>
-            <Option value="blue">Blue</Option>
-            <Option value="gray">Gray</Option>
-            <Option value="silver">Silver</Option>
-            <Option value="white">White</Option>
-            <Option value="yellow">Yellow</Option>
+            {colors.map((color, ind) => {
+              return (
+                <Option key={ind} value={color}>
+                  {color}
+                </Option>
+              );
+            })}
           </Select>
         </Form.Item>
         <Form.Item>
