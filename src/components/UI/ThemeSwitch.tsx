@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Icon from '@ant-design/icons';
 import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
 import getMenuItem from '../../helpers/getMenuItem';
 import { theme } from 'antd';
+import Theme from '../../context/ThemeContext';
 
 const ThemeSwitch = () => {
   const token = theme.useToken().token;
+
+  const context = useContext(Theme);
 
   const color = token.colorText;
   const svg = () => (
@@ -30,7 +33,7 @@ const ThemeSwitch = () => {
     </svg>
   );
   const DayNightIcon = (props: Partial<CustomIconComponentProps>) => <Icon component={svg} {...props} />;
-  return getMenuItem('Switch theme', 'switchTheme', <DayNightIcon />);
+  return getMenuItem(`Switch to ${context.dark ? 'light' : 'dark'}`, 'switchTheme', <DayNightIcon />);
 };
 
 export default ThemeSwitch;

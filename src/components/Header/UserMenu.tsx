@@ -7,7 +7,7 @@ import { useAppDispatch } from '../../store/hooks';
 import useLogout from '../../hooks/useLogout';
 import { RouterPath } from '../../models/RouterPath';
 import { useNavigate } from 'react-router-dom';
-import Theme from '../../context/theme';
+import Theme from '../../context/ThemeContext';
 
 const UserMenu = () => {
   const dispatch = useAppDispatch();

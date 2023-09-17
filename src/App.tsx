@@ -8,7 +8,7 @@ import ContentLayout from './components/UI/ContentLayout';
 import Loading from './components/UI/Loading';
 import useAppInit from './hooks/useAppInit';
 import { ConfigProvider, theme } from 'antd';
-import Theme from './context/theme';
+import Theme from './context/ThemeContext';
 import Cookie from './utils/Cookie';
 
 const App: React.FC = () => {
