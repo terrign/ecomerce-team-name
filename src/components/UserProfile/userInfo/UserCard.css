@@ -1,7 +1,3 @@
-.user-card input[disabled] {
-  color: rgba(0, 0, 0, 0.88) !important;
-}
-
 @media screen and (max-width: 460px) {
   .user-card .user-card__title button {
     padding-right: 0 !important;

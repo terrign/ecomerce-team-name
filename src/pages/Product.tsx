@@ -71,7 +71,7 @@ const Product = () => {
         <Slider name={sliderNames[0]} urls={result.variants.map(({ url }) => url)} onClick={showModal} />
 
         <p>{result.description}</p>
-        <CartButton id={result.id} />
+
         <Space align={'start'} wrap direction={'horizontal'} style={{ display: 'flex' }}>
           {result.attributes.map(({ key, name, label }, index) => {
             const style = result.discount && key === 'product-price' ? { textDecoration: 'line-through' } : {};
@@ -85,6 +85,9 @@ const Product = () => {
           })}
         </Space>
       </Card>
+      <div>
+        <CartButton productId={result.id} />
+      </div>
     </>
   );
 };

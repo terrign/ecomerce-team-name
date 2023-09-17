@@ -58,7 +58,7 @@ const emptyDetail: ProductDetails = {
 async function getProduct(key: string): Promise<ProductDetails> {
   return await getApiClient()
     .products()
-    .withKey({ ['key']: key })
+    .withId({ ID: key })
     .get()
     .execute()
     .then((res) => {

@@ -5,3 +5,7 @@ body {
 a {
   color: inherit;
 }
+
+html {
+  scroll-behavior: smooth;
+}

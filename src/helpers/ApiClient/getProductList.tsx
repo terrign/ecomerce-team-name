@@ -6,7 +6,7 @@ const getProductList = (queryArgs?: QueryArgs) => {
     .productProjections()
     .search()
     .get({
-      queryArgs: { ...queryArgs },
+      queryArgs: { ...queryArgs, facet: ['variants.attributes.brand', 'variants.attributes.color'] },
     })
     .execute();
 };

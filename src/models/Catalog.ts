@@ -6,13 +6,13 @@ export interface CatalogRouteParams {
 }
 
 export interface CatalogQueryParams {
-  price: 'asc' | 'desc';
-  name: 'asc' | 'desc';
+  sort: 'priceasc' | 'pricedesc' | 'nameasc' | 'namedesc';
   text: string;
   color: string;
   brand: string;
   priceFrom: string;
   priceTo: string;
+  page: number;
 }
 
 export interface QueryArgs {
@@ -26,7 +26,6 @@ export interface QueryArgs {
 
 export interface QueryAdapter {
   (
-    page: number,
     routeParams: Partial<CatalogRouteParams>,
     queryParams: Partial<CatalogQueryParams>,
     categories: CategoryTreeItem[]

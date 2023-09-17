@@ -8,6 +8,7 @@ import {
   ProfileOutlined,
   ShopOutlined,
   UnorderedListOutlined,
+  ShoppingCartOutlined,
   InfoCircleOutlined,
 } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
@@ -61,6 +62,7 @@ const getMainMenuItemList = () => {
             getMenuItem(<NavLink to={RouterPath.REG}>Registration</NavLink>, RouterPath.REG, <UserAddOutlined />),
           ]
     ),
+    getMenuItem(<NavLink to={RouterPath.CART}>Cart</NavLink>, RouterPath.CART, <ShoppingCartOutlined />),
     getMenuItem(<NavLink to={RouterPath.ABOUT}>About Us</NavLink>, RouterPath.ABOUT, <InfoCircleOutlined />),
   ];
 };

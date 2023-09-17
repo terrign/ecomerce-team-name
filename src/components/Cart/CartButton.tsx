@@ -1,64 +1,69 @@
 import './CartButton.css';
-import { Button, Spin } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { Button, Spin, Typography, theme } from 'antd';
+import React, { useState } from 'react';
 import addLineItem from '../../helpers/ApiClient/cart/addLineItem';
-import removeLineItem from '../../helpers/ApiClient/cart/removeLineItem';
+import CartItemControls from './CartItemControls';
 import { useAppSelector } from '../../store/hooks';
 
 interface CartButtonProps {
-  id: string;
+  productId: string;
 }
 
-const CartButton = (props: CartButtonProps) => {
-  const { id } = props;
-  const [count, setCount] = useState(0);
+const CartButton = ({ productId }: CartButtonProps) => {
   const [loading, setLoading] = useState(false);
-  const current = useAppSelector((state) => {
-    const { quantity = 0 } = Object([...state.cart.cart.lineItems].filter(({ productId }) => productId === id)[0]);
-    return quantity;
-  });
-  const actionClass = loading ? 'cart-product-action-await' : 'cart-product-action';
-  useEffect(() => setCount(current), []);
+  const quantity = useAppSelector(
+    (state) => state.cart.cart?.lineItems?.find((a) => a.productId === productId)?.quantity
+  );
+  theme;
 
-  const addItem = async () => {
-    if (loading) return;
-    setLoading(true);
-    await addLineItem(id).then(() => {
-      setCount(count + 1);
-      setLoading(false);
-    });
-    setLoading(false);
+  const token = theme.useToken().token;
+
+  const onAdd = () => {
+    setLoading(() => true);
+    addLineItem(productId).then(() => setLoading(() => false));
   };
 
-  const removeItem = async () => {
-    if (loading) return;
-    setLoading(true);
-    await removeLineItem(id).then(() => {
-      setCount(count - 1);
-      setLoading(false);
-    });
-    setLoading(false);
-  };
-
-  if (count < 1)
-    return (
-      <Button onClick={addItem} type="primary">
-        Add To Cart
-      </Button>
-    );
+  const borderColor = token.colorBorder;
+  const borderWidth = token.lineWidth;
+  const borderRadius = token.borderRadius;
+  const borderStyle = 'solid';
 
   return (
-    <div className="cart-button">
-      <div>
-        <div onClick={removeItem} className={actionClass}>
-          -
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: 192,
+        height: 36,
+      }}
+      onClick={(event) => (event.bubbles = false)}
+    >
+      {loading && <Spin size="small" style={{ margin: '0 auto' }}></Spin>}
+      {!loading && quantity && (
+        <div
+          style={{
+            width: 192,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            height: 36,
+            padding: '5px 0px 5px 10px',
+            borderColor: borderColor,
+            borderWidth,
+            borderRadius,
+            borderStyle,
+          }}
+        >
+          <Typography.Text strong>In cart:</Typography.Text>
+          <CartItemControls productId={productId} quantity={quantity} />
         </div>
-        Quantity
-        <span className="cart-product-counter">{loading ? <Spin size="small" /> : count}</span>
-        <div onClick={addItem} className={actionClass}>
-          +
-        </div>
-      </div>
+      )}
+      {!loading && !quantity && (
+        <Button onClick={onAdd} type="primary" style={{ minWidth: 192, height: 36 }}>
+          Add To Cart
+        </Button>
+      )}
     </div>
   );
 };

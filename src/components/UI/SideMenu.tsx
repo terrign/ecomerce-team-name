@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Menu, MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Layout } from 'antd';
-
 import getMainMenuItemList from '../../helpers/getMainMenuItemList';
-
 import useLogout from '../../hooks/useLogout';
 import { RouterPath } from '../../models/RouterPath';
 
