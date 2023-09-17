@@ -1,11 +1,9 @@
 import { Button, Drawer, Form, Select, Space } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import SearchFilter from './Search';
 import { Slider } from 'antd';
 import { SliderMarks } from 'antd/es/slider';
 import { useParams, useSearchParams } from 'react-router-dom';
-import getProductAttributes from '../../helpers/ApiClient/getAttributes';
-import useCategoryTree from '../../hooks/useCategoryTree';
 
 const { Option } = Select;
 
@@ -22,23 +20,20 @@ interface ParamValues {
 
 interface FilterPanelProps {
   open: boolean;
+  brands: string[];
+  colors: string[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
+const FilterPanel = ({ open, setOpen, brands, colors }: FilterPanelProps) => {
   const [search, setSearch] = useSearchParams();
-  const category = useParams().category;
-  const subCategory = useParams().subCategory;
-  const categories = useCategoryTree();
-  const [brands, setBrands] = useState([]);
-  const [colors, setColors] = useState([]);
   const [form] = Form.useForm();
+  const params = useParams();
   const getParams = () => Object.fromEntries(search);
+
   const onClose = () => {
     setOpen(() => false);
   };
-  useEffect(() => {
-    getProductAttributes(setBrands, setColors, categories, category, subCategory);
-  }, [category, subCategory]);
+
   const onFinish = () => {
     const values = form.getFieldsValue();
     const newParams = { ...getParams() };
@@ -57,6 +52,11 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
     setSearch(newParams);
     setOpen(() => false);
   };
+
+  //throws warning
+  useEffect(() => {
+    form.resetFields();
+  }, [params]);
 
   const getFormInitValues = () => {
     const params = getParams();
@@ -100,7 +100,7 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
         </Form.Item>
         <Form.Item label="Brand" name="brand">
           <Select allowClear>
-            {brands.map((brand, ind) => {
+            {brands?.sort().map((brand, ind) => {
               return (
                 <Option key={ind} value={brand}>
                   {brand}
@@ -111,7 +111,7 @@ const FilterPanel = ({ open, setOpen }: FilterPanelProps) => {
         </Form.Item>
         <Form.Item label="Color" name="color">
           <Select allowClear>
-            {colors.map((color, ind) => {
+            {colors?.map((color, ind) => {
               return (
                 <Option key={ind} value={color}>
                   {color}

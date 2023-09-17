@@ -16,16 +16,16 @@ const CartItemControls = (props: ItemControlsProps) => {
     addLineItem(props.productId).then(() => setLoading(() => false));
   };
   return (
-    <>
+    <div className="cart-item__controls">
       {loading && <Spin size="small" style={{ margin: '0 auto' }}></Spin>}
       {!loading && (
         <>
           <Button icon={<MinusOutlined />} type="text" onClick={onRemove} />
-          <Typography.Text>{props.quantity}</Typography.Text>
+          <Typography.Text strong>{props.quantity}</Typography.Text>
           <Button icon={<PlusOutlined />} type="text" onClick={onAdd} />
         </>
       )}
-    </>
+    </div>
   );
 };
 

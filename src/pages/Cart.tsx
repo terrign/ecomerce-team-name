@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import { RouterPath } from '../models/RouterPath';
 
 const CartPage = () => {
-  const cart = useAppSelector((state) => state.cart.cart);
-  return cart ? (
+  const items = useAppSelector((state) => state.cart.cart?.lineItems);
+  return items?.length > 0 ? (
     <Cart />
   ) : (
     <Empty

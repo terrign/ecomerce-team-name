@@ -16,26 +16,31 @@ export const findCategoryId = (category: string, subCategory: string, categories
   return categoryId ? [`categories.id: subtree("${categoryId}")`] : [];
 };
 
-export const productsQueryAdapter: QueryAdapter = (page, { category, subCategory }, queryParams, categories) => {
+export const productsQueryAdapter: QueryAdapter = ({ category, subCategory }, queryParams, categories) => {
   const filter = findCategoryId(category, subCategory, categories);
 
-  if (queryParams.color) filter.push(`variants.attributes.color:"${queryParams.color}"`);
-  if (queryParams.brand) filter.push(`variants.attributes.brand:"${queryParams.brand}"`);
+  const facetsFilter = [...filter];
 
   if (queryParams.priceFrom && queryParams.priceTo)
     filter.push(
       `variants.price.centAmount:range (${Number(queryParams.priceFrom) * 100} to ${Number(queryParams.priceTo) * 100})`
     );
 
+  if (queryParams.color) filter.push(`variants.attributes.color:"${queryParams.color}"`);
+  if (queryParams.brand) filter.push(`variants.attributes.brand:"${queryParams.brand}"`);
+
   const sort = [];
-  if (queryParams.price) sort.push(`price ${queryParams.price}`);
-  if (queryParams.name) sort.push(`name.en ${queryParams.name}`);
+  if (queryParams.sort === 'priceasc') sort.push(`price asc`);
+  if (queryParams.sort === 'pricedesc') sort.push(`price desc`);
+  if (queryParams.sort === 'nameasc') sort.push(`name.en asc`);
+  if (queryParams.sort === 'namedesc') sort.push(`name.en desc`);
 
   return {
     ...baseQueryArgs,
-    offset: CATALOG_ITEMS_PER_PAGE * (page - 1),
+    offset: CATALOG_ITEMS_PER_PAGE * (queryParams.page ? +queryParams.page - 1 : 0),
     filter: filter.length === 0 ? null : filter,
     'text.en': queryParams.text,
+    'filter.facets': facetsFilter,
     sort,
   };
 };

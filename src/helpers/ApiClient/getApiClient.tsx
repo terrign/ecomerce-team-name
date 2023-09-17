@@ -14,22 +14,17 @@ interface Creds {
 function getApiClient(params?: Creds | 'refresh' | 'anon'): ByProjectKeyRequestBuilder {
   const tokenStore = store.getState().auth.tokenStore;
   if (params === 'refresh') {
-    console.log('refreshToken');
     return getRefreshTokenRoot(tokenStore.refreshToken);
   }
   if (params === 'anon') {
-    console.log('anonToken');
     return getAnonRoot();
   }
   if (params) {
-    console.log('passwordToken');
     return getPasswordRoot(params.email, params.password);
   }
   if (!tokenStore.token) {
-    console.log('visitorToken');
     return visitorRoot;
   }
-  console.log('existingToken');
   return getExistingTokenRoot(tokenStore.token);
 }
 

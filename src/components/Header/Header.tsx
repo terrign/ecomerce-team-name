@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Layout, message } from 'antd';
+import { Layout, message, theme } from 'antd';
 import logo from './../../assets/logo.png';
 import './Header.css';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const alert = useAppSelector((state) => state.alert);
   const [messageApi, contextHolder] = message.useMessage();
+  const bgColor = theme.useToken().token.colorBgContainer;
 
   useEffect(() => {
     if (alert.content === '') return;
@@ -23,7 +24,7 @@ const Header = () => {
       .then(() => dispatch(alertActions.clear()));
   }, [alert.content]);
   return (
-    <Layout.Header className="site-layout-background header">
+    <Layout.Header className="site-layout-background header" style={{ backgroundColor: bgColor }}>
       {contextHolder}
       <Link to={RouterPath.HOME}>
         <img src={logo} className="header__site-logo"></img>

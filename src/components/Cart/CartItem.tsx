@@ -12,18 +12,17 @@ const CartItem = (props: CartItemData) => {
   };
 
   return (
-    <List.Item>
+    <List.Item key={props.id}>
       <div className="cart-item__image">
         <Image src={props.imgSrc} preview={{ mask: null }} />
       </div>
       <List.Item.Meta
-        title={<Link to={`${RouterPath.PRODUCT}/${props.productKey}`}>{props.name}</Link>}
+        title={<Link to={`${RouterPath.PRODUCT}/${props.id}`}>{props.name}</Link>}
         description={`${props.price}$`}
       />
       <div className="cart-item__tail">
-        <div className="cart-item__controls">
-          <CartItemControls {...itemControlsProps}></CartItemControls>
-        </div>
+        <CartItemControls {...itemControlsProps}></CartItemControls>
+
         <Typography.Text className="cart-item__total-price">{`${props.totalPrice}$`}</Typography.Text>
       </div>
     </List.Item>
