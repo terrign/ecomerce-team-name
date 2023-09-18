@@ -24,6 +24,28 @@ const About = () => {
               ['Contribution:', contribution],
               ['', details],
             ];
+            const info = (name: string) => (
+              <>
+                {lines.map(([title, info], lineIndex) => (
+                  <Typography.Paragraph className={`${name}`} key={`${name}${index}-${lineIndex}`}>
+                    {title && (
+                      <Typography.Text
+                        className="about-text"
+                        key={`about-text%{index}-${lineIndex}`}
+                        italic={true}
+                        strong={true}
+                      >
+                        {title}
+                      </Typography.Text>
+                    )}
+                    <Typography.Text className="about-text" key={`about-text${index}-${lineIndex}`} italic={true}>
+                      {info}
+                    </Typography.Text>
+                  </Typography.Paragraph>
+                ))}
+              </>
+            );
+
             return (
               <div key={`contaner-${index}`}>
                 <div className="about-container" key={`about-container-${index}`}>
@@ -39,48 +61,10 @@ const About = () => {
                       {role}
                     </Typography.Text>
                   </div>
-                  {lines.map(([title, info], lineIndex) => (
-                    <Typography.Paragraph
-                      className="about-context-right"
-                      key={`about-context-right${index}-${lineIndex}`}
-                    >
-                      {title && (
-                        <Typography.Text
-                          className="about-text"
-                          key={`about-text%{index}-${lineIndex}`}
-                          italic={true}
-                          strong={true}
-                        >
-                          {title}
-                        </Typography.Text>
-                      )}
-                      <Typography.Text className="about-text" key={`about-text${index}-${lineIndex}`} italic={true}>
-                        {info}
-                      </Typography.Text>
-                    </Typography.Paragraph>
-                  ))}
+                  {info('about-context-right')}
                 </div>
                 <div className="about-container-bottom" key={`about-container2-${index}`}>
-                  {lines.map(([title, info], lineIndex) => (
-                    <Typography.Paragraph
-                      className="about-context-bottom"
-                      key={`about-context-bottom${index}-${lineIndex}`}
-                    >
-                      {title && (
-                        <Typography.Text
-                          className="about-text"
-                          key={`about-text%{index}-${lineIndex}`}
-                          italic={true}
-                          strong={true}
-                        >
-                          {title}
-                        </Typography.Text>
-                      )}
-                      <Typography.Text className="about-text" key={`about-text${index}-${lineIndex}`} italic={true}>
-                        {info}
-                      </Typography.Text>
-                    </Typography.Paragraph>
-                  ))}
+                  {info('about-context-bottom')}
                 </div>
               </div>
             );
