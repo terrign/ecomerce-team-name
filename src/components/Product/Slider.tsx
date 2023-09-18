@@ -4,12 +4,12 @@ import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import './Slider.css';
 import { actions as productSliderActions } from '../../store/productSlider.slice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 // import required modules
 import { Navigation, Keyboard, Pagination } from 'swiper/modules';
-import { theme } from 'antd';
 
 export interface SliderProps {
   urls: string[];
@@ -24,8 +24,6 @@ const Slider = (allProps: CustomArrowProps) => {
   const current = useAppSelector((state) => state.productSlider[name] ?? 0);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [swiper, setSwiper] = useState<SwiperClass | null>(null);
-
-  const bgColor = theme.useToken().token.colorBgContainer;
 
   useEffect(() => {
     setCurrentIndex(current);
@@ -58,7 +56,7 @@ const Slider = (allProps: CustomArrowProps) => {
       {urls.map((url, index) => {
         return (
           <SwiperSlide key={`slider-${index}`}>
-            <div key={`slider-div-${index}`} className={`swiper-${name}-wrap`} style={{ backgroundColor: bgColor }}>
+            <div key={`slider-div-${index}`} className={`swiper-${name}-wrap`}>
               <img key={`preview-img-${index}`} src={url} onClick={onClick} className={`swiper-${name}-img`} />
             </div>
           </SwiperSlide>
