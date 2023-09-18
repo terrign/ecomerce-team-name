@@ -16,6 +16,7 @@ export const DEVELOPERS_INFO = [
     education: 'BSEU 1.5 years',
     job: 'MS SQL database support at SolbegSoft',
     details: 'Going to become a frontend engineer',
+    contribution: 'Login, Registration, Cart, User',
   },
   {
     name: 'Andrei Zetsmanis',
@@ -28,6 +29,7 @@ export const DEVELOPERS_INFO = [
     education: 'VSTU Economic degree',
     job: '-',
     details: 'Going to become a frontend engineer',
+    contribution: 'Home, Catalog',
   },
   {
     name: 'Vladimir Kirpichyov',
@@ -40,5 +42,6 @@ export const DEVELOPERS_INFO = [
     education: 'VSU Applied Math and Computer Science degree',
     job: 'Fullstack Openedge Progress 4GL developer for 15 years in Coins ltd',
     details: 'Check myself as a Javascript Frontend Developer',
+    contribution: 'Product, About Us',
   },
 ];

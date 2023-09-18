@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 import { Typography, Space } from 'antd';
 import github from '../assets/github.svg';
 import rsSchool from '../assets/rs_school_js.svg';
-import { TEAM_INFO, DEVELOPERS_INFO } from '../constants/info';
+import { /*TEAM_INFO, */ DEVELOPERS_INFO } from '../constants/info';
 
 const About = () => {
   return (
     <>
-      <Typography.Paragraph>
+      {/* <Typography.Paragraph>
         <Typography.Title className="about-header">Our team</Typography.Title>
         <Typography.Paragraph className="about-text">{TEAM_INFO}</Typography.Paragraph>
-      </Typography.Paragraph>
+      </Typography.Paragraph> */}
       <Space wrap align={'start'}>
         {DEVELOPERS_INFO.map(({ name, portrait, githubLink, role, age, education, job, details, location }, index) => {
           const lines = [
@@ -22,8 +22,9 @@ const About = () => {
             ['Employment:', job],
             ['', details],
           ];
+          console.log(lines);
           return (
-            <>
+            <div key={`contaner-${index}`}>
               <div className="about-container" key={`about-container-${index}`}>
                 <div className="about-shaped" key={`about-shaped-${index}`}>
                   <img src={portrait} alt="photo" className="about-portrait" key={`about-portrait-${index}`} />
@@ -37,34 +38,50 @@ const About = () => {
                     {role}
                   </Typography.Text>
                 </div>
-                {lines.map(([title, info]) => (
-                  <Typography.Paragraph className="about-context-right">
+                {lines.map(([title, info], lineIndex) => (
+                  <Typography.Paragraph
+                    className="about-context-right"
+                    key={`about-context-right${index}-${lineIndex}`}
+                  >
                     {title && (
-                      <Typography.Text className="about-text" key={`about-text-${index}`} italic={true} strong={true}>
+                      <Typography.Text
+                        className="about-text"
+                        key={`about-text%{index}-${lineIndex}`}
+                        italic={true}
+                        strong={true}
+                      >
                         {title}
                       </Typography.Text>
                     )}
-                    <Typography.Text className="about-text" key={`about-text-${index}`} italic={true}>
+                    <Typography.Text className="about-text" key={`about-text${index}-${lineIndex}`} italic={true}>
                       {info}
                     </Typography.Text>
                   </Typography.Paragraph>
                 ))}
               </div>
               <div className="about-container-bottom" key={`about-container2-${index}`}>
-                {lines.map(([title, info]) => (
-                  <Typography.Paragraph className="about-context-bottom">
+                {lines.map(([title, info], lineIndex) => (
+                  <Typography.Paragraph
+                    className="about-context-bottom"
+                    key={`about-context-bottom${index}-${lineIndex}`}
+                  >
                     {title && (
-                      <Typography.Text className="about-text" key={`about-text-${index}`} italic={true} strong={true}>
+                      <Typography.Text
+                        className="about-text"
+                        key={`about-text%{index}-${lineIndex}`}
+                        italic={true}
+                        strong={true}
+                      >
                         {title}
                       </Typography.Text>
                     )}
-                    <Typography.Text className="about-text" key={`about-text-${index}`} italic={true}>
+                    <Typography.Text className="about-text" key={`about-text${index}-${lineIndex}`} italic={true}>
                       {info}
                     </Typography.Text>
                   </Typography.Paragraph>
                 ))}
               </div>
-            </>
+            </div>
           );
         })}
       </Space>
