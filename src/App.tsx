@@ -22,9 +22,11 @@ const App: React.FC = () => {
   useEffect(() => {
     if (dark) {
       document.documentElement.style.colorScheme = 'dark';
+      document.documentElement.setAttribute('dark', 'true');
       Cookie.set('themeScheme', 'dark');
     } else {
       document.documentElement.style.colorScheme = null;
+      document.documentElement.removeAttribute('dark');
       Cookie.delete('themeScheme');
     }
   }, [dark]);

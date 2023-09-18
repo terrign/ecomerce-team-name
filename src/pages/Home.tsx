@@ -49,6 +49,8 @@ const Home = () => {
         spaceBetween={30}
         pagination={{
           clickable: true,
+          // bulletActiveClass: 'bullet-active',
+          // bulletClass: 'bullet-inactive',
         }}
         modules={[Autoplay, Pagination]}
       >
