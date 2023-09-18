@@ -26,13 +26,13 @@ const Cart = () => {
     return (
       cart.lineItems.reduce((prev, curr) => {
         if (curr.variant.prices[0].discounted) {
-          return prev + curr.variant.prices[0].discounted.value.centAmount;
+          return prev + curr.variant.prices[0].discounted.value.centAmount * curr.quantity;
         }
-        return prev + curr.variant.prices[0].value.centAmount;
+        return prev + curr.variant.prices[0].value.centAmount * curr.quantity;
       }, 0) / 100
     );
   };
-
+  console.log(priceNoDiscount);
   const onFinish = async () => {
     const code = form.getFieldsValue().promocode;
     if (cart.discountCodes.length === 0) {
@@ -54,6 +54,7 @@ const Cart = () => {
         .execute();
       setPriceNoDiscount(countPriceNoDiscount());
       store.dispatch(cartSlice.actions.set(resp.body));
+      form.resetFields();
     } else {
       dispatch(alertSlice.actions.error('Sorry, promocode already used'));
     }
@@ -63,13 +64,13 @@ const Cart = () => {
     if (isDiscounted) {
       setPriceNoDiscount(countPriceNoDiscount());
     }
-  }, [cart]);
+  }, [cart.totalPrice]);
 
   return (
     <>
       <div className="cart-wrapper">
-        <Form layout="inline" onFinish={onFinish} form={form}>
-          <Form.Item name={'promocode'}>
+        <Form style={{ marginBottom: 20 }} layout="inline" onFinish={onFinish} form={form}>
+          <Form.Item style={{ marginBottom: 5 }} name={'promocode'}>
             <Input placeholder="Enter your promocode" />
           </Form.Item>
           <Form.Item>
