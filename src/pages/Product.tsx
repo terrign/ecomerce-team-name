@@ -7,7 +7,6 @@ import './Product.css';
 import Slider from '../components/Product/Slider';
 import CartButton from '../components/Cart/CartButton';
 
-// Import Swiper styles
 import { actions as productSliderActions } from '../store/productSlider.slice';
 import { useAppDispatch /* , useAppSelector */ } from '../store/hooks';
 
@@ -76,7 +75,7 @@ const Product = () => {
           {result.attributes.map(({ key, name, label }, index) => {
             const style = result.discount && key === 'product-price' ? { textDecoration: 'line-through' } : {};
             return (
-              <Card key={`card-${name}-${index}`} title={name} size="small">
+              <Card key={`card-${name}-${index}`} title={name} size="small" style={{ width: '120px' }}>
                 <div key={`div-${name}-${index}`} style={style}>
                   {label}
                 </div>

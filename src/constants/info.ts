@@ -1,27 +1,47 @@
-import empty from '../assets/empty.png';
+import vladimir from '../assets/vladimir.jpg';
+import alexey from '../assets/alexey.jpg';
+import andrey from '../assets/andrey.jpg';
 export const TEAM_INFO =
-  'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore.';
+  'We are looking for new technologies and ready to use them on the go in our projects. We used workload segregation by tasks instead of segregation by areas therefore everyone made his own income to every feature in this project. We are ready to help each other on demand. We can spread out to investigate as much as possible and get together to share our knowledge.';
 
 export const DEVELOPERS_INFO = [
   {
     name: 'Alexey Filipovich',
-    text: TEAM_INFO,
-    portrait: empty,
-    role: 'Developer',
-    githubLink: 'terrign@github.com',
+    text: `Born in 1998. After graduating from school, studied at BSEU for 1.5 years. Currently working as MS SQL database support at SolbegSoft. Going to become a frontend engineer.`,
+    portrait: alexey,
+    role: 'Team Lead Frontend Developer',
+    githubLink: 'https://github.com/terrign',
+    age: '25 years',
+    location: 'Minsk',
+    education: 'BSEU 1.5 years',
+    job: 'MS SQL database support at SolbegSoft',
+    details: 'Going to become a frontend engineer',
+    contribution: 'Login, Registration, Cart, User',
   },
   {
     name: 'Andrei Zetsmanis',
     text: TEAM_INFO,
-    portrait: empty,
-    role: 'Developer',
-    githubLink: 'anderskambenders@github.com',
+    portrait: andrey,
+    role: 'Frontend Developer',
+    githubLink: 'https://github.com/anderskambenders',
+    age: '30 years',
+    location: 'Minsk',
+    education: 'VSTU Economic degree',
+    job: '-',
+    details: 'Going to become a frontend engineer',
+    contribution: 'Home, Catalog',
   },
   {
     name: 'Vladimir Kirpichyov',
-    text: TEAM_INFO,
-    portrait: empty,
-    role: 'Developer',
-    githubLink: '	vladimirtrainee@github.com',
+    text: `Born in 1983. VSU Applied Math and Computer Science degree. Fullstack Openedge Progress 4GL developer for 15 years in Coins ltd.`,
+    portrait: vladimir,
+    role: 'Frontend Developer',
+    githubLink: 'https://github.com/vladimirtrainee',
+    age: '40 years',
+    location: 'Vitebsk',
+    education: 'VSU Applied Math and Computer Science degree',
+    job: 'Fullstack Openedge Progress 4GL developer for 15 years in Coins ltd',
+    details: 'Check myself as a Javascript Frontend Developer',
+    contribution: 'Product, About Us',
   },
 ];

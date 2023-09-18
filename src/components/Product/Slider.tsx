@@ -4,6 +4,7 @@ import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import './Slider.css';
 import { actions as productSliderActions } from '../../store/productSlider.slice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
