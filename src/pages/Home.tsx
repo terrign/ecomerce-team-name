@@ -54,13 +54,13 @@ const Home = () => {
       >
         <SwiperSlide style={swiperSlideStyle}>
           <Typography>
-            <Title level={2}>KURWA</Title>
+            <Title level={2}>PROMO5</Title>
             <Paragraph style={promoDesc}>for 5%</Paragraph>
           </Typography>
         </SwiperSlide>
         <SwiperSlide style={swiperSlideStyle}>
           <Typography>
-            <Title level={2}>PROMO</Title>
+            <Title level={2}>PROMO10</Title>
             <Paragraph style={promoDesc}>for 10%</Paragraph>
           </Typography>
         </SwiperSlide>
@@ -72,7 +72,7 @@ const Home = () => {
         </SwiperSlide>
         <SwiperSlide style={swiperSlideStyle}>
           <Typography>
-            <Title level={2}>OOOKURWA</Title>
+            <Title level={2}>PROMO20</Title>
             <Paragraph style={promoDesc}>for 20%</Paragraph>
           </Typography>
         </SwiperSlide>
