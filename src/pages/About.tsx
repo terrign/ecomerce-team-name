@@ -14,20 +14,57 @@ const About = () => {
         <Typography.Paragraph className="about-text">{TEAM_INFO}</Typography.Paragraph>
       </Typography.Paragraph>
       <Space wrap align={'start'}>
-        {DEVELOPERS_INFO.map(({ name, text, portrait, githubLink }) => {
+        {DEVELOPERS_INFO.map(({ name, portrait, githubLink, role, age, education, job, details, location }, index) => {
+          const lines = [
+            ['Age:', age],
+            ['Location', location],
+            ['Education:', education],
+            ['Employment:', job],
+            ['', details],
+          ];
           return (
-            <div className="about-container">
-              <div className="about-shaped">
-                <img src={portrait} alt="photo" className="about-portrait" />
-                <Typography.Text className="about-portrait-title">
-                  <a href={githubLink}>
-                    {name}
-                    <img src={github} alt="github link" className="about-github" />
-                  </a>
-                </Typography.Text>
+            <>
+              <div className="about-container" key={`about-container-${index}`}>
+                <div className="about-shaped" key={`about-shaped-${index}`}>
+                  <img src={portrait} alt="photo" className="about-portrait" key={`about-portrait-${index}`} />
+                  <Typography.Text className="about-portrait-title" key={`about-portrait-title-${index}`}>
+                    <Link to={githubLink}>
+                      {name}
+                      <img src={github} alt="github link" className="about-github" key={`about-github-${index}`} />
+                    </Link>
+                  </Typography.Text>
+                  <Typography.Text type="secondary" italic={true}>
+                    {role}
+                  </Typography.Text>
+                </div>
+                {lines.map(([title, info]) => (
+                  <Typography.Paragraph className="about-context-right">
+                    {title && (
+                      <Typography.Text className="about-text" key={`about-text-${index}`} italic={true} strong={true}>
+                        {title}
+                      </Typography.Text>
+                    )}
+                    <Typography.Text className="about-text" key={`about-text-${index}`} italic={true}>
+                      {info}
+                    </Typography.Text>
+                  </Typography.Paragraph>
+                ))}
               </div>
-              <Typography.Text className="about-text">{text}</Typography.Text>
-            </div>
+              <div className="about-container-bottom" key={`about-container2-${index}`}>
+                {lines.map(([title, info]) => (
+                  <Typography.Paragraph className="about-context-bottom">
+                    {title && (
+                      <Typography.Text className="about-text" key={`about-text-${index}`} italic={true} strong={true}>
+                        {title}
+                      </Typography.Text>
+                    )}
+                    <Typography.Text className="about-text" key={`about-text-${index}`} italic={true}>
+                      {info}
+                    </Typography.Text>
+                  </Typography.Paragraph>
+                ))}
+              </div>
+            </>
           );
         })}
       </Space>
