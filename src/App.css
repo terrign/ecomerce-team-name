@@ -9,3 +9,7 @@ a {
 html {
   scroll-behavior: smooth;
 }
+
+html[dark='true'] .swiper-pagination-bullet {
+  filter: invert(1);
+}
