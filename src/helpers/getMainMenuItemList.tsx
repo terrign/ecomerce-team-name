@@ -8,15 +8,18 @@ import {
   ProfileOutlined,
   ShopOutlined,
   UnorderedListOutlined,
+  ShoppingCartOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import getMenuItem from './getMenuItem';
 import { RouterPath } from '../models/RouterPath';
 import { useAppSelector } from '../store/hooks';
 import useCategoryTree from '../hooks/useCategoryTree';
+import { UserType } from '../store/auth.slice';
 
 const getMainMenuItemList = () => {
-  const isLogged = useAppSelector((state) => Boolean(state.auth.tokenStore.token));
+  const userType = useAppSelector((state) => state.auth.userType);
   const categories = useCategoryTree();
 
   return [
@@ -49,7 +52,7 @@ const getMainMenuItemList = () => {
       'User',
       'UserActions',
       <UserOutlined />,
-      isLogged
+      userType === UserType.CUSTOMER
         ? [
             getMenuItem(<NavLink to={RouterPath.USER}>Profile</NavLink>, RouterPath.USER, <ProfileOutlined />),
             getMenuItem('Logout', 'Logout', <LogoutOutlined />),
@@ -59,6 +62,8 @@ const getMainMenuItemList = () => {
             getMenuItem(<NavLink to={RouterPath.REG}>Registration</NavLink>, RouterPath.REG, <UserAddOutlined />),
           ]
     ),
+    getMenuItem(<NavLink to={RouterPath.CART}>Cart</NavLink>, RouterPath.CART, <ShoppingCartOutlined />),
+    getMenuItem(<NavLink to={RouterPath.ABOUT}>About Us</NavLink>, RouterPath.ABOUT, <InfoCircleOutlined />),
   ];
 };
 

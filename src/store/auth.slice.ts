@@ -2,14 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Cookie from '../utils/Cookie';
 import tokenCache from '../helpers/ApiClient/tokenCache';
 import { TokenStore } from '@commercetools/sdk-client-v2';
-import { ANONYMOUS_USER } from '../constants/general';
 
 const NO_EXPIRATION = 99999999999;
 
+export enum UserType {
+  VISITOR,
+  ANON,
+  CUSTOMER,
+}
+
 export type AuthState = {
   tokenStore: TokenStore;
-  username: string;
   remember?: boolean;
+  userType: UserType;
 };
 
 const initialState = () => {
@@ -19,7 +24,7 @@ const initialState = () => {
       refreshToken: Cookie.get('refreshToken'),
       expirationTime: NO_EXPIRATION,
     },
-    username: ANONYMOUS_USER,
+    userType: +Cookie.get('userType'),
   };
   return authInitState;
 };
@@ -28,40 +33,50 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state: AuthState, action: PayloadAction<Omit<AuthState, 'tokenStore'>>) => {
+    login: (state: AuthState, action: PayloadAction<AuthState['remember']>) => {
       state.tokenStore = tokenCache.get();
-      state.username = action.payload.username;
-      state.remember = action.payload.remember ?? false;
+      state.userType = UserType.CUSTOMER;
+      state.remember = action.payload ?? false;
       if (state.remember) {
         Cookie.set('token', state.tokenStore.token);
         Cookie.set('refreshToken', state.tokenStore.refreshToken);
+        Cookie.set('userType', String(UserType.CUSTOMER));
       } else {
         Cookie.delete('token');
         Cookie.delete('refreshToken');
+        Cookie.delete('userType');
       }
     },
     logout: (state: AuthState) => {
       state.tokenStore = { token: null, expirationTime: null, refreshToken: null };
-      state.username = ANONYMOUS_USER;
+      state.userType = UserType.VISITOR;
       state.remember = false;
       Cookie.delete('token');
       Cookie.delete('refreshToken');
+      Cookie.delete('userType');
       tokenCache.set({ token: null, expirationTime: null, refreshToken: null });
     },
-    initAuthState: (state: AuthState, action: PayloadAction<string>) => {
+    initAuthState: (state: AuthState) => {
       state.tokenStore = {
         token: Cookie.get('token'),
         expirationTime: NO_EXPIRATION,
         refreshToken: Cookie.get('refreshToken'),
       };
       state.remember = true;
-      state.username = action.payload;
+      state.userType = +Cookie.get('userType');
     },
-    initAuthStateWithRefresh: (state: AuthState, action: PayloadAction<string>) => {
+    initAuthStateWithRefresh: (state: AuthState) => {
       state.tokenStore = tokenCache.get();
       Cookie.set('token', state.tokenStore.token);
       state.remember = true;
-      state.username = action.payload;
+      state.userType = +Cookie.get('userType');
+    },
+    anonRootCreated: (state: AuthState) => {
+      state.tokenStore = tokenCache.get();
+      state.userType = UserType.ANON;
+      Cookie.set('token', state.tokenStore.token);
+      Cookie.set('refreshToken', state.tokenStore.refreshToken);
+      Cookie.set('userType', String(UserType.ANON));
     },
   },
 });

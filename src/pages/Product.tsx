@@ -5,8 +5,8 @@ import getProduct, { ProductDetails } from '../helpers/ApiClient/products/produc
 import { RouterPath } from '../models/RouterPath';
 import './Product.css';
 import Slider from '../components/Product/Slider';
+import CartButton from '../components/Cart/CartButton';
 
-// Import Swiper styles
 import { actions as productSliderActions } from '../store/productSlider.slice';
 import { useAppDispatch /* , useAppSelector */ } from '../store/hooks';
 
@@ -15,6 +15,7 @@ const Product = () => {
   const params = useParams();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ProductDetails>({
+    id: '',
     key: '',
     name: '',
     description: '',
@@ -39,6 +40,7 @@ const Product = () => {
 
   useEffect(() => {
     fetchProduct();
+    dispatch(productSliderActions.resetSliders());
   }, []);
 
   useEffect(() => {
@@ -68,11 +70,12 @@ const Product = () => {
         <Slider name={sliderNames[0]} urls={result.variants.map(({ url }) => url)} onClick={showModal} />
 
         <p>{result.description}</p>
+
         <Space align={'start'} wrap direction={'horizontal'} style={{ display: 'flex' }}>
           {result.attributes.map(({ key, name, label }, index) => {
             const style = result.discount && key === 'product-price' ? { textDecoration: 'line-through' } : {};
             return (
-              <Card key={`card-${name}-${index}`} title={name} size="small">
+              <Card key={`card-${name}-${index}`} title={name} size="small" style={{ width: '120px' }}>
                 <div key={`div-${name}-${index}`} style={style}>
                   {label}
                 </div>
@@ -81,6 +84,9 @@ const Product = () => {
           })}
         </Space>
       </Card>
+      <div>
+        <CartButton productId={result.id} />
+      </div>
     </>
   );
 };

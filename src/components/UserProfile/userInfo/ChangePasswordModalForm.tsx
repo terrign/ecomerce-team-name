@@ -27,12 +27,7 @@ const ChangePasswordModalForm = (props: { open: boolean; setOpen: Dispatch<SetSt
       tokenCache.set({ token: null, refreshToken: null, expirationTime: null });
       const resp = await loginRequest(customer?.email, newPassword);
       dispatch(alertSlice.actions.success('Password successfully changed!'));
-      dispatch(
-        authSlice.actions.login({
-          username: `${resp.body.customer.firstName} ${resp.body.customer.lastName}`,
-          remember: remember,
-        })
-      );
+      dispatch(authSlice.actions.login(remember));
       dispatch(customerSlice.actions.set(resp.body.customer));
       setOpen(() => false);
       form.resetFields();

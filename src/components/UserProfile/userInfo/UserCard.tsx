@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState } from 'react';
 import dayjs from 'dayjs';
-import { Button, Card, DatePicker, Form, Input, Space } from 'antd';
+import { Button, Card, DatePicker, Form, Input, Space, theme } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { UserInfoCardType } from '../../../models/UserInfoCardType';
 import { customerSlice } from '../../../store/customer.slice';
@@ -16,6 +16,8 @@ const UserCard = (props: { type: UserInfoCardType; formEnabled: boolean } & Prop
   const dispatch = useAppDispatch();
   const [isValuesSame, setIsValuesSame] = useState(true);
   const [form] = Form.useForm();
+
+  const headerColor = theme.useToken().token.colorBgElevated;
 
   const valueAdapter = (value: string | DatePickerValue) => (typeof value === 'string' ? value : reduceDate(value));
 
@@ -47,7 +49,7 @@ const UserCard = (props: { type: UserInfoCardType; formEnabled: boolean } & Prop
         </Button>
       }
       bodyStyle={{ paddingBottom: 0 }}
-      headStyle={{ backgroundColor: props.formEnabled ? 'rgba(22, 119, 255, 0.38)' : '#fafafa' }}
+      headStyle={{ backgroundColor: headerColor }}
     >
       <Form
         form={form}

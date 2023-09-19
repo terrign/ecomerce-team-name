@@ -18,6 +18,7 @@ export interface ProductAttribute {
 }
 
 export interface ProductDetails {
+  id: string;
   key: string;
   name: string;
   description: string;
@@ -44,6 +45,7 @@ const emptyAttr = {
 };
 
 const emptyDetail: ProductDetails = {
+  id: '',
   key: '',
   name: '',
   description: '',
@@ -56,10 +58,11 @@ const emptyDetail: ProductDetails = {
 async function getProduct(key: string): Promise<ProductDetails> {
   return await getApiClient()
     .products()
-    .withKey({ ['key']: key })
+    .withId({ ID: key })
     .get()
     .execute()
     .then((res) => {
+      const id = res.body.id;
       const staged = res.body.masterData.staged;
       const name = staged.name.en ?? '';
       const description = staged.description ? staged.description.en ?? '' : '';
@@ -96,7 +99,7 @@ async function getProduct(key: string): Promise<ProductDetails> {
         }),
       ].filter(({ name = '' }) => name);
 
-      return { key, name, description, discount, variants, attributes, error: '' };
+      return { id, key, name, description, discount, variants, attributes, error: '' };
     })
     .catch(() => {
       return emptyDetail;

@@ -29,3 +29,13 @@
 .crossed {
   text-decoration: line-through;
 }
+
+.card {
+  width: 240px;
+}
+
+@media screen and(max-width: 320px) {
+  .card {
+    width: 100%;
+  }
+}

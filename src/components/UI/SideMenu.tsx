@@ -2,24 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Menu, MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Layout } from 'antd';
-import { useAppDispatch } from '../../store/hooks';
-import { RouterPath } from '../../models/RouterPath';
 import getMainMenuItemList from '../../helpers/getMainMenuItemList';
-import { actions as authActions } from '../../store/auth.slice';
+import useLogout from '../../hooks/useLogout';
+import { RouterPath } from '../../models/RouterPath';
 
 export const LAYOUT_BREAKPOINT = 768; //antd-layout breakpoint - md.
 
 const SideMenu = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const [collapsed, setCollapsed] = useState(window.innerWidth <= LAYOUT_BREAKPOINT);
   const [showTrigger, setShowTrigger] = useState(!collapsed);
   const loc = useLocation().pathname;
   const items = getMainMenuItemList();
+  const logout = useLogout();
+  const navigate = useNavigate();
   const onClick = ({ key, domEvent }: Parameters<MenuProps['onClick']>[0]) => {
     domEvent.stopPropagation();
     if (key === 'Logout') {
-      dispatch(authActions.logout());
+      logout();
       navigate(RouterPath.HOME);
     }
   };
