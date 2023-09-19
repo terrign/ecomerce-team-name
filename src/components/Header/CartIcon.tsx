@@ -9,7 +9,7 @@ const CartIcon = () => {
   return (
     <Link to={RouterPath.CART}>
       <div className="header__cart-icon">
-        <img src={cartImg} style={{ display: 'block' }}></img>
+        <img src={cartImg} style={{ display: 'block', height: 32, width: 32 }}></img>
         {itemsCount > 0 && <span className="cart-icon__counter">{itemsCount}</span>}
       </div>
     </Link>
