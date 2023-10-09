@@ -30,8 +30,8 @@ export const productsQueryAdapter: QueryAdapter = ({ category, subCategory }, qu
   const sort = [];
   if (queryParams.sort === 'priceasc') sort.push(`price asc`);
   if (queryParams.sort === 'pricedesc') sort.push(`price desc`);
-  if (queryParams.sort === 'nameasc') sort.push(`name.en asc`);
-  if (queryParams.sort === 'namedesc') sort.push(`name.en desc`);
+  if (queryParams.sort === 'nameasc') sort.push(`name.en-US asc`);
+  if (queryParams.sort === 'namedesc') sort.push(`name.en-US desc`);
 
   return {
     ...baseQueryArgs,

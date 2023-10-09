@@ -74,6 +74,7 @@ export const authSlice = createSlice({
     anonRootCreated: (state: AuthState) => {
       state.tokenStore = tokenCache.get();
       state.userType = UserType.ANON;
+      state.remember = true;
       Cookie.set('token', state.tokenStore.token);
       Cookie.set('refreshToken', state.tokenStore.refreshToken);
       Cookie.set('userType', String(UserType.ANON));

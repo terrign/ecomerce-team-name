@@ -12,7 +12,7 @@
 
 .cart-item__total-price {
   font-weight: 700;
-  min-width: 50px;
+  min-width: 60px;
   text-align: end;
   line-height: 32px;
 }

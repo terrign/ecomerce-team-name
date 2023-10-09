@@ -18,7 +18,6 @@ type CatalogItem = {
 
 export const CatalogItem = (props: CatalogItem) => {
   const nav = useNavigate();
-  console.log(props);
   return (
     <Card
       loading={props.load}
@@ -35,7 +34,7 @@ export const CatalogItem = (props: CatalogItem) => {
         <Link to={`${RouterPath.PRODUCT}/${props.id}`}>
           <Skeleton loading={props.load}>
             <div style={{ minHeight: 150, display: 'flex' }}>
-              <img alt="example" src={props.image} style={{ margin: 'auto', maxWidth: 130, maxHeight: 150 }} />
+              <img alt="example" src={props.image} style={{ margin: 'auto', maxWidth: '100%', maxHeight: 150 }} />
             </div>
           </Skeleton>
         </Link>

@@ -26,7 +26,6 @@ const CatalogList = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [brands, setBrands] = useState<Array<string>>();
   const [colors, setColors] = useState<Array<string>>();
-
   const getProducts = async () => {
     setLoading(() => true);
     try {
@@ -99,7 +98,6 @@ const CatalogList = () => {
       <>
         <div className="catalog-container">
           {products.map((prod) => {
-            console.log(prod);
             const props = {
               id: prod?.id,
               name: prod?.name['en-US'],

@@ -4,12 +4,13 @@ import { UserType, authSlice } from '../store/auth.slice';
 import { cartSlice } from '../store/cart.slice';
 import { categoriesSlice } from '../store/categories.slice';
 import { customerSlice } from '../store/customer.slice';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppDispatch } from '../store/hooks';
 import useLogout from './useLogout';
 import getMyCart from '../helpers/ApiClient/cart/getMyCart';
+import { store } from '../store/store';
 
 const useAppInit = () => {
-  const userType = useAppSelector((state) => state.auth.userType);
+  const userType = store.getState().auth.userType;
   const dispatch = useAppDispatch();
   const logout = useLogout();
 
