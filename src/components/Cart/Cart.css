@@ -26,7 +26,7 @@
 }
 
 .cart-item__image img {
-  height: 50px !important;
+  height: 70px !important;
   display: block;
   cursor: pointer;
 }
@@ -34,7 +34,7 @@
 .cart-item__controls {
   display: flex;
   gap: 3px;
-  width: 85px;
+  width: 90px;
   height: 32px;
   justify-content: space-between;
   align-items: center;
@@ -80,7 +80,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 319px) {
   .cart-item__image {
     display: none;
   }

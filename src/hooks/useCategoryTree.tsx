@@ -13,7 +13,7 @@ const useCategoryTree = () => {
 
   const treeRoot: CategoryTreeItem[] = categories
     .filter((a) => a.ancestors.length === 0)
-    .map((a) => ({ id: a.id, name: a.name.en, slug: a.slug.en, children: [], parent: null }));
+    .map((a) => ({ id: a.id, name: a.name['en-US'], slug: a.slug['en-US'], children: [], parent: null }));
 
   categories
     .filter((a) => a.ancestors.length !== 0)
@@ -23,13 +23,12 @@ const useCategoryTree = () => {
         .find((a) => a.id === parentId)
         .children.push({
           id: child.id,
-          name: child.name.en,
-          slug: child.slug.en,
+          name: child.name['en-US'],
+          slug: child.slug['en-US'],
           parent: treeRoot.find((a) => a.id === parentId),
           children: null,
         });
     });
-
   return treeRoot;
 };
 

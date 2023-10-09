@@ -9,10 +9,8 @@ const baseQueryArgs = {
 
 export const findCategoryId = (category: string, subCategory: string, categories: Array<CategoryTreeItem>) => {
   const categoryId = subCategory
-    ? categories
-        .find((a) => a.name.toLowerCase() === category)
-        .children.find((a) => a.name.toLowerCase() === subCategory)?.id
-    : categories.find((a) => a.name.toLowerCase() === category)?.id;
+    ? categories.find((a) => a.name === category).children.find((a) => a.name === subCategory)?.id
+    : categories.find((a) => a.name === category)?.id;
   return categoryId ? [`categories.id: subtree("${categoryId}")`] : [];
 };
 

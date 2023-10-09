@@ -39,7 +39,7 @@ const CartButton = ({ productId }: CartButtonProps) => {
       }}
       onClick={(event) => (event.bubbles = false)}
     >
-      {loading && <Spin size="small" style={{ margin: '0 auto' }}></Spin>}
+      {loading && <Spin size="large" style={{ margin: '0 auto' }}></Spin>}
       {!loading && quantity && (
         <div
           style={{

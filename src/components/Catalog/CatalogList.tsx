@@ -39,7 +39,7 @@ const CatalogList = () => {
       setColors(() => filterOptions.colors);
       setTotalPages(Math.ceil(res.body.total / res.body.limit));
     } catch (e) {
-      dispatch(alertSlice.actions.error('Something went wrong. Please reload the page'));
+      dispatch(alertSlice.actions.error(e.message));
     }
   };
   useEffect(() => {
@@ -99,11 +99,12 @@ const CatalogList = () => {
       <>
         <div className="catalog-container">
           {products.map((prod) => {
+            console.log(prod);
             const props = {
               id: prod?.id,
-              name: prod?.name?.en,
-              description: prod?.metaDescription?.en,
-              image: prod?.masterVariant?.images[0].url,
+              name: prod?.name['en-US'],
+              description: prod?.description['en-US'],
+              image: prod?.masterVariant?.images[0]?.url,
               price: prod?.masterVariant?.prices[0]?.value?.centAmount,
               discPrice: prod?.masterVariant?.prices[0]?.discounted?.value?.centAmount,
             };

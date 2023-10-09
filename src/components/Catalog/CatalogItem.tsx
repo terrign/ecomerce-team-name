@@ -18,6 +18,7 @@ type CatalogItem = {
 
 export const CatalogItem = (props: CatalogItem) => {
   const nav = useNavigate();
+  console.log(props);
   return (
     <Card
       loading={props.load}
